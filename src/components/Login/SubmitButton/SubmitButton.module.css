@@ -1,0 +1,16 @@
+.submitBtn {
+  width: 100%;
+
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  transition: transform 0.1s ease-out;
+}
+
+.submitBtn:hover {
+  transform: scale(1.02);
+}
+
+.submitBtn:active {
+  transform: scale(1);
+}

@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+  width: 400px;
+}
+
+.header {
+  font-size: 1.7rem;
+}
+
+.forgotPasswordContainer {
+  align-self: end;
+}

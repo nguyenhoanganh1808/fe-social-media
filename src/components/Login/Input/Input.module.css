@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  font-weight: bold;
+}
+
+.input {
+  outline: none;
+  border: none;
+
+  background-color: #f1f5f9;
+  padding: 8px 8px;
+  border-radius: 6px;
+}

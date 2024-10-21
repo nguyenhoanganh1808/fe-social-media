@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+
+}
+
+.bgImage {
+  width: 60vw;
+  height: 100vh;
+}
+
+.signInWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 40vw;
+}
+
+@media (max-width: 1000px) {
+  .bgImage {
+    display: none;
+  }
+
+  .signInWrapper {
+    min-width: 100vw;
+  
+  }
+}

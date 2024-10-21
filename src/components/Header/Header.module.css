@@ -1,0 +1,41 @@
+.header {
+  display: flex;
+  padding: 12px var(--default-padding);
+
+  background-color: var(--secondary-color);
+  justify-content: space-between;
+  width: 100vw;
+}
+
+.rightContainer,
+.leftContainer {
+  display: flex;
+}
+
+.leftContainer {
+  gap: 16px;
+}
+
+.header img {
+  width: 50px;
+}
+
+.header input[type="search"] {
+  height: fit-content;
+  outline: none;
+  border: none;
+  background-color: #59758c;
+
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 2;
+  color: white;
+}
+
+.header input[type="search"]::placeholder {
+  color: #85a3b9;
+}
+
+.hr {
+  margin: 0px 12px;
+}

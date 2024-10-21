@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  gap: 16px;
+
+  align-items: center;
+  background-color: #59758c;
+  padding: 4px 6px;
+  border-radius: 32px;
+  color: white;
+}
+
+.avatar {
+  border-radius: 50%;
+}
