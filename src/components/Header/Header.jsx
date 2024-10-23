@@ -7,7 +7,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.leftContainer}>
         <div>
-          <img src="/images/uit-logo.svg" alt="" />
+          <img src="/images/logo-uit.svg" alt="UIT logo" />
         </div>
         <input type="search" placeholder="# Explore" />
       </div>
