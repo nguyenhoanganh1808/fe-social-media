@@ -1,4 +1,5 @@
 import Header from "../../components/Header/Header";
+import Communities from "../../components/Home/Communities/Communities";
 import UserCard from "../../components/Home/UserCard/UserCard";
 import styles from "./HomePage.module.css";
 
@@ -15,8 +16,7 @@ export default function HomePage() {
             followingNumber={2003}
             link="@bryannguyen"
           />
-          <div>Skills</div>
-          <div>Communities</div>
+          <Communities />
         </div>
         <div>Post</div>
         <div>Suggest</div>
