@@ -1,5 +1,5 @@
 .container {
-  border-radius: 16px;
+  border-radius: var(--default-radius);
   box-shadow: 0 0 3px #ccc;
   /* padding: 16px; */
 
@@ -16,7 +16,8 @@
 
 .backgroundContainer {
   height: 70px;
-  border-radius: 16px 16px 0px 0px;
+
+  border-radius: var(--default-radius) var(--default-radius) 0px 0px;
   background-color: rgb(139, 214, 232);
 
   display: flex;

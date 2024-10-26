@@ -1,5 +1,6 @@
 import Header from "../../components/Header/Header";
 import Communities from "../../components/Home/Communities/Communities";
+import CreatePost from "../../components/Home/CreatePost/CreatePost";
 import UserCard from "../../components/Home/UserCard/UserCard";
 import styles from "./HomePage.module.css";
 
@@ -18,7 +19,10 @@ export default function HomePage() {
           />
           <Communities />
         </div>
-        <div>Post</div>
+        <div>
+          <CreatePost />
+          <div>Post</div>
+        </div>
         <div>Suggest</div>
       </main>
     </div>
