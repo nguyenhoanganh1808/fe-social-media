@@ -2,9 +2,8 @@
   display: flex;
   gap: 16px;
   width: 100%;
-  padding: 12px;
+  padding: 16px 24px;
   max-width: 90%;
-  margin: 0 12px;
   background-color: white;
   border-radius: var(--default-radius);
 }
@@ -25,5 +24,5 @@
   flex: 1;
   border-radius: var(--default-radius);
   background-color: var(--background-color);
-  padding: 4px var(--default-radius);
+  padding: 4px 16px;
 }
