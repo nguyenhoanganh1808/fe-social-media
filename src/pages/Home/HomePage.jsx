@@ -1,6 +1,7 @@
 import Header from "../../components/Header/Header";
 import Communities from "../../components/Home/Communities/Communities";
 import CreatePost from "../../components/Home/CreatePost/CreatePost";
+import PostsList from "../../components/Home/PostsList/PostsList";
 import UserCard from "../../components/Home/UserCard/UserCard";
 import styles from "./HomePage.module.css";
 
@@ -21,7 +22,7 @@ export default function HomePage() {
         </div>
         <div>
           <CreatePost />
-          <div>Post</div>
+          <PostsList />
         </div>
         <div>Suggest</div>
       </main>
