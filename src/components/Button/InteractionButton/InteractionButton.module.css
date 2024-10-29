@@ -1,0 +1,13 @@
+.container {
+  background-color: var(--background-color);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 12px;
+}
+
+.count {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
