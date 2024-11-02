@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.followButton {
+  border-radius: 9999px;
+  padding: 4px 40px;
+  background-color: var(--primary-color);
+  color: white;
+}
