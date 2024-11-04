@@ -1,6 +1,10 @@
 .container {
   display: flex;
   width: 100%;
+
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .avatar {
@@ -11,7 +15,22 @@
 
 .followButton {
   border-radius: 9999px;
-  padding: 4px 40px;
+  padding: 12px 16px;
   background-color: var(--primary-color);
   color: white;
+}
+
+.avatarAndName {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.link {
+  color: #9ca3af;
 }

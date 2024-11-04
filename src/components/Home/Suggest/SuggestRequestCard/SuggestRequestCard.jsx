@@ -4,11 +4,16 @@ import styles from "./SuggestRequestCard.module.css";
 function SuggestRequestCard({ person }) {
   return (
     <div className={styles.container}>
-      <img className={styles.avatar} src={person.avatarUrl} alt={person.name} />
-      <p>{person.name}</p>
-      <div>
-        <p>{person.name}</p>
-        <p>{person.link}</p>
+      <div className={styles.avatarAndName}>
+        <img
+          className={styles.avatar}
+          src={person.avatarUrl}
+          alt={person.name}
+        />
+        <div>
+          <p className={styles.name}>{person.name}</p>
+          <p className={styles.link}>{person.link}</p>
+        </div>
       </div>
       <button className={styles.followButton}>Follow back</button>
     </div>
