@@ -22,7 +22,7 @@ export default function HomePage() {
           />
           <Communities />
         </div>
-        <div>
+        <div className={styles.postListContainer}>
           <CreatePost />
           <PostsList />
         </div>

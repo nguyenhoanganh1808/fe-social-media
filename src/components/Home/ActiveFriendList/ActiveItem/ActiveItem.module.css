@@ -28,4 +28,5 @@
 
 .container:hover {
   background-color: var(--background-color);
+  cursor: pointer;
 }
