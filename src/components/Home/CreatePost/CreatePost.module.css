@@ -28,3 +28,7 @@
   background-color: var(--background-color);
   padding: 4px 16px;
 }
+
+.postContent:hover {
+  cursor: pointer;
+}
