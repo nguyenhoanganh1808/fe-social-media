@@ -4,14 +4,111 @@
   flex-direction: column;
 
   position: fixed;
-  top: 30%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 16px;
+
+  border-radius: 15px;
+}
+
+.wrapper::backdrop {
+  background-color: #ccc;
+  opacity: 0.75;
 }
 
 .avatar {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.closeBtn:hover {
+  cursor: pointer;
+}
+
+.header > h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: auto;
+}
+
+.contentContainer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.avatarContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.link {
+  color: #9ca3af;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.contentInput {
+  outline: none;
+  resize: none;
+  line-height: 1.5;
+  font-size: 2rem;
+}
+
+.icon {
+  align-self: flex-end;
+}
+
+.addToPost {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ced0d4;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: #0000001a 0px 1px 2px 0px;
+}
+
+.addToPost > p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.addToPost > div {
+  display: flex;
+  gap: 8px;
+}
+
+div > *:hover {
+  cursor: pointer;
+}
+
+.submitBtn {
+  background-color: #31a9ff;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 6px;
+}
+
+.contentInput:hover {
+  cursor: text;
+}
+
+.btnDeactive {
+  background-color: #e4e6eb;
+  color: #1c1e21;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 6px;
 }
