@@ -14,3 +14,18 @@
   flex-direction: column;
   gap: 8px;
 }
+
+.authorAndTime {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.time {
+  font-size: 0.9rem;
+}
+
+.interactionContainer {
+  display: flex;
+  justify-content: space-between;
+}

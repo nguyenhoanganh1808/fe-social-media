@@ -1,18 +1,28 @@
 import InteractionBar from "./InteractionBar/InteractionBar";
 import styles from "./Post.module.css";
 import PropTypes from "prop-types";
+import { formatDistanceToNowStrict } from "date-fns";
+import InteractionButton from "../../../Button/InteractionButton/InteractionButton";
+import { Bookmark } from "lucide-react";
 
 function Post({ post }) {
+  const distanceFromNow = formatDistanceToNowStrict(post.postTime);
   return (
     <div className={styles.container}>
-      <p className={styles.author}>{post.authorName}</p>
+      <div className={styles.authorAndTime}>
+        <p className={styles.author}>{post.authorName}</p>
+        <p className={styles.time}>{distanceFromNow} ago</p>
+      </div>
       <p>{post.content}</p>
       <ul>
         {post.images.map((image) => (
           <img className={styles.contentImage} key={image} src={image} alt="" />
         ))}
       </ul>
-      <InteractionBar post={post} />
+      <div className={styles.interactionContainer}>
+        <InteractionBar post={post} />
+        <InteractionButton count={null} icon={<Bookmark />} />
+      </div>
     </div>
   );
 }
@@ -24,6 +34,7 @@ Post.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string).isRequired,
     likeCount: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
+    postTime: PropTypes.instanceOf(Date).isRequired,
   }),
 };
 

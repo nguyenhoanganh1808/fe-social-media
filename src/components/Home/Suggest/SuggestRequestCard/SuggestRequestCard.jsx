@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import styles from "./SuggestRequestCard.module.css";
 
-function SuggestRequestCard({ person }) {
+function SuggestRequestCard({ person, activeTab }) {
+  console.log(activeTab);
   return (
     <div className={styles.container}>
       <div className={styles.avatarAndName}>
@@ -15,7 +16,9 @@ function SuggestRequestCard({ person }) {
           <p className={styles.link}>{person.link}</p>
         </div>
       </div>
-      <button className={styles.followButton}>Follow back</button>
+      <button className={styles.followButton}>
+        {activeTab === "suggests" ? "Follow" : "Follow back"}
+      </button>
     </div>
   );
 }

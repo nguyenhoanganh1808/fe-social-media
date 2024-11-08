@@ -11,7 +11,7 @@ function InteractionBar({ post }) {
         icon={<MessageCircleMoreIcon size={20} />}
         count={post.commentCount}
       />
-      <InteractionButton icon={<Share size={20} />} />
+      <InteractionButton count={200} icon={<Share size={20} />} />
     </div>
   );
 }

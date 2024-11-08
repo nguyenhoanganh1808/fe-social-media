@@ -9,3 +9,9 @@
   background-color: var(--background-color);
   min-height: 100vh;
 }
+
+.postListContainer {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 5px;
+}

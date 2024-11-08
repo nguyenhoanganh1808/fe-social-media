@@ -1,0 +1,30 @@
+.header {
+  background-color: var(--primary-color);
+  border-radius: 15px 15px 0 0;
+  color: white;
+  padding: 12px 15px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 24px;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.listContainer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header::after {
+  content: "";
+  margin-left: 8px;
+  height: 15px;
+  width: 15px;
+  background-color: #4ade80;
+  border-radius: 50%;
+  display: inline-block;
+}

@@ -6,14 +6,14 @@ function InteractionButton({ icon, count }) {
   return (
     <button className={styles.container}>
       {icon}
-      <p className={styles.count}>{nFormatter(count, 1)}</p>
+      {count && <p className={styles.count}>{nFormatter(count, 1)}</p>}
     </button>
   );
 }
 
 InteractionButton.propTypes = {
   icon: PropTypes.node.isRequired,
-  count: PropTypes.number.isRequired,
+  count: PropTypes.number,
 };
 
 export default InteractionButton;

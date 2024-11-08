@@ -48,9 +48,14 @@ export default function Suggest() {
           REQUESTS
         </button>
       </div>
+
       <ul className={styles.container}>
         {datas.map((data) => (
-          <SuggestRequestCard activeTab={activeTab} key={data.id} person={data} />
+          <SuggestRequestCard
+            key={data.id}
+            person={data}
+            activeTab={activeTab}
+          />
         ))}
       </ul>
       <a className={styles.showMore} href="">

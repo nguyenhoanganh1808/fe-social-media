@@ -12,6 +12,7 @@ export default function PostsList() {
       images: [],
       likeCount: 241000,
       commentCount: 45,
+      postTime: new Date("2024-10-24T08:30:00"),
     },
     {
       userImg:
@@ -23,6 +24,7 @@ export default function PostsList() {
       ],
       likeCount: 1000,
       commentCount: 30,
+      postTime: new Date("2024-10-22T14:45:00"),
     },
     {
       userImg:
@@ -33,6 +35,7 @@ export default function PostsList() {
       images: [],
       likeCount: 54000,
       commentCount: 120,
+      postTime: new Date("2024-10-20T10:15:00"),
     },
     {
       userImg:
@@ -43,6 +46,7 @@ export default function PostsList() {
       images: [],
       likeCount: 120000,
       commentCount: 80,
+      postTime: new Date("2024-10-18T16:20:00"),
     },
     {
       userImg:
@@ -53,6 +57,7 @@ export default function PostsList() {
       images: [],
       likeCount: 8000,
       commentCount: 50,
+      postTime: new Date("2024-10-17T09:00:00"),
     },
     {
       userImg: "https://nghiencuuquocte.org/wp-content/uploads/2021/07/29.jpg",
@@ -62,6 +67,7 @@ export default function PostsList() {
       images: [],
       likeCount: 175000,
       commentCount: 300,
+      postTime: new Date("2024-10-16T18:10:00"),
     },
     {
       userImg:
@@ -72,6 +78,7 @@ export default function PostsList() {
       images: [],
       likeCount: 210000,
       commentCount: 150,
+      postTime: new Date("2024-10-15T12:40:00"),
     },
   ];
 

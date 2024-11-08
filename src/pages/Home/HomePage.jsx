@@ -1,5 +1,5 @@
 import Header from "../../components/Header/Header";
-import ActiveFriendsList from "../../components/Home/ActiveFriendsList/ActiveFriendsList";
+import ActiveFriendList from "../../components/Home/ActiveFriendList/ActiveFriendList";
 import Communities from "../../components/Home/Communities/Communities";
 import CreatePost from "../../components/Home/CreatePost/CreatePost";
 import PostsList from "../../components/Home/PostsList/PostsList";
@@ -22,13 +22,13 @@ export default function HomePage() {
           />
           <Communities />
         </div>
-        <div>
+        <div className={styles.postListContainer}>
           <CreatePost />
           <PostsList />
         </div>
         <div>
           <Suggest />
-          <ActiveFriendsList />
+          <ActiveFriendList />
         </div>
       </main>
     </div>
