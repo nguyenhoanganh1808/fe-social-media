@@ -26,6 +26,7 @@ SuggestRequestCard.propTypes = {
     avatarUrl: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
   }).isRequired,
+  activeTab: PropTypes.oneOf(["suggests", "requests"]),
 };
 
 export default SuggestRequestCard;

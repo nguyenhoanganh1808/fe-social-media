@@ -50,7 +50,7 @@ export default function Suggest() {
       </div>
       <ul className={styles.container}>
         {datas.map((data) => (
-          <SuggestRequestCard key={data.id} person={data} />
+          <SuggestRequestCard activeTab={activeTab} key={data.id} person={data} />
         ))}
       </ul>
       <a className={styles.showMore} href="">
