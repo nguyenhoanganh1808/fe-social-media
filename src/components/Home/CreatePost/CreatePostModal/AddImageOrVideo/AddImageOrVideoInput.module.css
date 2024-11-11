@@ -1,0 +1,56 @@
+.input {
+  display: none;
+}
+
+.labelContainer {
+  border: 1px solid #e2e5e9;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.plusIcon {
+  background-color: #d1d5db;
+  padding: 12px;
+  border-radius: 50%;
+}
+
+.content {
+  background-color: #f3f4f6;
+  display: flex;
+  padding: 80px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.content:hover {
+  background-color: #e5e7eb;
+}
+
+.XIcon {
+  background-color: white;
+  padding: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.XIcon:hover {
+  background-color: #e5e7eb;
+}
+
+.XIcon:hover ~ .content {
+  /* Style changes on content when hovering over X */
+  background-color: #e0e0e0;
+}
+
+.content > p {
+  font-weight: bold;
+  text-align: center;
+}
+
+.content span {
+  font-weight: normal;
+}

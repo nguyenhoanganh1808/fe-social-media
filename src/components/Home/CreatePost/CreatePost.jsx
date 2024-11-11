@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./CreatePost.module.css";
 import CreatePostModal from "./CreatePostModal/CreatePostModal";
 
@@ -14,6 +14,10 @@ export default function CreatePost() {
   function handleTextAreaClick() {
     dialogRef.current?.showModal();
   }
+
+  useEffect(() => {
+    dialogRef.current?.close();
+  }, []);
 
   return (
     <div className={styles.container}>

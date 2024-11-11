@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 import styles from "./CreatePostModal.module.css";
 import PropTypes from "prop-types";
-import { Smile, ImagesIcon, FilesIcon, Link, XCircle } from "lucide-react";
+import { Smile, ImagesIcon, FilesIcon, Link, X } from "lucide-react";
 import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
 
 const CreatePostModal = forwardRef(function CreatePostModal({ author }, ref) {
@@ -15,7 +15,7 @@ const CreatePostModal = forwardRef(function CreatePostModal({ author }, ref) {
     <dialog className={styles.wrapper} ref={ref}>
       <div className={styles.header}>
         <h1>Create Post</h1>
-        <XCircle
+        <X
           onClick={handleCloseModal}
           className={styles.closeBtn}
           size={40}
@@ -43,8 +43,8 @@ const CreatePostModal = forwardRef(function CreatePostModal({ author }, ref) {
           cols={35}
           rows={5}
         ></textarea>
-        <AddImageOrVideoInput />
         <Smile className={styles.icon} color="#ccc" size={30} />
+        <AddImageOrVideoInput />
         <div className={styles.addToPost}>
           <p>Add to your post</p>
           <div>

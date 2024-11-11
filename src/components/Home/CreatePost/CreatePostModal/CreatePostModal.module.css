@@ -1,5 +1,4 @@
 .wrapper {
-  display: flex;
   justify-content: center;
   flex-direction: column;
 
@@ -31,6 +30,13 @@
 
 .closeBtn:hover {
   cursor: pointer;
+  background-color: #e5e7eb;
+}
+
+.closeBtn {
+  background-color: #f3f4f6;
+  padding: 4px;
+  border-radius: 50%;
 }
 
 .header > h1 {
