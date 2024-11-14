@@ -4,19 +4,18 @@ import PropTypes from "prop-types";
 import { Smile, ImagesIcon, FilesIcon, Link, X } from "lucide-react";
 import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
 
-const CreatePostModal = forwardRef(function CreatePostModal({ author }, ref) {
+const CreatePostModal = forwardRef(function CreatePostModal(
+  { closeDialog, author },
+  ref
+) {
   const [postContent, setPostContent] = useState("");
-
-  function handleCloseModal() {
-    ref.current.close();
-  }
 
   return (
     <dialog className={styles.wrapper} ref={ref}>
       <div className={styles.header}>
         <h1>Create Post</h1>
         <X
-          onClick={handleCloseModal}
+          onClick={closeDialog}
           className={styles.closeBtn}
           size={40}
           color="#ccc"
@@ -69,6 +68,7 @@ CreatePostModal.propTypes = {
     link: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }),
+  closeDialog: PropTypes.func,
 };
 
 export default CreatePostModal;

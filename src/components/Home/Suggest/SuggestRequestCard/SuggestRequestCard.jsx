@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import styles from "./SuggestRequestCard.module.css";
 
 function SuggestRequestCard({ person, activeTab }) {
-  console.log(activeTab);
   return (
     <div className={styles.container}>
       <div className={styles.avatarAndName}>
