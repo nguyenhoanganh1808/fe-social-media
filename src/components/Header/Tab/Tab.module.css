@@ -4,3 +4,16 @@
 
   align-items: center;
 }
+
+.icon:hover {
+  background-color: #94a3b8;
+}
+
+.icon {
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.active {
+  border: 2px solid var(--primary-color);
+}
