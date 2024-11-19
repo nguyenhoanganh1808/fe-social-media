@@ -19,7 +19,7 @@ function SubmitButton({ children }) {
 }
 
 SubmitButton.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.node,
 };
 
 export default SubmitButton;

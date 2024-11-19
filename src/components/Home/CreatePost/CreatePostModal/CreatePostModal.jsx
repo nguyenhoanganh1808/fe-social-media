@@ -3,12 +3,17 @@ import styles from "./CreatePostModal.module.css";
 import PropTypes from "prop-types";
 import { Smile, ImagesIcon, FilesIcon, Link, X } from "lucide-react";
 import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
+import AddLinks from "./AddLinks/AddLinks";
 
 const CreatePostModal = forwardRef(function CreatePostModal(
   { closeDialog, author },
   ref
 ) {
   const [postContent, setPostContent] = useState("");
+  const [addImageFormVisible, setAddImageFormVisible] = useState(false);
+  const closeAddImageForm = () => {
+    setAddImageFormVisible(false);
+  };
 
   return (
     <dialog className={styles.wrapper} ref={ref}>
@@ -31,7 +36,6 @@ const CreatePostModal = forwardRef(function CreatePostModal(
             <p className={styles.name}>{author.name}</p>
           </div>
         </div>
-        <form action=""></form>
         <textarea
           className={styles.contentInput}
           placeholder={`What's on your mind, ${author.name}`}
@@ -40,16 +44,24 @@ const CreatePostModal = forwardRef(function CreatePostModal(
           value={postContent}
           onChange={(e) => setPostContent(e.target.value)}
           cols={35}
-          rows={5}
+          rows={addImageFormVisible ? 1 : 5}
         ></textarea>
         <Smile className={styles.icon} color="#ccc" size={30} />
-        <AddImageOrVideoInput />
+        {addImageFormVisible && (
+          <AddImageOrVideoInput onClose={closeAddImageForm} />
+        )}
+
+        <AddLinks />
         <div className={styles.addToPost}>
           <p>Add to your post</p>
-          <div>
-            <ImagesIcon color="green" size={30} />
-            <FilesIcon color="blue" size={30} />
-            <Link color="red" size={30} />
+          <div className={styles.buttons}>
+            <ImagesIcon
+              onClick={() => setAddImageFormVisible(!addImageFormVisible)}
+              color="green"
+              size={40}
+            />
+            <FilesIcon color="blue" size={40} />
+            <Link color="red" size={40} />
           </div>
         </div>
         <button

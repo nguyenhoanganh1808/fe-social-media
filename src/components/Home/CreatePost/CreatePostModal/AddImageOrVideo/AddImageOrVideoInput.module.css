@@ -25,16 +25,20 @@
 }
 
 .addBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   position: absolute;
+  z-index: 1;
   top: 20px;
   left: 20px;
 
   background-color: white;
   padding: 8px;
   border-radius: 8px;
+}
+
+.addBtn > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .content {
@@ -59,8 +63,8 @@
   border-radius: 50%;
   position: absolute;
   z-index: 1;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
 }
 
 .XIcon:hover {
@@ -82,32 +86,26 @@
 }
 
 /* Container for arranging previews in a grid */
-.gridContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+.imageContainer {
   gap: 8px;
   margin-top: 10px;
 
   border: 1px solid #e2e5e9;
   padding: 8px;
   border-radius: 8px;
+  height: fit-content;
   position: relative;
 }
 
 /* Individual preview styling */
 .preview {
-  position: relative;
-  overflow: hidden;
   border-radius: 8px;
   width: 100%;
-  height: 100px;
-  object-fit: cover;
+  height: 100%;
 }
 
 .previewImage,
 .previewVideo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }

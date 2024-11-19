@@ -119,3 +119,11 @@ div > *:hover {
   font-weight: 500;
   padding: 6px;
 }
+
+.buttons > * {
+  padding: 6px;
+  border-radius: 50%;
+}
+.buttons > *:hover {
+  background-color: #d1d5db;
+}
