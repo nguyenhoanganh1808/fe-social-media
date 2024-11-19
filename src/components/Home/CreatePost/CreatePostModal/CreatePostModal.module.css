@@ -80,6 +80,7 @@
 .addToPost {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border: 1px solid #ced0d4;
   padding: 16px;
   border-radius: 8px;

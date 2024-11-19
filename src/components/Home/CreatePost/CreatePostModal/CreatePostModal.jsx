@@ -4,16 +4,20 @@ import PropTypes from "prop-types";
 import { Smile, ImagesIcon, FilesIcon, Link, X } from "lucide-react";
 import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
 import AddLinks from "./AddLinks/AddLinks";
+import useToggle from "../../../../hooks/useToggle";
 
 const CreatePostModal = forwardRef(function CreatePostModal(
   { closeDialog, author },
   ref
 ) {
   const [postContent, setPostContent] = useState("");
-  const [addImageFormVisible, setAddImageFormVisible] = useState(false);
-  const closeAddImageForm = () => {
-    setAddImageFormVisible(false);
-  };
+
+  const {
+    isOpen: addImageFormVisible,
+    close: closeAddImageForm,
+    toggle: toggleAddImageForm,
+  } = useToggle();
+  const { isOpen: addLinkFormVisible, toggle: toggleAddLinkForm } = useToggle();
 
   return (
     <dialog className={styles.wrapper} ref={ref}>
@@ -51,17 +55,13 @@ const CreatePostModal = forwardRef(function CreatePostModal(
           <AddImageOrVideoInput onClose={closeAddImageForm} />
         )}
 
-        <AddLinks />
+        {addLinkFormVisible && <AddLinks />}
         <div className={styles.addToPost}>
           <p>Add to your post</p>
           <div className={styles.buttons}>
-            <ImagesIcon
-              onClick={() => setAddImageFormVisible(!addImageFormVisible)}
-              color="green"
-              size={40}
-            />
+            <ImagesIcon onClick={toggleAddImageForm} color="green" size={40} />
             <FilesIcon color="blue" size={40} />
-            <Link color="red" size={40} />
+            <Link onClick={toggleAddLinkForm} color="red" size={40} />
           </div>
         </div>
         <button

@@ -1,0 +1,21 @@
+.input {
+  width: 80%;
+  outline: none;
+}
+
+.label span {
+  color: red;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ced0d4;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: #0000001a 0px 1px 2px 0px;
+}
+
+.input:hover {
+  cursor: text;
+}
