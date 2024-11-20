@@ -1,0 +1,86 @@
+.wrapper {
+  flex: 1;
+}
+
+.header {
+  background-color: var(--primary-color);
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: #4ade80;
+}
+
+.headerContainer {
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 15px 15px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.headerContainer > div:first-child {
+  display: flex;
+  gap: 24px;
+}
+
+.chat {
+  color: #475569;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.icons {
+  display: flex;
+
+  gap: 24px;
+}
+
+.icons * {
+  border: none; /* Ensure no border is applied */
+  outline: none; /* Remove any outlines */
+}
+
+.icons svg {
+  padding: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #0ea5e9;
+}
+
+.icons svg:not(:last-child) {
+  fill: #0ea5e9;
+}
+
+.icons svg:last-child {
+  fill: none;
+}
+
+.icons *:hover {
+  background-color: #f1f5f9;
+}

@@ -2,11 +2,11 @@
   flex-basis: 20%;
   background-color: white;
   border-radius: 15px;
-  height: calc(100vh - 110px);
   max-width: 350px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .header h4 {
@@ -21,6 +21,7 @@
   background-color: var(--primary-color);
   border-radius: 15px 15px 0 0;
   padding: 16px 8px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .container input[type="search"] {
