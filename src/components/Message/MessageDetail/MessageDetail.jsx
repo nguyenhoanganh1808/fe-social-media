@@ -33,7 +33,6 @@ export default function MessageDetail() {
           <InfoIcon />
         </div>
       </div>
-
       <Chats />
     </div>
   );

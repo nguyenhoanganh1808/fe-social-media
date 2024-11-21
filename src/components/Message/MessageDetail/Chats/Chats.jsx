@@ -1,3 +1,4 @@
+import MessageInput from "../MessageInput/MessageInput";
 import styles from "./Chats.module.css";
 import MessageItem from "./MessageItem/MessageItem";
 
@@ -36,6 +37,7 @@ export default function Chats() {
       {data.map((chat) => {
         return <MessageItem key={chat.id} messageData={chat} />;
       })}
+      <MessageInput />
     </div>
   );
 }

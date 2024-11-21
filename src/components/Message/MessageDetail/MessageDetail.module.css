@@ -55,8 +55,7 @@
 
 .icons {
   display: flex;
-
-  gap: 24px;
+  gap: 12px;
 }
 
 .icons * {
@@ -65,11 +64,12 @@
 }
 
 .icons svg {
-  padding: 8px;
+  padding: 12px;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+
   color: #0ea5e9;
+  border-radius: 12px;
 }
 
 .icons svg:not(:last-child) {
@@ -81,5 +81,6 @@
 }
 
 .icons *:hover {
+  cursor: pointer;
   background-color: #f1f5f9;
 }

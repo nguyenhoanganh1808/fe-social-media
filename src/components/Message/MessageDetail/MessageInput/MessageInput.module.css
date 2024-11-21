@@ -1,0 +1,44 @@
+.input {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 8px;
+  height: 60px;
+  background-color: transparent;
+  outline: none;
+}
+
+.container {
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inputContainer {
+  display: flex;
+  background-color: #e2e8f0;
+  width: 100%;
+  border-radius: 16px;
+  align-items: center;
+}
+
+.inputContainer > svg,
+.fileInputLabel > svg {
+  color: var(--icon-color);
+  width: 36px;
+  height: 36px;
+  margin: 0 12px;
+}
+
+.fileInputLabel:hover {
+  cursor: pointer;
+}
+
+.inputContainer > svg:hover {
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}

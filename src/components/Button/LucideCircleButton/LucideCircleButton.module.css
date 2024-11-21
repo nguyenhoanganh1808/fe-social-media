@@ -1,0 +1,28 @@
+.iconContainer {
+  width: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 65px;
+  border-radius: 50%;
+  transition: all 0.2s ease-out;
+  background-color: #f0f0f0;
+}
+
+.iconContainer svg {
+  color: #38bdf8;
+  min-width: 30px;
+  height: 30px;
+}
+
+.iconContainer:hover {
+  background-color: #38bdf8;
+}
+
+.iconContainer:hover svg {
+  color: white;
+}
+
+.hoverFill:hover svg {
+  fill: white;
+}
