@@ -19,11 +19,11 @@ export default function ChatItem({ chatData }) {
 
 ChatItem.propTypes = {
   chatData: PropTypes.shape({
-    user: {
+    user: PropTypes.shape({
       avatarUrl: PropTypes.string,
       isOnline: PropTypes.bool,
       name: PropTypes.string.isRequired,
-    },
+    }),
     lastMessage: PropTypes.string,
   }),
 };

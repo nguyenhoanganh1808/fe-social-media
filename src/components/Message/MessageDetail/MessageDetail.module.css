@@ -1,9 +1,7 @@
 .wrapper {
   flex: 1;
-}
-
-.header {
-  background-color: var(--primary-color);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 15px;
 }
 
 .avatar {
@@ -31,7 +29,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
+  padding: 0 8px;
+  height: 70px;
   border-radius: 15px 15px 0 0;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }

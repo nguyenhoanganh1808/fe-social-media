@@ -16,27 +16,25 @@ export default function MessageDetail() {
 
   return (
     <div className={styles.wrapper}>
-      <div>
-        <div className={styles.headerContainer}>
-          <div>
-            <div className={styles.avatarContainer}>
-              <img className={styles.avatar} src={person.avatarUrl} alt="" />
-              {person.isOnline && <span className={styles.dot}></span>}
-            </div>
-            <div>
-              <p className={styles.name}>{person.name}</p>
-              Active now
-            </div>
+      <div className={styles.headerContainer}>
+        <div>
+          <div className={styles.avatarContainer}>
+            <img className={styles.avatar} src={person.avatarUrl} alt="" />
+            {person.isOnline && <span className={styles.dot}></span>}
           </div>
-          <div className={styles.icons}>
-            <PhoneIcon />
-            <VideoIcon />
-            <InfoIcon />
+          <div>
+            <p className={styles.name}>{person.name}</p>
+            Active now
           </div>
         </div>
-
-        <Chats />
+        <div className={styles.icons}>
+          <PhoneIcon />
+          <VideoIcon />
+          <InfoIcon />
+        </div>
       </div>
+
+      <Chats />
     </div>
   );
 }

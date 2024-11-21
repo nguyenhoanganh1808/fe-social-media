@@ -2,5 +2,5 @@
   display: flex;
   padding: 16px 32px;
   gap: 16px;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 80px);
 }
