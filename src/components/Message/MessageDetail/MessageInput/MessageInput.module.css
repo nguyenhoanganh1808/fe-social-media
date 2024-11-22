@@ -26,8 +26,8 @@
 .inputContainer > svg,
 .fileInputLabel > svg {
   color: var(--icon-color);
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   margin: 0 12px;
 }
 
@@ -41,4 +41,22 @@
 
 .fileInput {
   display: none;
+}
+
+.time {
+  font-weight: 500;
+}
+
+.recordDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.timeContainer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-right: 12px;
 }
