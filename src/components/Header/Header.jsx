@@ -1,7 +1,7 @@
 import styles from "./Header.module.css";
 import Tab from "./Tab/Tab";
-import Avatar from "./Avatar/Avatar";
 import { Link } from "react-router-dom";
+import FlyOutMenu from "../FlyOutMenu/FlyOutMenu";
 
 export default function Header() {
   return (
@@ -16,7 +16,7 @@ export default function Header() {
       <div className={styles.rightContainer}>
         <Tab />
         <hr className={styles.hr} />
-        <Avatar />
+        <FlyOutMenu />
       </div>
     </header>
   );

@@ -1,0 +1,17 @@
+.toggleButtonContainer {
+  height: 100%;
+}
+
+.toggleButtonContainer:hover {
+  cursor: pointer;
+}
+
+.listContainer {
+  background-color: white;
+  padding: 12px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 190px;
+  position: absolute;
+  top: 70px;
+}

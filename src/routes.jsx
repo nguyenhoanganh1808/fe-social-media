@@ -4,6 +4,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import HomePage from "./pages/Home/HomePage";
 import Root from "./components/Root/Root";
 import MessagePage from "./pages/Message/MessagePage";
+import ProfilePage from "./pages/Profile/ProfilePage";
 
 const routes = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const routes = createBrowserRouter([
       {
         path: "/message",
         element: <MessagePage />,
+      },
+      {
+        path: "/profile/:id",
+        element: <ProfilePage />,
       },
     ],
   },
