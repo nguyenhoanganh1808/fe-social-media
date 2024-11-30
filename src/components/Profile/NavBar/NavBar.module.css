@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  border-top: 2px solid #d1d5db;
+  width: fit-content;
+}
+
+.item {
+  padding: 16px 24px;
+  border-radius: 12px;
+  margin: 2px;
+}
+
+.item:hover {
+  cursor: pointer;
+  background-color: #d1d5db;
+}

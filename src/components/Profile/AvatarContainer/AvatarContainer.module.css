@@ -1,0 +1,41 @@
+.wrapper {
+  width: 100%;
+}
+
+.avatarContainer {
+  display: flex;
+  gap: 64px;
+  justify-content: center;
+}
+
+.avatar {
+  transform: translateY(-30%);
+}
+
+.followContainer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.followContainer > p:first-of-type {
+  font-weight: bold;
+}
+
+.avatar > label {
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+}
+
+.avatar > label:hover {
+  cursor: pointer;
+}
+
+.avatarInput {
+  display: none;
+}
+
+.avatar button {
+  pointer-events: none;
+}

@@ -21,6 +21,8 @@
   --default-padding: 32px;
   --default-radius: 16px;
   --background-color: #f1f4f7;
+  --primary-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 a {

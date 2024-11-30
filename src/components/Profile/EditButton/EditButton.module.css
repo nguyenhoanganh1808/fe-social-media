@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 6px;
+  gap: 8px;
+
+  background-color: var(--icon-color);
+  color: white;
+}
+
+.container > svg {
+  fill: white;
+}

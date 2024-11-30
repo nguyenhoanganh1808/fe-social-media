@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.detailContainer svg {
+  fill: gray;
+}
+
+.container {
+  background-color: white;
+  box-shadow: var(--primary-box-shadow);
+  padding: 12px;
+  border-radius: 16px;
+}
+
+.bioInput {
+  width: 100%;
+  resize: none;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.bioInputActive:hover {
+  background-color: var(--background-color);
+}
+
+.bioInputActive {
+  outline: 1px solid black;
+}
+
+.buttonContainer {
+  align-self: flex-end;
+  display: flex;
+  gap: 8px;
+}
+
+.buttonContainer button {
+  background-color: var(--background-color);
+}

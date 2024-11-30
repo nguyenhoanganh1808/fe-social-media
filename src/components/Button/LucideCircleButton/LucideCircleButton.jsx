@@ -11,6 +11,7 @@ export default function LucideCircleButton({
   const sizeInPx = size + "px";
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`${styles.iconContainer} ${
         isHoverFill ? styles.hoverFill : ""

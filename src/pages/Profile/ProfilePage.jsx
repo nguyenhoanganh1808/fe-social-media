@@ -1,8 +1,11 @@
-import { Camera } from "lucide-react";
 import styles from "./ProfilePage.module.css";
-import Avatar from "../../components/Avatar/Avatar";
-import { formatNumber } from "../../utils/utils";
 import CoverPhoto from "../../components/Profile/CoverPhoto/CoverPhoto";
+import AvatarContainer from "../../components/Profile/AvatarContainer/AvatarContainer";
+import NavBar from "../../components/Profile/NavBar/NavBar";
+import Intro from "../../components/Profile/Intro/Intro";
+import Skill from "../../components/Profile/Skill/Skill";
+import CreatePost from "../../components/Home/CreatePost/CreatePost";
+import PostsList from "../../components/Home/PostsList/PostsList";
 
 export default function ProfilePage() {
   const userData = {
@@ -107,14 +110,26 @@ export default function ProfilePage() {
   };
   return (
     <div className={styles.wrapper}>
-      <CoverPhoto coverPhotoUrl={userData.coverPhotoUrl} />
-
-      <div className={styles.avatarContainer}>
-        <div className={styles.followersContainer}>
-          <p>{formatNumber(userData.followersNumber)}</p>
-          <p>Followers</p>
+      <div className={styles.upperContainer}>
+        <CoverPhoto coverPhotoUrl={userData.coverPhotoUrl} />
+        <AvatarContainer userData={userData} />
+        <div className={styles.nameContainer}>
+          <p>{userData.name}</p>
+          <p>@{userData.link}</p>
         </div>
-        <Avatar src={userData.avatarUrl} size={160} />
+
+        <NavBar />
+      </div>
+      <div className={styles.downContainer}>
+
+        <div className={styles.leftDownContainer}>
+          <Intro data={userData}/>
+          <Skill />
+        </div>
+        <div className={styles.rightDownContainer}>
+          <CreatePost />
+          <PostsList />
+        </div>
       </div>
     </div>
   );
