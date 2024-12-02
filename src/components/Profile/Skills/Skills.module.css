@@ -5,6 +5,12 @@
   padding: 32px;
 }
 
+.container ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .title {
   font-weight: bold;
   font-size: 1.2rem;

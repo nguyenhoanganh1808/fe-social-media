@@ -3,7 +3,7 @@ import CoverPhoto from "../../components/Profile/CoverPhoto/CoverPhoto";
 import AvatarContainer from "../../components/Profile/AvatarContainer/AvatarContainer";
 import NavBar from "../../components/Profile/NavBar/NavBar";
 import Intro from "../../components/Profile/Intro/Intro";
-import Skill from "../../components/Profile/Skill/Skill";
+import Skill from "../../components/Profile/Skills/Skills";
 import CreatePost from "../../components/Home/CreatePost/CreatePost";
 import PostsList from "../../components/Home/PostsList/PostsList";
 
@@ -121,10 +121,9 @@ export default function ProfilePage() {
         <NavBar />
       </div>
       <div className={styles.downContainer}>
-
         <div className={styles.leftDownContainer}>
-          <Intro data={userData}/>
-          <Skill />
+          <Intro data={userData} />
+          <Skill data={userData} />
         </div>
         <div className={styles.rightDownContainer}>
           <CreatePost />

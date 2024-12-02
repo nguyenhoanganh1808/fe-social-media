@@ -9,7 +9,7 @@ export default function Intro({ data }) {
 
   return (
     <div className={styles.container}>
-      <h2>Intro</h2>
+      <h2 className={styles.title}>Intro</h2>
       <hr />
 
       <textarea
