@@ -60,7 +60,7 @@ export default function AddImageOrVideoInput({ onClose }) {
               color="#65686c"
             />
             {label}
-            <CustomSlider mediaList={mediaList} />
+            <CustomSlider images={mediaList} />
           </div>
         )}
       </div>

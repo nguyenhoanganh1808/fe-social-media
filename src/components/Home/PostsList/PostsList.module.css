@@ -10,11 +10,13 @@
   gap: 32px;
   margin: 5px;
   margin-top: 16px;
+  width: 100%;
 }
 
 .postContainer {
   display: flex;
   gap: 16px;
+  width: 100%;
   background-color: white;
   border-radius: var(--default-radius);
   padding: 12px;

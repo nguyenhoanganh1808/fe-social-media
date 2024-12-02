@@ -5,7 +5,14 @@ import styles from "./SignInForm.module.css";
 export default function SignInForm() {
   return (
     <form action="" className={styles.container}>
-      <h1 className={styles.header}>Log in to your account</h1>
+      <div className={styles.header}>
+        <img
+          src="/images/logo-uit.svg"
+          alt="UIT Logo"
+          className={styles.logo}
+        />
+        <h1>Sign in</h1>
+      </div>
 
       <p>
         <Input
@@ -29,7 +36,7 @@ export default function SignInForm() {
       </p>
 
       <p>
-        <SubmitButton >Login</SubmitButton>
+        <SubmitButton>Login</SubmitButton>
       </p>
     </form>
   );
