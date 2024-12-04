@@ -6,14 +6,16 @@
 }
 
 .icon:hover {
-  background-color: #94a3b8;
+  background-color: #cbd5e1;
 }
 
 .icon {
   padding: 10px;
   border-radius: 8px;
+  color: #94a3b8;
 }
 
-.active {
-  border: 2px solid var(--primary-color);
+.active .icon {
+  fill: var(--icon-color);
+  color: var(--primary-color);
 }

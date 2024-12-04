@@ -1,0 +1,40 @@
+.likeButton .heartIcon {
+  height: 100px;
+  width: 100px;
+  /* transform: translate(-50%, -50%); */
+  background-image: url("images/heart.png");
+  background-position: left;
+  cursor: pointer;
+  position: absolute;
+  transform: scale(0.7);
+}
+
+.likeButton .heartIcon.liked {
+  animation: like-anime 0.7s steps(28) forwards;
+}
+
+@keyframes like-anime {
+  to {
+    background-position: right;
+  }
+}
+
+.likeButton .heartBg {
+  background: rgb(255, 192, 200, 0);
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease;
+}
+
+.likeButton {
+  display: flex;
+  align-items: center;
+}
+
+.heartIcon {
+  outline: none;
+}

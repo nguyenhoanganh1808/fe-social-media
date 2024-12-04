@@ -5,15 +5,6 @@
   max-width: 650px;
   margin: auto;
   overflow: hidden;
-  background-color: black;
-}
-
-.slideContainer img,
-.slideContainer video {
-  width: 99%;
-  height: 99%;
-  border-radius: 8px;
-  border: #ff00008e solid 2px;
 }
 
 motion.img,

@@ -12,6 +12,7 @@
   height: fit-content;
 
   padding-bottom: 12px;
+  box-shadow: var(--primary-box-shadow);
 }
 
 .tabContainer {

@@ -21,14 +21,26 @@
   width: 100%;
   border-radius: 16px;
   align-items: center;
+  transition: all 1 ease-in-out;
 }
 
 .inputContainer > svg,
-.fileInputLabel > svg {
+.fileInputLabel > svg,
+.smileyContainer > svg {
   color: var(--icon-color);
   width: 24px;
   height: 24px;
   margin: 0 12px;
+}
+
+.smileyContainer:hover {
+  cursor: pointer;
+}
+
+.emojiPicker {
+  position: absolute;
+  bottom: 100px;
+  z-index: 50;
 }
 
 .fileInputLabel:hover {
@@ -59,4 +71,11 @@
   gap: 12px;
   align-items: center;
   margin-right: 12px;
+}
+
+.emojiPicker button {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
 }

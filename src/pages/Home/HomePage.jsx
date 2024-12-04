@@ -1,3 +1,4 @@
+import EmojiPicker from "emoji-picker-react";
 import ActiveFriendList from "../../components/Home/ActiveFriendList/ActiveFriendList";
 import Communities from "../../components/Home/Communities/Communities";
 import CreatePost from "../../components/Home/CreatePost/CreatePost";

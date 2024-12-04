@@ -2,12 +2,19 @@ import { Mic, SendHorizontal, Smile, Paperclip, Trash2 } from "lucide-react";
 import styles from "./MessageInput.module.css";
 import LucideCircleButton from "../../../Button/LucideCircleButton/LucideCircleButton";
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import EmojiPicker from "emoji-picker-react";
+import useHover from "../../../../hooks/useHover";
 
 export default function MessageInput() {
   const [messageInput, setMessageInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
+  const {
+    isHovered: showEmojiPicker,
+    onMouseEnter: onMouseEmojiEnter,
+    onMouseLeave: onMouseEmojiLeave,
+  } = useHover();
   const [time, setTime] = useState("0:00,00");
   const startTimeRef = useRef(null);
   const intervalRef = useRef(null);
@@ -79,57 +86,99 @@ export default function MessageInput() {
   //   }
   // };
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.inputContainer}>
-        <Smile />
-        <input
-          className={styles.input}
-          type="text"
-          id="message"
-          name="message"
-          placeholder="Message"
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
-        />
+  const handleEmojiClick = (emoji) => {
+    setMessageInput((prev) => prev + emoji.emoji);
+  };
 
-        {isRecording ? (
-          <div className={styles.timeContainer}>
-            <p className={styles.time}>{time}</p>
-            <motion.div
-              className={styles.recordDot}
-              animate={{
-                opacity: ["100%", "0%", "100%"],
-              }}
-              transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-            />
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.inputContainer}>
+          <div
+            className={styles.smileyContainer}
+            onMouseEnter={onMouseEmojiEnter}
+            onMouseLeave={onMouseEmojiLeave}
+          >
+            <Smile />
+            <AnimatePresence>
+              {showEmojiPicker && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  style={{ originX: 0, originY: 1 }}
+                  exit={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{
+                    ease: "easeInOut",
+                    duration: 0.2,
+                  }}
+                  className={styles.emojiPicker}
+                >
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        ) : (
-          <label className={styles.fileInputLabel} htmlFor="messageFile">
-            <Paperclip />
-          </label>
+
+          <input
+            className={styles.input}
+            type="text"
+            id="message"
+            name="message"
+            placeholder="Message"
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+          />
+
+          {isRecording ? (
+            <div className={styles.timeContainer}>
+              <p className={styles.time}>{time}</p>
+              <motion.div
+                className={styles.recordDot}
+                animate={{
+                  opacity: ["100%", "0%", "100%"],
+                }}
+                transition={{
+                  duration: 2,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }}
+              />
+            </div>
+          ) : (
+            <label className={styles.fileInputLabel} htmlFor="messageFile">
+              <Paperclip />
+            </label>
+          )}
+          <input
+            className={styles.fileInput}
+            type="file"
+            id="messageFile"
+            name="messageFile"
+          />
+        </div>
+        {isRecording && (
+          <LucideCircleButton color="red" onClick={stopRecording}>
+            <Trash2 />
+          </LucideCircleButton>
         )}
-        <input
-          className={styles.fileInput}
-          type="file"
-          id="messageFile"
-          name="messageFile"
-        />
+        {messageInput.trim() === "" && !isRecording ? (
+          <LucideCircleButton onClick={startRecording}>
+            <motion.div key="mic" initial={{ scale: 0 }} animate={{ scale: 1 }}>
+              <Mic />
+            </motion.div>
+          </LucideCircleButton>
+        ) : (
+          <LucideCircleButton isHoverFill={true} onClick={stopRecording}>
+            <motion.div
+              key="send-horizontal"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            >
+              <SendHorizontal fill="#38bdf8" />
+            </motion.div>
+          </LucideCircleButton>
+        )}
       </div>
-      {isRecording && (
-        <LucideCircleButton color="red" onClick={stopRecording}>
-          <Trash2 />
-        </LucideCircleButton>
-      )}
-      {messageInput.trim() === "" && !isRecording ? (
-        <LucideCircleButton onClick={startRecording}>
-          <Mic />
-        </LucideCircleButton>
-      ) : (
-        <LucideCircleButton isHoverFill={true} onClick={stopRecording}>
-          <SendHorizontal fill="#38bdf8" />
-        </LucideCircleButton>
-      )}
-    </div>
+    </>
   );
 }

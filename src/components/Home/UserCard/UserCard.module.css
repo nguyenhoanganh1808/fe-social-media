@@ -1,6 +1,7 @@
 .container {
   border-radius: var(--default-radius);
-  box-shadow: 0 0 3px #ccc;
+  box-shadow: var(--primary-box-shadow);
+
   /* padding: 16px; */
 
   /* display: flex; */

@@ -1,10 +1,18 @@
 .container {
-  background-color: var(--background-color);
-  padding: 8px 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-radius: 12px;
+  gap: 4px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 4px 0;
+  min-width: 100px;
+}
+
+.container:focus,
+.contaner:hover {
+  outline: none;
+  border: none;
 }
 
 .count {
