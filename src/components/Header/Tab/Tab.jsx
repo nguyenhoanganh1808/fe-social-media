@@ -1,15 +1,15 @@
 import styles from "./Tab.module.css";
-import { useState } from "react";
 import { Book, Mail, Home } from "lucide-react";
 import HomePage from "../../../pages/Home/HomePage";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const TabData = [
   {
     icon: Home,
     view: HomePage(),
     label: "Home",
-    path: "/home",
+    path: "/posts",
   },
   {
     icon: Mail,
@@ -27,21 +27,34 @@ const TabData = [
 
 export default function Tab() {
   return (
-    <nav className={styles.container}>
-      {TabData.map((Tab, index) => {
-        return (
-          <div key={index}>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isActive ? styles.active : isPending ? styles.pending : ""
-              }
-              to={Tab.path}
-            >
-              <Tab.icon className={styles.icon} size={50} />
-            </NavLink>
-          </div>
-        );
-      })}
+    <nav className={styles.nav}>
+      <ul className={styles.container}>
+        {TabData.map((Tab, index) => {
+          return (
+            <li key={index} className={styles.li}>
+              <NavLink
+                className={({ isActive }) => (isActive ? styles.selected : "")}
+                to={Tab.path}
+              >
+                {({ isActive }) => (
+                  <>
+                    <div className={styles.iconContainer}>
+                      <Tab.icon className={styles.icon} size={40} />
+                      <p>{Tab.label}</p>
+                    </div>
+                    {isActive && (
+                      <motion.div
+                        className={styles.underline}
+                        layoutId="underline"
+                      />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   );
 }

@@ -30,3 +30,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+.link {
+  color: unset;
+}
+
+.link:hover {
+  color: unset;
+}
+
+.wrapper {
+  display: flex;
+  gap: 16px;
+}

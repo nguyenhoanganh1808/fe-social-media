@@ -1,8 +1,6 @@
-import EmojiPicker from "emoji-picker-react";
+import { Outlet } from "react-router-dom";
 import ActiveFriendList from "../../components/Home/ActiveFriendList/ActiveFriendList";
 import Communities from "../../components/Home/Communities/Communities";
-import CreatePost from "../../components/Home/CreatePost/CreatePost";
-import PostsList from "../../components/Home/PostsList/PostsList";
 import Suggest from "../../components/Home/Suggest/Suggest";
 import UserCard from "../../components/Home/UserCard/UserCard";
 import styles from "./HomePage.module.css";
@@ -21,8 +19,7 @@ export default function HomePage() {
         <Communities />
       </div>
       <div className={styles.postListContainer}>
-        <CreatePost />
-        <PostsList />
+        <Outlet />
       </div>
       <div>
         <Suggest />

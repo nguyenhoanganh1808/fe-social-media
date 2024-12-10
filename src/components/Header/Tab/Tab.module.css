@@ -1,12 +1,11 @@
+body {
+  --accent: #8855ff;
+}
 .container {
   display: flex;
   gap: 32px;
-
   align-items: center;
-}
-
-.icon:hover {
-  background-color: #cbd5e1;
+  position: relative;
 }
 
 .icon {
@@ -15,7 +14,56 @@
   color: #94a3b8;
 }
 
+.li {
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  position: relative;
+  /* background: white; */
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+
 .active .icon {
   fill: var(--icon-color);
   color: var(--primary-color);
+}
+
+.underline {
+  position: absolute;
+  bottom: -13px;
+  left: 10px;
+  right: 0;
+  height: 2px;
+  background: var(--icon-color);
+}
+
+.selected svg {
+  fill: var(--icon-color);
+  color: var(--primary-color);
+}
+.nav p {
+  color: #94a3b8;
+}
+
+.selected p {
+  color: var(--icon-color);
+}
+
+.nav {
+  padding: 5px 5px 0;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.iconContainer {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  align-items: center;
 }

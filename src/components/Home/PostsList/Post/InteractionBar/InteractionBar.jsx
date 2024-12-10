@@ -1,15 +1,16 @@
 import InteractionButton from "../../../../Button/InteractionButton/InteractionButton";
 import styles from "./InteractionBar.module.css";
 import PropTypes from "prop-types";
-import { Share, MessageCircleMoreIcon } from "lucide-react";
+import { Share, MessageCircle } from "lucide-react";
 import HeartButton from "../../../../Button/HeartButton/HeartButton";
 
 function InteractionBar({ post }) {
   return (
     <div className={styles.container}>
       <InteractionButton icon={<HeartButton />} count={post.likeCount} />
+
       <InteractionButton
-        icon={<MessageCircleMoreIcon size={20} />}
+        icon={<MessageCircle size={20} />}
         count={post.commentCount}
       />
       <InteractionButton count={200} icon={<Share size={20} />} />

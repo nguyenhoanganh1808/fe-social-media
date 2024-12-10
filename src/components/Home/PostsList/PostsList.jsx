@@ -87,8 +87,7 @@ export default function PostsList() {
       <ul className={styles.postWrapper}>
         {postsData.map((post) => (
           <div className={styles.postContainer} key={post.userImg}>
-            <img className={styles.avatar} src={post.userImg} alt="" />
-            <Post post={post} />
+            <Post key={post.userImg} post={post} />
           </div>
         ))}
       </ul>

@@ -1,0 +1,23 @@
+.container {
+  background-color: white;
+  border-radius: var(--default-radius);
+  padding: 12px 32px;
+  box-shadow: var(--primary-box-shadow);
+}
+
+.container hr {
+  margin: 12px 0;
+}
+
+.commentContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.commentContainer input {
+  flex: 1;
+  border-radius: 12px;
+  padding: 12px;
+  background-color: var(--background-color);
+  outline: none;
+}

@@ -1,0 +1,12 @@
+.inputContainer {
+  border: 1px solid hsl(none 0% 0% / 0.2);
+  outline: 1px solid var(--background-color);
+  width: 100%;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.inputContainer textarea {
+  width: 100%;
+  outline: none;
+}
