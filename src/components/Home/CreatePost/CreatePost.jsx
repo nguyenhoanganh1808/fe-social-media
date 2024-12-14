@@ -23,7 +23,13 @@ export default function CreatePost() {
     setModalOpen(false);
   }
 
-
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [modalOpen]);
 
   return (
     <div className={styles.container}>

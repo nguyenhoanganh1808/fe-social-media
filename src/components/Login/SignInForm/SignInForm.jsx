@@ -1,10 +1,14 @@
 import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./SignInForm.module.css";
+import useSignInForm from "../../../hooks/useSigninForm";
 
 export default function SignInForm() {
+  const { register, handleSubmit, errors, onSubmit, validationRules } =
+    useSignInForm();
+
   return (
-    <form action="" className={styles.container}>
+    <div className={styles.wrapper}>
       <div className={styles.header}>
         <img
           src="/images/logo-uit.svg"
@@ -13,31 +17,51 @@ export default function SignInForm() {
         />
         <h1>Sign in</h1>
       </div>
-
-      <p>
+      <form
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        className={styles.container}
+      >
         <Input
-          id="email"
-          label="Email"
-          placeHolder="example@gmail.com"
-          type="email"
+          id="username"
+          label="Username"
+          placeHolder="Enter your username"
+          type="text"
+          isError={errors.username === null}
+          register={register("username", validationRules.username)}
+          required
         />
-      </p>
-      <p>
+        {errors.username && (
+          <p role="alert" className={styles.error}>
+            {errors.username.message}
+          </p>
+        )}
+
         <Input
           id="password"
           label="Password"
           placeHolder="Enter your password"
           type="password"
+          required
+          isError={errors.username === null}
+          register={register("password", validationRules.password)}
         />
-      </p>
+        {errors.password && (
+          <p role="alert" className={styles.error}>
+            {errors.password.message}
+          </p>
+        )}
 
-      <p className={styles.forgotPasswordContainer}>
-        <a href="/">Forgot your password</a>
-      </p>
+        <div className={styles.forgotPasswordContainer}>
+          <div>
+            <input type="checkbox" id="rememberme" name="rememberme" />
+            <label htmlFor="rememberme">Remember me</label>
+          </div>
+          <a href="/">Forgot your password</a>
+        </div>
 
-      <p>
-        <SubmitButton>Login</SubmitButton>
-      </p>
-    </form>
+        <SubmitButton>SIGN IN</SubmitButton>
+      </form>
+    </div>
   );
 }

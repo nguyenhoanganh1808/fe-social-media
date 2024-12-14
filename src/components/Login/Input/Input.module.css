@@ -3,15 +3,28 @@
   flex-direction: column;
 
   gap: 6px;
-
   font-weight: bold;
 }
 
 .input {
-  outline: none;
+  outline: 1px solid black;
   border: none;
-
   background-color: #f1f5f9;
   padding: 8px 8px;
   border-radius: 6px;
+  font-weight: normal;
+}
+
+.input:focus {
+  outline: 2px solid #3b82f6;
+}
+
+.error {
+  outline-color: red;
+  color: red;
+}
+
+.error:focus {
+  outline-width: 2px;
+  outline-color: red;
 }

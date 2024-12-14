@@ -8,3 +8,24 @@
 .postListContainer {
   width: 100%;
 }
+
+@media (max-width: 1536px) {
+  .suggestContainer > div:first-of-type {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .leftContainer {
+    display: none;
+  }
+
+  .suggestContainer {
+    display: none;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+}

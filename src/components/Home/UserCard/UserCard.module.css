@@ -80,3 +80,9 @@
 
   padding: 16px;
 }
+
+@media (max-width: 1536px) {
+  .container {
+    display: none;
+  }
+}

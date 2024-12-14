@@ -67,3 +67,12 @@ body {
   height: 100%;
   align-items: center;
 }
+
+@media (max-width: 1024px) {
+  .iconContainer > p {
+    display: none;
+  }
+  .underline {
+    left: 0;
+  }
+}

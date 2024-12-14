@@ -8,7 +8,7 @@ import styles from "./HomePage.module.css";
 export default function HomePage() {
   return (
     <main className={styles.container}>
-      <div>
+      <div className={styles.leftContainer}>
         <UserCard
           name="Bryan Nguyen"
           bio="Hello ,I’m UI / UX designer. Open to the new Project"
@@ -21,7 +21,7 @@ export default function HomePage() {
       <div className={styles.postListContainer}>
         <Outlet />
       </div>
-      <div>
+      <div className={styles.suggestContainer}>
         <Suggest />
         <ActiveFriendList />
       </div>

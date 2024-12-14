@@ -3,16 +3,8 @@ import styles from "./SubmitButton.module.css";
 import { useNavigate } from "react-router-dom";
 
 function SubmitButton({ children }) {
-  const navigate = useNavigate(); // Initialize the navigate function
-
   return (
-    <button
-      onClick={() => {
-        return navigate("/home");
-      }}
-      type="submit"
-      className={styles.submitBtn}
-    >
+    <button type="submit" className={styles.submitBtn}>
       {children}
     </button>
   );
