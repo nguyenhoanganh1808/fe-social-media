@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Input from "../Input/Input";
-import styles from "../SignInForm/SignInForm.module.css";
+import styles from "../FormSignin/SignInForm.module.css";
 import SubmitButton from "../SubmitButton/SubmitButton";
 import useSignUpForm from "../../../hooks/useSignupForm";
 

@@ -11,23 +11,27 @@ function Input({
   minLength,
   maxLength,
   isError,
+  isRow = false,
 }) {
   return (
     <>
-      <label className={styles.container} htmlFor={id}>
+      <label
+        className={`${styles.container} ${isRow ? styles.rowContainer : ""}`}
+        htmlFor={id}
+      >
         {label}
+        <input
+          id={id}
+          name={id}
+          required={required}
+          minLength={minLength}
+          maxLength={maxLength}
+          className={`${styles.input} ${isError ? styles.error : ""}`}
+          type={type}
+          placeholder={placeHolder}
+          {...register}
+        />
       </label>
-      <input
-        id={id}
-        name={id}
-        required={required}
-        minLength={minLength}
-        maxLength={maxLength}
-        className={`${styles.input} ${isError ? styles.error : ""}`}
-        type={type}
-        placeholder={placeHolder}
-        {...register}
-      />
     </>
   );
 }
@@ -35,13 +39,14 @@ function Input({
 Input.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  placeHolder: PropTypes.string.isRequired,
+  placeHolder: PropTypes.string,
   type: PropTypes.string,
   register: PropTypes.any,
   required: PropTypes.bool.isRequired,
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
   isError: PropTypes.bool.isRequired,
+  isRow: PropTypes.bool,
 };
 
 export default Input;

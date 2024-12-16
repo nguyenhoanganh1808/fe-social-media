@@ -8,8 +8,9 @@ import CreatePost from "./components/Home/CreatePost/CreatePost";
 import PostsList from "./components/Home/PostsList/PostsList";
 import PostDetail from "./components/Home/PostDetail/PostDetail";
 import AuthPage from "./pages/Auth/AuthPage";
-import SignInForm from "./components/Login/SignInForm/SignInForm";
-import SignupForm from "./components/Login/SignupForm/SIgnupForm";
+import SignupForm from "./components/Login/FormSignup/SIgnupForm";
+import FormCreateProfile from "./components/Login/FormCreateProfile/FormCreateProfile";
+import SignInForm from "./components/Login/FormSignIn/SignInForm";
 
 const routes = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const routes = createBrowserRouter([
       {
         path: "sign-up",
         element: <SignupForm />,
+      },
+      {
+        path: "create-profile",
+        element: <FormCreateProfile />,
       },
     ],
   },

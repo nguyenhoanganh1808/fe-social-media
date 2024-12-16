@@ -1,11 +1,16 @@
 .container {
   display: flex;
   flex-direction: column;
-
   gap: 6px;
   font-weight: bold;
 }
 
+.rowContainer {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px;
+}
 .input {
   outline: 1px solid black;
   border: none;
@@ -27,4 +32,9 @@
 .error:focus {
   outline-width: 2px;
   outline-color: red;
+}
+
+@media (max-width: 640px) {
+  .rowContainer {
+  }
 }

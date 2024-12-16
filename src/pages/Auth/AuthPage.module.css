@@ -6,6 +6,11 @@
   background-size: cover;
 }
 
+.profileFormContainer {
+  justify-content: center;
+  align-items: center;
+}
+
 .signInWrapper {
   display: flex;
   justify-content: center;
