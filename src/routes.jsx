@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/Error/ErrorPage";
-import LoginPage from "./pages/Login/LoginPage";
 import HomePage from "./pages/Home/HomePage";
 import Root from "./components/Root/Root";
 import MessagePage from "./pages/Message/MessagePage";
@@ -8,12 +7,25 @@ import ProfilePage from "./pages/Profile/ProfilePage";
 import CreatePost from "./components/Home/CreatePost/CreatePost";
 import PostsList from "./components/Home/PostsList/PostsList";
 import PostDetail from "./components/Home/PostDetail/PostDetail";
+import AuthPage from "./pages/Auth/AuthPage";
+import SignInForm from "./components/Login/SignInForm/SignInForm";
+import SignupForm from "./components/Login/SignupForm/SIgnupForm";
 
 const routes = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginPage />,
+    path: "/auth",
+    element: <AuthPage />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "login",
+        element: <SignInForm />,
+      },
+      {
+        path: "sign-up",
+        element: <SignupForm />,
+      },
+    ],
   },
   {
     path: "/",

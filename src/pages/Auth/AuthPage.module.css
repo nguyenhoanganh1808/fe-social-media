@@ -22,5 +22,20 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
+  .signInWrapper {
+    background: none;
+    backdrop-filter: none;
+    align-items: center;
+    clip-path: none;
+    box-shadow: none;
+    border: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    background: linear-gradient(#84cbf3, #ffffff);
+  }
 }

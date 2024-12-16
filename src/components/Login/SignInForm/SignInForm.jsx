@@ -2,6 +2,7 @@ import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./SignInForm.module.css";
 import useSignInForm from "../../../hooks/useSigninForm";
+import { Link } from "react-router-dom";
 
 export default function SignInForm() {
   const { register, handleSubmit, errors, onSubmit, validationRules } =
@@ -54,13 +55,21 @@ export default function SignInForm() {
 
         <div className={styles.forgotPasswordContainer}>
           <div>
-            <input type="checkbox" id="rememberme" name="rememberme" />
+            <input
+              {...register("rememberme")}
+              type="checkbox"
+              id="rememberme"
+              name="rememberme"
+            />
             <label htmlFor="rememberme">Remember me</label>
           </div>
           <a href="/">Forgot your password</a>
         </div>
 
         <SubmitButton>SIGN IN</SubmitButton>
+        <p>
+          Don&apos;t have an account? <Link to="/auth/sign-up">Sign up</Link>
+        </p>
       </form>
     </div>
   );

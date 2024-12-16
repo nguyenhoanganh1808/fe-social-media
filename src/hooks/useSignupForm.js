@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
+import { AuthService } from "../services/auth.service";
 
-export default function useSignInForm() {
+export default function useSignUpForm() {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    getValues,
   } = useForm();
 
   const validationRules = {
@@ -23,6 +25,14 @@ export default function useSignInForm() {
         message: "Username can only contain letters, numbers, and underscores",
       },
     },
+    email: {
+      required: "Email is required",
+      pattern: {
+        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: "Please enter a valid email address",
+      },
+    },
+
     password: {
       required: "Password is required",
       minLength: {
@@ -39,10 +49,17 @@ export default function useSignInForm() {
           "Password must contain at least one letter and one special character",
       },
     },
+    confirmpassword: {
+      required: "Please confirm your password",
+      validate: (value) =>
+        value === getValues("password") || "Passwords do not match",
+    },
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    delete data["confirmpassword"];
+    await AuthService.register({ ...data, roleId: 2 });
   };
 
   return {

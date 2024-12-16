@@ -13,8 +13,10 @@ function Input({
   isError,
 }) {
   return (
-    <label className={styles.container} htmlFor={id}>
-      {label}
+    <>
+      <label className={styles.container} htmlFor={id}>
+        {label}
+      </label>
       <input
         id={id}
         name={id}
@@ -26,7 +28,7 @@ function Input({
         placeholder={placeHolder}
         {...register}
       />
-    </label>
+    </>
   );
 }
 
