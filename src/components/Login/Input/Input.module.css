@@ -33,8 +33,3 @@
   outline-width: 2px;
   outline-color: red;
 }
-
-@media (max-width: 640px) {
-  .rowContainer {
-  }
-}

@@ -11,11 +11,19 @@ import AuthPage from "./pages/Auth/AuthPage";
 import SignupForm from "./components/Login/FormSignup/SIgnupForm";
 import FormCreateProfile from "./components/Login/FormCreateProfile/FormCreateProfile";
 import SignInForm from "./components/Login/FormSignIn/SignInForm";
+import AuthRedirect from "./helper/AuthRedirect";
+import { AuthProvider } from "./contexts/auth/AuthProvider";
 
 const routes = createBrowserRouter([
   {
     path: "/auth",
-    element: <AuthPage />,
+    element: (
+      <AuthProvider>
+        <AuthRedirect>
+          <AuthPage />
+        </AuthRedirect>
+      </AuthProvider>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {

@@ -3,10 +3,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 import styles from "./AuthPage.module.css";
 import { Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/auth/useAuthContext";
 
 export default function AuthPage() {
   const location = useLocation();
+
   const isCreateProfileRoute = location.pathname === "/auth/create-profile";
+  const { user } = useAuth();
+
+  console.log("user: ", user);
   return (
     <>
       <main

@@ -1,11 +1,15 @@
 import { useForm } from "react-hook-form";
+import { UserService } from "../services/user.service";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export default function useForCreateProfile() {
+export default function useFormCreateProfile() {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const navigate = useNavigate();
 
   const validationRules = {
     code: {
@@ -88,8 +92,13 @@ export default function useForCreateProfile() {
     },
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await UserService.createProfile(data);
+      navigate("/posts");
+    } catch (e) {
+      toast.error(e || "Something went wrong");
+    }
   };
 
   return {

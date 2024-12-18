@@ -1,4 +1,9 @@
 import { useForm } from "react-hook-form";
+import { AuthService } from "../services/auth.service";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/auth/useAuthContext";
+import { UserService } from "../services/user.service";
 
 export default function useSignInForm() {
   const {
@@ -6,6 +11,8 @@ export default function useSignInForm() {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const validationRules = {
     username: {
@@ -41,8 +48,25 @@ export default function useSignInForm() {
     },
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+
+    try {
+      const response = await AuthService.login(data);
+      console.log("response: ", response);
+      toast.success("Login successful!");
+      login(response);
+
+      const user = await UserService.getProfile();
+      if (user) {
+        navigate("/posts");
+      } else {
+        navigate("/auth/create-profile");
+      }
+    } catch (error) {
+      console.log("error: ", error);
+      toast.error(error.message || "Login error");
+    }
   };
 
   return {

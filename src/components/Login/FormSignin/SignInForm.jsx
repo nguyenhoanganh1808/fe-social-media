@@ -54,7 +54,7 @@ export default function SignInForm() {
         )}
 
         <div className={styles.forgotPasswordContainer}>
-          <div>
+          {/* <div>
             <input
               {...register("rememberme")}
               type="checkbox"
@@ -62,7 +62,7 @@ export default function SignInForm() {
               name="rememberme"
             />
             <label htmlFor="rememberme">Remember me</label>
-          </div>
+          </div> */}
           <a href="/">Forgot your password</a>
         </div>
 

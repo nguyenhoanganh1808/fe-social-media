@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { AuthService } from "../services/auth.service";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function useSignUpForm() {
   const {
@@ -8,6 +10,7 @@ export default function useSignUpForm() {
     handleSubmit,
     getValues,
   } = useForm();
+  const navigate = useNavigate();
 
   const validationRules = {
     username: {
@@ -59,7 +62,15 @@ export default function useSignUpForm() {
   const onSubmit = async (data) => {
     console.log(data);
     delete data["confirmpassword"];
-    await AuthService.register({ ...data, roleId: 2 });
+
+    try {
+      await AuthService.register({ ...data, roleId: 2 });
+      toast.success("Registration successful!");
+
+      navigate("/auth/create-profile");
+    } catch (error) {
+      toast.error(error || "Registration error");
+    }
   };
 
   return {
