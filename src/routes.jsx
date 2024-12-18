@@ -11,20 +11,16 @@ import AuthPage from "./pages/Auth/AuthPage";
 import SignupForm from "./components/Login/FormSignup/SIgnupForm";
 import FormCreateProfile from "./components/Login/FormCreateProfile/FormCreateProfile";
 import SignInForm from "./components/Login/FormSignIn/SignInForm";
-import AuthRedirect from "./helper/AuthRedirect";
-import { AuthProvider } from "./contexts/auth/AuthProvider";
 import EduPage from "./pages/Edu/EduPage";
+import Schedule from "./components/Edu/Schedule/Schedule";
+import Calendar from "./components/Edu/Calendar/Calendar";
+import LearnResult from "./components/Edu/LearnResult/LearnResult";
+import StudentInfo from "./components/Edu/StudentInfo/StudenInfo";
 
 const routes = createBrowserRouter([
   {
     path: "/auth",
-    element: (
-      <AuthProvider>
-        <AuthRedirect>
-          <AuthPage />
-        </AuthRedirect>
-      </AuthProvider>
-    ),
+    element: <AuthPage />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -76,6 +72,24 @@ const routes = createBrowserRouter([
       {
         path: "/edu",
         element: <EduPage />,
+        children: [
+          {
+            path: "calendar",
+            element: <Calendar />,
+          },
+          {
+            path: "schedule",
+            element: <Schedule />,
+          },
+          {
+            path: "learn-result",
+            element: <LearnResult />,
+          },
+          {
+            path: "student-info",
+            element: <StudentInfo />,
+          },
+        ],
       },
     ],
   },

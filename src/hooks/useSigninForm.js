@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/auth/useAuthContext";
 import { UserService } from "../services/user.service";
+import { useState } from "react";
 
 export default function useSignInForm() {
   const {
@@ -13,6 +14,7 @@ export default function useSignInForm() {
   } = useForm();
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const validationRules = {
     username: {
@@ -50,7 +52,7 @@ export default function useSignInForm() {
 
   const onSubmit = async (data) => {
     console.log(data);
-
+    setLoading(true);
     try {
       const response = await AuthService.login(data);
       console.log("response: ", response);
@@ -67,9 +69,11 @@ export default function useSignInForm() {
       console.log("error: ", error);
       toast.error(error.message || "Login error");
     }
+    setLoading(false);
   };
 
   return {
+    loading,
     register,
     handleSubmit,
     errors,
