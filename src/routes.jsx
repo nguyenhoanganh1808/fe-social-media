@@ -13,6 +13,7 @@ import FormCreateProfile from "./components/Login/FormCreateProfile/FormCreatePr
 import SignInForm from "./components/Login/FormSignIn/SignInForm";
 import AuthRedirect from "./helper/AuthRedirect";
 import { AuthProvider } from "./contexts/auth/AuthProvider";
+import EduPage from "./pages/Edu/EduPage";
 
 const routes = createBrowserRouter([
   {
@@ -46,11 +47,11 @@ const routes = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/posts",
+        path: "",
         element: <HomePage />,
         children: [
           {
-            path: "",
+            path: "posts",
             element: (
               <>
                 <CreatePost />
@@ -59,7 +60,7 @@ const routes = createBrowserRouter([
             ),
           },
           {
-            path: ":id",
+            path: "posts/:id",
             element: <PostDetail />,
           },
         ],
@@ -71,6 +72,10 @@ const routes = createBrowserRouter([
       {
         path: "/profile/:id",
         element: <ProfilePage />,
+      },
+      {
+        path: "/edu",
+        element: <EduPage />,
       },
     ],
   },

@@ -1,25 +1,24 @@
 import styles from "./Tab.module.css";
 import { Book, Mail, Home } from "lucide-react";
-import HomePage from "../../../pages/Home/HomePage";
+
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const TabData = [
   {
     icon: Home,
-    view: HomePage(),
     label: "Home",
     path: "/posts",
   },
   {
     icon: Mail,
-    view: HomePage(),
+
     label: "Message",
     path: "/message",
   },
   {
     icon: Book,
-    view: HomePage(),
+
     label: "Edu",
     path: "/edu",
   },

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  gap: 8px;
+  justify-content: end;
+  align-items: center;
+
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  border-radius: 12px;
+  margin: 0px 12px;
+}
+
+.container > p {
+  margin: 0 auto;
+  color: black;
+}
+
+.active {
+  background-color: var(--primary-color);
+}

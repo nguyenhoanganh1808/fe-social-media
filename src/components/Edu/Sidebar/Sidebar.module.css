@@ -1,0 +1,22 @@
+.container {
+  height: calc(100vh - 70px);
+  flex-basis: 30%;
+  background-color: var(--accent-color);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.logo {
+  margin: 24px 0;
+  align-self: center;
+  max-width: 135px;
+  max-height: 110px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
