@@ -6,9 +6,9 @@ export default function Item({ data }) {
   return (
     <li>
       <NavLink
-        className={`${({ isActive }) => (isActive ? styles.active : "")} ${
-          styles.container
-        }`}
+        className={({ isActive }) =>
+          `${isActive ? styles.active : ""} ${styles.container}`
+        }
         to={data.href}
       >
         <p>{data.title}</p>
