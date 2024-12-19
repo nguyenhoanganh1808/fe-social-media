@@ -43,7 +43,6 @@ export const AuthService = {
       }
 
       const responseData = await response.json();
-      console.log("responseData: ", responseData);
 
       localStorage.setItem("jwt-token", responseData.token);
       return responseData;

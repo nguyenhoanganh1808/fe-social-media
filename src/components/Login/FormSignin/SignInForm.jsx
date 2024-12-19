@@ -3,9 +3,10 @@ import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./SignInForm.module.css";
 import useSignInForm from "../../../hooks/useSigninForm";
 import { Link } from "react-router-dom";
+import Spinner from "../../common/Spinner/Spinner";
 
 export default function SignInForm() {
-  const { register, handleSubmit, errors, onSubmit, validationRules } =
+  const { loading, register, handleSubmit, errors, onSubmit, validationRules } =
     useSignInForm();
 
   return (
@@ -66,7 +67,9 @@ export default function SignInForm() {
           <a href="/">Forgot your password</a>
         </div>
 
-        <SubmitButton>SIGN IN</SubmitButton>
+        <SubmitButton>
+          {loading ? <Spinner size={30} borderWidth={3} /> : "SIGN IN"}
+        </SubmitButton>
         <p>
           Don&apos;t have an account? <Link to="/auth/sign-up">Sign up</Link>
         </p>

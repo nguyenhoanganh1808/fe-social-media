@@ -16,6 +16,7 @@ import Schedule from "./components/Edu/Schedule/Schedule";
 import Calendar from "./components/Edu/Calendar/Calendar";
 import LearnResult from "./components/Edu/LearnResult/LearnResult";
 import StudentInfo from "./components/Edu/StudentInfo/StudenInfo";
+import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
 
 const routes = createBrowserRouter([
   {
@@ -39,7 +40,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <ProtectedRoute>
+        <Root />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {

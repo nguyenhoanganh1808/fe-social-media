@@ -34,10 +34,27 @@ export const UserService = {
           Authorization: "Bearer " + token,
         },
       });
-      const responseData = await response.json();
-      console.log("responseData: ", responseData);
+
+      if (!response) {
+        throw new Error("No response from the server");
+      }
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to fetch profile");
+      }
+
+      const text = await response.text();
+      if (!text) {
+        return null;
+      }
+
+      // Parse the JSON safely
+      return JSON.parse(text);
     } catch (e) {
-      throw new Error(e);
+      throw new Error(
+        e.message || "An error occurred while fetching the profile"
+      );
     }
   },
 };

@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import styles from "./AuthPage.module.css";
-import { Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/auth/useAuthContext";
 
 export default function AuthPage() {
@@ -11,7 +11,10 @@ export default function AuthPage() {
   const isCreateProfileRoute = location.pathname === "/auth/create-profile";
   const { user } = useAuth();
 
-  console.log("user: ", user);
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <>
       <main

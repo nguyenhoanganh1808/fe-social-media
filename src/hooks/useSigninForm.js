@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { AuthService } from "../services/auth.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/auth/useAuthContext";
 import { UserService } from "../services/user.service";
 import { useState } from "react";
 
@@ -13,7 +12,7 @@ export default function useSignInForm() {
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
-  const { login } = useAuth();
+
   const [loading, setLoading] = useState(false);
 
   const validationRules = {
@@ -57,7 +56,6 @@ export default function useSignInForm() {
       const response = await AuthService.login(data);
       console.log("response: ", response);
       toast.success("Login successful!");
-      login(response);
 
       const user = await UserService.getProfile();
       if (user) {
