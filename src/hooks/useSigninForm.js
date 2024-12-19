@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../services/user.service";
 import { useState } from "react";
+import { useAuth } from "../contexts/auth/useAuthContext";
 
 export default function useSignInForm() {
   const {
@@ -12,6 +13,7 @@ export default function useSignInForm() {
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
@@ -58,8 +60,9 @@ export default function useSignInForm() {
       toast.success("Login successful!");
 
       const user = await UserService.getProfile();
+      login(user);
       if (user) {
-        navigate("/posts");
+        navigate("/");
       } else {
         navigate("/auth/create-profile");
       }

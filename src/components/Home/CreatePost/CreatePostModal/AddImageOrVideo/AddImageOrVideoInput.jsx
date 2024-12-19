@@ -22,9 +22,14 @@ export default function AddImageOrVideoInput({ onClose }) {
       </label>
     ) : (
       <label className={styles.label} htmlFor="imageOrVideo">
+        <X
+          className={styles.XIcon}
+          onClick={onClose}
+          size={40}
+          color="#65686c"
+        />
         <div className={styles.labelContainer}>
           <div className={styles.content}>
-            <X className={styles.XIcon} size={40} color="#65686c" />
             <ImagePlus className={styles.plusIcon} size={50} />
             <p>
               Add image/video <br />
@@ -72,6 +77,7 @@ export default function AddImageOrVideoInput({ onClose }) {
         id="imageOrVideo"
         name="imageOrVideo"
         multiple
+        accept="image/*,video/*"
       />
     </div>
   );

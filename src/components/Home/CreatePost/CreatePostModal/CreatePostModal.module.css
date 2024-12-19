@@ -77,6 +77,10 @@
   align-self: flex-end;
 }
 
+.icon:hover {
+  cursor: pointer;
+}
+
 .addToPost {
   display: flex;
   justify-content: space-between;
@@ -117,10 +121,32 @@
   padding: 6px;
 }
 
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
 .buttons > * {
-  padding: 6px;
+  padding: 8px;
   border-radius: 50%;
 }
+
 .buttons > *:hover {
+  cursor: pointer;
   background-color: #d1d5db;
+}
+
+.addImage {
+  width: 30px;
+  height: 30px;
+}
+.gifPickerContainer {
+  max-width: 550px;
+}
+
+.emojiPicker {
+  position: absolute;
+  z-index: 100;
+  top: 0px;
+  right: 0;
 }
