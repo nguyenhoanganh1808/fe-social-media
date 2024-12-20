@@ -2,8 +2,13 @@ import { Mic, SendHorizontal, Smile, Paperclip, Trash2 } from "lucide-react";
 import styles from "./MessageInput.module.css";
 import LucideCircleButton from "../../../Button/LucideCircleButton/LucideCircleButton";
 import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import useHover from "../../../../hooks/useHover";
+
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { formatTime } from "../../../../lib/utils";
 
 export default function MessageInput() {
   const [messageInput, setMessageInput] = useState("");
@@ -18,19 +23,6 @@ export default function MessageInput() {
   const startTimeRef = useRef(null);
   const intervalRef = useRef(null);
   const mediaRecorderRef = useRef(null);
-
-  const formatTime = (elapsedTime) => {
-    const minutes = String(Math.floor(elapsedTime / 60000)).padStart(1, "0");
-    const seconds = String(Math.floor((elapsedTime % 60000) / 1000)).padStart(
-      2,
-      "0"
-    );
-    const milliseconds = String(Math.floor((elapsedTime % 1000) / 10)).padStart(
-      2,
-      "0"
-    );
-    return `${minutes}:${seconds},${milliseconds}`;
-  };
 
   const startRecording = async () => {
     try {
@@ -99,7 +91,7 @@ export default function MessageInput() {
             onMouseLeave={onMouseEmojiLeave}
           >
             <Smile />
-            {/* <AnimatePresence>
+            <AnimatePresence>
               {showEmojiPicker && (
                 <motion.div
                   initial={{ scale: 0 }}
@@ -112,10 +104,10 @@ export default function MessageInput() {
                   }}
                   className={styles.emojiPicker}
                 >
-                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                  <Picker data={data} />
                 </motion.div>
               )}
-            </AnimatePresence> */}
+            </AnimatePresence>
           </div>
 
           <input

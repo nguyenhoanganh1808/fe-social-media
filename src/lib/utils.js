@@ -23,3 +23,16 @@ export function nFormatter(num, digits) {
 export function convertBytesToMegaBytes(bytes) {
   return (bytes / (1024 * 1024)).toFixed(2);
 }
+
+export function formatTime(elapsedTime) {
+  const minutes = String(Math.floor(elapsedTime / 60000)).padStart(1, "0");
+  const seconds = String(Math.floor((elapsedTime % 60000) / 1000)).padStart(
+    2,
+    "0"
+  );
+  const milliseconds = String(Math.floor((elapsedTime % 1000) / 10)).padStart(
+    2,
+    "0"
+  );
+  return `${minutes}:${seconds},${milliseconds}`;
+}
