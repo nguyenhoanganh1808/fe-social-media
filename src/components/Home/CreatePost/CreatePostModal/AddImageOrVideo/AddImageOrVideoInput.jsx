@@ -1,30 +1,52 @@
-import { useState } from "react";
 import styles from "./AddImageOrVideoInput.module.css";
 import { ImagePlus, X } from "lucide-react";
 import CustomSlider from "../CustomSlider/CustomSlider";
 import PropTypes from "prop-types";
+import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 export default function AddImageOrVideoInput({ onClose }) {
-  const [files, setFiles] = useState([]);
+  const { register, setValue, getValues } = useFormContext();
+  const [fileArray, setFileArray] = useState([]);
 
   const handleFileChange = (e) => {
-    const newSelectedFiles = [...files, ...e.target.files];
-    setFiles(newSelectedFiles);
+    const selectedFiles = Array.from(e.target.files);
+
+    setFileArray((prevFiles) => [...prevFiles, ...selectedFiles]);
+
+    setValue("mediaFiles", [
+      ...(getValues("mediaFiles") || []),
+      ...selectedFiles,
+    ]);
   };
 
+  const mediaList = fileArray.map((file) => {
+    if (file.type.startsWith("image/")) {
+      return { url: URL.createObjectURL(file), type: "image" };
+    } else {
+      return {
+        url: URL.createObjectURL(file),
+        type: "video",
+      };
+    }
+  });
+
   const label =
-    files.length > 0 ? (
-      <label className={styles.addBtn} htmlFor="imageOrVideo">
+    fileArray.length > 0 ? (
+      <label className={styles.addBtn} htmlFor="mediaFiles">
         <div>
           <ImagePlus size={30} />
           <p>Add more images/videos</p>
         </div>
       </label>
     ) : (
-      <label className={styles.label} htmlFor="imageOrVideo">
+      <label className={styles.label} htmlFor="mediaFiles">
         <X
           className={styles.XIcon}
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            setValue("mediaFiles", []);
+          }}
           size={40}
           color="#65686c"
         />
@@ -40,26 +62,19 @@ export default function AddImageOrVideoInput({ onClose }) {
       </label>
     );
 
-  const mediaList = files.map((file) => {
-    if (file.type.startsWith("image/")) {
-      return { url: URL.createObjectURL(file), type: "image" };
-    } else {
-      return {
-        url: URL.createObjectURL(file),
-        type: "video",
-      };
-    }
-  });
-
   return (
     <div>
       <div>
-        {files.length === 0 ? (
+        {fileArray.length === 0 ? (
           label
         ) : (
           <div className={styles.imageContainer}>
             <X
-              onClick={onClose}
+              onClick={() => {
+                setFileArray([]);
+                setValue("mediaFiles", []);
+                onClose();
+              }}
               className={styles.XIcon}
               size={40}
               color="#65686c"
@@ -71,11 +86,12 @@ export default function AddImageOrVideoInput({ onClose }) {
       </div>
 
       <input
+        {...register("mediaFiles")}
         className={styles.input}
         onChange={handleFileChange}
         type="file"
-        id="imageOrVideo"
-        name="imageOrVideo"
+        id="mediaFiles"
+        name="mediaFiles"
         multiple
         accept="image/*,video/*"
       />
@@ -84,5 +100,5 @@ export default function AddImageOrVideoInput({ onClose }) {
 }
 
 AddImageOrVideoInput.propTypes = {
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };

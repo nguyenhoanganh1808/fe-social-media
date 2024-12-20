@@ -1,2 +1,7 @@
-export const API_ENDPOINT =
-  "https://uit-social-media-be-production.up.railway.app/api";
+export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
+
+export const MEDIA_TYPE = {
+  MEDIA: "media",
+  GIF: "gif",
+  FILE: "file",
+};

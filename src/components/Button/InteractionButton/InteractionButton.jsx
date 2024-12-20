@@ -1,4 +1,4 @@
-import { nFormatter } from "../../../utils/utils";
+import { nFormatter } from "../../../lib/utils";
 import styles from "./InteractionButton.module.css";
 import PropTypes from "prop-types";
 

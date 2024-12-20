@@ -19,3 +19,7 @@ export function nFormatter(num, digits) {
     ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol)
     : "0";
 }
+
+export function convertBytesToMegaBytes(bytes) {
+  return (bytes / (1024 * 1024)).toFixed(2);
+}

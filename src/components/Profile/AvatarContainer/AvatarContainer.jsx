@@ -1,9 +1,10 @@
 import { Camera } from "lucide-react";
-import { formatNumber } from "../../../utils/utils";
+
 import Avatar from "../../Avatar/Avatar";
 import LucideCircleButton from "../../Button/LucideCircleButton/LucideCircleButton";
 import styles from "./AvatarContainer.module.css";
 import PropTypes from "prop-types";
+import { formatNumber } from "../../../lib/utils";
 
 export default function AvatarContainer({ userData }) {
   return (

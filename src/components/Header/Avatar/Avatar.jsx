@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import styles from "./Avatar.module.css";
-import { useAuth } from "../../../contexts/auth/useAuthContext";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function Avatar() {
   const { user } = useAuth();

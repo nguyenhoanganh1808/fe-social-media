@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styles from "./UserCard.module.css";
-import { formatNumber } from "../../../utils/utils";
+import { formatNumber } from "../../../lib/utils";
 
 function UserCard({ followersNumber, followingNumber, name, link, bio }) {
   return (

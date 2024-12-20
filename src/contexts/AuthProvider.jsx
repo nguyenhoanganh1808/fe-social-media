@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import AuthContext from "./useAuthContext";
-import { UserService } from "../../services/user.service";
+import AuthContext from "../hooks/useAuthContext";
+import { UserService } from "../services/user.service";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

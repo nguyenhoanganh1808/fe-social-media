@@ -2,8 +2,7 @@ import { Mic, SendHorizontal, Smile, Paperclip, Trash2 } from "lucide-react";
 import styles from "./MessageInput.module.css";
 import LucideCircleButton from "../../../Button/LucideCircleButton/LucideCircleButton";
 import { useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import EmojiPicker from "emoji-picker-react";
+
 import useHover from "../../../../hooks/useHover";
 
 export default function MessageInput() {
@@ -100,7 +99,7 @@ export default function MessageInput() {
             onMouseLeave={onMouseEmojiLeave}
           >
             <Smile />
-            <AnimatePresence>
+            {/* <AnimatePresence>
               {showEmojiPicker && (
                 <motion.div
                   initial={{ scale: 0 }}
@@ -116,7 +115,7 @@ export default function MessageInput() {
                   <EmojiPicker onEmojiClick={handleEmojiClick} />
                 </motion.div>
               )}
-            </AnimatePresence>
+            </AnimatePresence> */}
           </div>
 
           <input

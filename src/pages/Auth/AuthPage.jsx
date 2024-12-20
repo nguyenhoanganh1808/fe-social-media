@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import styles from "./AuthPage.module.css";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../../contexts/auth/useAuthContext";
+import { useAuth } from "../../hooks/useAuthContext";
 
 export default function AuthPage() {
   const location = useLocation();

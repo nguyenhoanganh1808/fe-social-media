@@ -1,0 +1,36 @@
+.wrapper {
+  gap: 8px;
+  margin-top: 10px;
+
+  border: 1px solid #e2e5e9;
+  padding: 8px;
+  border-radius: 8px;
+  height: 450px;
+
+  position: relative;
+}
+
+.wrapper img {
+  width: 100%;
+  height: 100%;
+}
+
+.XIcon {
+  background-color: white;
+  padding: 8px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 50;
+  top: 20px;
+  right: 20px;
+}
+
+.XIcon:hover {
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
+
+.XIcon:hover ~ .content {
+  /* Style changes on content when hovering over X */
+  background-color: #e0e0e0;
+}

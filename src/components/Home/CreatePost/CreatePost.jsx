@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./CreatePost.module.css";
 import CreatePostModal from "./CreatePostModal/CreatePostModal";
-import { useAuth } from "../../../contexts/auth/useAuthContext";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function CreatePost() {
   const [modalOpen, setModalOpen] = useState(false);
