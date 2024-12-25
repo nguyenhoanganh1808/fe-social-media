@@ -3,9 +3,11 @@ import EditButton from "../EditButton/EditButton";
 import PropTypes from "prop-types";
 import styles from "./Intro.module.css";
 import { useState } from "react";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function Intro({ data }) {
   const [isEditting, setIsEditting] = useState(false);
+  const { user } = useAuth();
 
   return (
     <div className={styles.container}>
@@ -20,7 +22,7 @@ export default function Intro({ data }) {
         rows={isEditting ? 5 : "auto"}
         disabled={!isEditting}
         id="bio"
-        defaultValue={data.bio}
+        defaultValue={user.bio}
       ></textarea>
       {isEditting && (
         <div className={styles.buttonContainer}>

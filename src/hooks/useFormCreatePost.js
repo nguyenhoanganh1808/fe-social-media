@@ -24,7 +24,6 @@ const useFormCreatePost = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
     try {
       await PostService.createPost(data);

@@ -6,7 +6,7 @@ export const UserService = {
   async createProfile(data) {
     const url = `${baseUrl}/create-profile`;
     const token = localStorage.getItem("jwt-token");
-    console.log(data);
+
     try {
       const response = await fetch(url, {
         mode: "cors",

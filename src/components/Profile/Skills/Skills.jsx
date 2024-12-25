@@ -12,8 +12,8 @@ export default function Skill({ data }) {
       <h2 className={styles.title}>Skills</h2>
       <hr />
       <ul>
-        {data.skills.map((skill) => {
-          return <SkillItem key={skill} skill={skill} />;
+        {data.skills.map((skill, index) => {
+          return <SkillItem key={`${skill}-${index}`} skill={skill} />;
         })}
       </ul>
 

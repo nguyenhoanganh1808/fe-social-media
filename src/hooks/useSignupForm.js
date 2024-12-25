@@ -60,7 +60,6 @@ export default function useSignUpForm() {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     delete data["confirmpassword"];
 
     try {

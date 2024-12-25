@@ -3,9 +3,9 @@ import { ImagePlus, X } from "lucide-react";
 import CustomSlider from "../CustomSlider/CustomSlider";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function AddImageOrVideoInput({ onClose }) {
+export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
   const { register, setValue, getValues } = useFormContext();
   const [fileArray, setFileArray] = useState([]);
 
@@ -23,11 +23,13 @@ export default function AddImageOrVideoInput({ onClose }) {
   const mediaList = fileArray.map((file) => {
     if (file.type.startsWith("image/")) {
       return { url: URL.createObjectURL(file), type: "image" };
-    } else {
+    } else if (file.type.startsWith("vide/")) {
       return {
         url: URL.createObjectURL(file),
         type: "video",
       };
+    } else {
+      return file;
     }
   });
 
@@ -61,6 +63,14 @@ export default function AddImageOrVideoInput({ onClose }) {
         </div>
       </label>
     );
+
+  useEffect(() => {
+    if (defaultFiles.length > 0) {
+      const initialFiles = defaultFiles.map((url) => ({ url, type: "image" })); // Assuming defaultFiles are image URLs
+      setFileArray(initialFiles);
+      setValue("mediaFiles", initialFiles);
+    }
+  }, [defaultFiles, setValue]);
 
   return (
     <div>
@@ -101,4 +111,5 @@ export default function AddImageOrVideoInput({ onClose }) {
 
 AddImageOrVideoInput.propTypes = {
   onClose: PropTypes.func.isRequired,
+  defaultFiles: PropTypes.arrayOf(PropTypes.string),
 };

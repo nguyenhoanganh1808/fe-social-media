@@ -55,8 +55,8 @@ export default function useSignInForm() {
     console.log(data);
     setLoading(true);
     try {
-      const response = await AuthService.login(data);
-      console.log("response: ", response);
+      await AuthService.login(data);
+
       toast.success("Login successful!");
 
       const user = await UserService.getProfile();
@@ -67,7 +67,6 @@ export default function useSignInForm() {
         navigate("/auth/create-profile");
       }
     } catch (error) {
-      console.log("error: ", error);
       toast.error(error.message || "Login error");
     }
     setLoading(false);

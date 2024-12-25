@@ -17,7 +17,7 @@ export const AuthService = {
       });
       const responseData = await response.json();
       localStorage.setItem("jwt-token", responseData.token);
-      console.log(responseData);
+
       return responseData;
     } catch (e) {
       throw new Error(e);
@@ -26,7 +26,7 @@ export const AuthService = {
 
   async login(data) {
     const url = `${baseUrl}/login`;
-    console.log(data);
+
     try {
       const response = await fetch(url, {
         mode: "cors",

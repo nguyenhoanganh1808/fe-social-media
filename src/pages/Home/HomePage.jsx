@@ -17,13 +17,7 @@ export default function HomePage() {
   return (
     <main className={styles.container}>
       <div className={styles.leftContainer}>
-        <UserCard
-          name="Bryan Nguyen"
-          bio="Hello ,I’m UI / UX designer. Open to the new Project"
-          followersNumber={1984}
-          followingNumber={2003}
-          link="@bryannguyen"
-        />
+        <UserCard followersNumber={1984} followingNumber={2003} />
         <Communities />
       </div>
       <div className={styles.postListContainer}>

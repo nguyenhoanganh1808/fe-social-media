@@ -6,8 +6,15 @@ import Intro from "../../components/Profile/Intro/Intro";
 import Skill from "../../components/Profile/Skills/Skills";
 import CreatePost from "../../components/Home/CreatePost/CreatePost";
 import PostsList from "../../components/Home/PostsList/PostsList";
+import { PostService } from "../../services/post.service";
+import useFetchPost from "../../hooks/useFetchPosts";
+import { useAuth } from "../../hooks/useAuthContext";
 
 export default function ProfilePage() {
+  const { posts, loading } = useFetchPost(PostService.getUserPosts);
+
+  const user = useAuth();
+
   const userData = {
     coverPhotoUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2dhrA2w0kJcS4h5Ww-yipVpz8kCDsLY0M9w&s",
@@ -24,7 +31,6 @@ export default function ProfilePage() {
       "UX Designer",
       "Front end and Back End developer",
       "JS coder",
-      "UX Designer",
       "UX Designer",
     ],
     post: [
@@ -111,11 +117,11 @@ export default function ProfilePage() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.upperContainer}>
-        <CoverPhoto coverPhotoUrl={userData.coverPhotoUrl} />
+        <CoverPhoto />
         <AvatarContainer userData={userData} />
         <div className={styles.nameContainer}>
-          <p>{userData.name}</p>
-          <p>@{userData.link}</p>
+          <p>{user.nickName}</p>
+          <p>@{user.tagName}</p>
         </div>
 
         <NavBar />
@@ -127,7 +133,7 @@ export default function ProfilePage() {
         </div>
         <div className={styles.rightDownContainer}>
           <CreatePost />
-          <PostsList />
+          <PostsList posts={posts} loading={loading} />
         </div>
       </div>
     </div>

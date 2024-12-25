@@ -1,34 +1,20 @@
-import { useEffect, useRef, useState } from "react";
 import styles from "./CreatePost.module.css";
 import CreatePostModal from "./CreatePostModal/CreatePostModal";
 import { useAuth } from "../../../hooks/useAuthContext";
+import PropTypes from "prop-types";
+import useDialog from "../../../hooks/useDialog";
 
-export default function CreatePost() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const dialogRef = useRef(null);
+export default function CreatePost({ toggleValidation }) {
   const { user } = useAuth();
-
-  function showDialog() {
-    dialogRef.current?.showModal();
-    setModalOpen(true);
-  }
-
-  function closeDialog() {
-    dialogRef.current?.close();
-    setModalOpen(false);
-  }
-
-  useEffect(() => {
-    if (modalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [modalOpen]);
+  const { dialogRef, closeDialog, showDialog } = useDialog();
 
   return (
     <div className={styles.container}>
-      <CreatePostModal closeDialog={closeDialog} ref={dialogRef} />
+      <CreatePostModal
+        toggleValidation={toggleValidation}
+        closeDialog={closeDialog}
+        ref={dialogRef}
+      />
       <img className={styles.avatar} src={user.avatarUrl} alt="User avatar" />
 
       <div className={styles.postContainer}>
@@ -43,3 +29,7 @@ export default function CreatePost() {
     </div>
   );
 }
+
+CreatePost.propTypes = {
+  toggleValidation: PropTypes.func,
+};

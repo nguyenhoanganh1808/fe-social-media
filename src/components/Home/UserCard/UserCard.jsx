@@ -1,20 +1,19 @@
 import PropTypes from "prop-types";
 import styles from "./UserCard.module.css";
 import { formatNumber } from "../../../lib/utils";
+import { useAuth } from "../../../hooks/useAuthContext";
+import { Link } from "react-router-dom";
 
-function UserCard({ followersNumber, followingNumber, name, link, bio }) {
+function UserCard({ followersNumber, followingNumber }) {
+  const { user } = useAuth();
   return (
     <div className={styles.container}>
-      <img
-        className={styles.avatar}
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStqtktl3g6wWkAzvUAi32yzYgb-jZ0-Pn0sQ&s"
-        alt=""
-      />
+      <img className={styles.avatar} src={user.avatarUrl} alt="" />
       <div className={styles.backgroundContainer}></div>
       <div className={styles.selfContainer}>
-        <p className={styles.name}>{name}</p>
-        <p className={styles.link}>{link}</p>
-        <p>{bio}</p>
+        <p className={styles.name}>{user.nickName}</p>
+        <p className={styles.link}>@{user.tagName}</p>
+        <p>{user.bio}</p>
       </div>
 
       <div className={styles.followContainer}>
@@ -28,9 +27,9 @@ function UserCard({ followersNumber, followingNumber, name, link, bio }) {
         </div>
       </div>
 
-      <a className={styles.button} href="">
+      <Link className={styles.button} to={`/profile/${user.id}`}>
         My Profile
-      </a>
+      </Link>
     </div>
   );
 }
@@ -38,9 +37,6 @@ function UserCard({ followersNumber, followingNumber, name, link, bio }) {
 UserCard.propTypes = {
   followersNumber: PropTypes.number,
   followingNumber: PropTypes.number,
-  name: PropTypes.string.isRequired,
-  link: PropTypes.string,
-  bio: PropTypes.string,
 };
 
 export default UserCard;

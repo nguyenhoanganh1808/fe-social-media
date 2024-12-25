@@ -78,7 +78,7 @@ export default function MessageInput() {
   // };
 
   const handleEmojiClick = (emoji) => {
-    setMessageInput((prev) => prev + emoji.emoji);
+    setMessageInput((prev) => prev + emoji.navite);
   };
 
   return (

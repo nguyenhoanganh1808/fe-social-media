@@ -1,6 +1,6 @@
-import { forwardRef, useState } from "react";
-import styles from "./CreatePostModal.module.css";
+import { forwardRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import styles from "./CreatePostModal.module.css";
 import { Smile, FilesIcon, Link } from "lucide-react";
 import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
 import AddLinks from "./AddLinks/AddLinks";
@@ -10,35 +10,34 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import Header from "../Header/Header";
 
-import useFormCreatePost from "../../../../hooks/useFormCreatePost";
-import { FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import FilePreview from "./FilePreview/FilePreview";
+
+import GifPicker from "gif-picker-react";
+import GifPreview from "./GifPreview/GifPreview";
 import Spinner from "../../../common/Spinner/Spinner";
 
-import GifPreview from "../CreatePostModal/GifPreview/GifPreview";
-import GifPicker from "gif-picker-react";
-
-const CreatePostModal = forwardRef(function CreatePostModal(
-  { closeDialog, toggleValidation },
+const UpdatePostModal = forwardRef(function UpdatePostModal(
+  { closeDialog, postData, handlePostUpdated },
   ref
 ) {
-  const {
-    methods,
-    onSubmit,
-    fileArray,
-    imagesArray,
-    postContent,
-    loading,
-    handleRemoveFile,
-  } = useFormCreatePost();
-  const { register, handleSubmit, setValue, getValues, reset } = methods;
-  const [gif, setGif] = useState(null);
+  const [gif, setGif] = useState(postData?.gifUrl || null);
   const { user } = useAuth();
+
+  const methods = useForm({
+    defaultValues: {
+      content: postData?.textContent || "",
+      file: null,
+    },
+  });
+
+  const { register, handleSubmit, setValue, getValues } = methods;
+  const [loading, setLoading] = useState(false);
   const {
     isOpen: addImageFormVisible,
     close: closeAddImageForm,
     toggle: toggleAddImageForm,
-  } = useToggle();
+  } = useToggle(postData.mediaFiles !== null ? true : false);
   const {
     isOpen: gifPreviewVisible,
     open: openGifPreview,
@@ -64,6 +63,27 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     }
   };
 
+  const handleRemoveFile = (fileIndex) => {
+    const updatedFiles = [...postData.mediaFiles];
+    updatedFiles.splice(fileIndex, 1);
+    setValue("files", updatedFiles);
+  };
+
+  const onSubmit = async (data) => {
+    const updatedData = {
+      ...data,
+      // gifUrl: gif,
+    };
+    setLoading(true);
+    await handlePostUpdated(postData.id, updatedData);
+    setLoading(false);
+    closeDialog();
+  };
+
+  useEffect(() => {
+    setValue("content", postData?.textContent || "");
+  }, [postData, setValue]);
+
   return (
     <dialog className={styles.wrapper} ref={ref}>
       <Header
@@ -76,12 +96,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
       <FormProvider {...methods}>
         <form
           className={styles.formContainer}
-          onSubmit={handleSubmit(async (data) => {
-            await onSubmit(data);
-            toggleValidation();
-            reset();
-            closeDialog();
-          })}
+          onSubmit={handleSubmit(onSubmit)}
         >
           {!addGifPickerVisible ? (
             <div className={styles.postContainer}>
@@ -96,7 +111,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 <textarea
                   {...register("content")}
                   className={styles.contentInput}
-                  placeholder={`What's on your mind, ${user.nickName}`}
+                  placeholder={`Edit your post, ${user.nickName}`}
                   name="content"
                   id="content"
                   cols={34}
@@ -119,16 +134,22 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 {gifPreviewVisible && (
                   <GifPreview gifUrl={gif} onClose={closeGifPreview} />
                 )}
-                <FilePreview files={fileArray} onRemove={handleRemoveFile} />
+                <FilePreview
+                  files={postData.mediaFiles}
+                  onRemove={handleRemoveFile}
+                />
 
                 {addImageFormVisible && (
-                  <AddImageOrVideoInput onClose={closeAddImageForm} />
+                  <AddImageOrVideoInput
+                    onClose={closeAddImageForm}
+                    defaultFiles={postData.mediaFiles}
+                  />
                 )}
 
                 {addLinkFormVisible && <AddLinks />}
               </div>
               <div className={styles.addToPost}>
-                <p>Add to your post</p>
+                <p>Edit your post</p>
                 <div className={styles.buttons}>
                   <div>
                     <img
@@ -159,24 +180,20 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                       className={styles.addImage}
                       onClick={toggleGifPicker}
                       src="https://static.xx.fbcdn.net/rsrc.php/v4/yT/r/q7MiRkL7MLC.png"
-                      alt="Add image"
+                      alt="Add GIF"
                     />
                   </div>
                 </div>
               </div>
               <button
                 type="submit"
-                disabled={loading}
                 className={
-                  postContent !== "" ||
-                  fileArray.length > 0 ||
-                  imagesArray.length > 0
+                  postData.textContent !== "" || postData.mediaFiles.length > 0
                     ? styles.submitBtn
                     : styles.btnDeactive
                 }
-                // onClick={handlePostSubmit}
               >
-                {loading ? <Spinner borderWidth={3} size={30} /> : "Post"}
+                {loading ? <Spinner /> : "Update"}
               </button>
             </div>
           ) : (
@@ -194,14 +211,16 @@ const CreatePostModal = forwardRef(function CreatePostModal(
   );
 });
 
-CreatePostModal.propTypes = {
-  author: PropTypes.shape({
-    avatarUrl: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+UpdatePostModal.propTypes = {
+  postData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    textContent: PropTypes.string,
+    gifUrl: PropTypes.string,
+    mediaFiles: PropTypes.arrayOf(PropTypes.object),
   }),
   closeDialog: PropTypes.func,
   toggleValidation: PropTypes.func,
+  handlePostUpdated: PropTypes.func,
 };
 
-export default CreatePostModal;
+export default UpdatePostModal;

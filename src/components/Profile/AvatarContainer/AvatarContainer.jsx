@@ -5,8 +5,10 @@ import LucideCircleButton from "../../Button/LucideCircleButton/LucideCircleButt
 import styles from "./AvatarContainer.module.css";
 import PropTypes from "prop-types";
 import { formatNumber } from "../../../lib/utils";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function AvatarContainer({ userData }) {
+  const { user } = useAuth();
   return (
     <div className={styles.avatarContainer}>
       <div className={styles.followContainer}>
@@ -14,7 +16,7 @@ export default function AvatarContainer({ userData }) {
         <p>Followers</p>
       </div>
       <div className={styles.avatar}>
-        <Avatar src={userData.avatarUrl} size={130} />
+        <Avatar src={user.avatarUrl} size={130} />
         <label htmlFor="avatarFile">
           <LucideCircleButton size={40}>
             <Camera fill="gray" color="white" />

@@ -1,11 +1,12 @@
 import { Camera } from "lucide-react";
 import styles from "./CoverPhoto.module.css";
-import PropTypes from "prop-types";
+import { useAuth } from "../../../hooks/useAuthContext";
 
-export default function CoverPhoto({ coverPhotoUrl }) {
+export default function CoverPhoto() {
+  const { user } = useAuth();
   return (
     <div className={styles.coverPhotoContainer}>
-      <img className={styles.coverPhoto} src={coverPhotoUrl} alt="" />
+      <img className={styles.coverPhoto} src={user.coverImageUrl} alt="" />
       <label className={styles.changeCoverPhotoBtn} htmlFor="coverPhotoInput">
         <div>
           <Camera size={30} />
@@ -21,7 +22,3 @@ export default function CoverPhoto({ coverPhotoUrl }) {
     </div>
   );
 }
-
-CoverPhoto.propTypes = {
-  coverPhotoUrl: PropTypes.string,
-};

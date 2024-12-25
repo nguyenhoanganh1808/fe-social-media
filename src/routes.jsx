@@ -4,8 +4,6 @@ import HomePage from "./pages/Home/HomePage";
 import Root from "./components/Root/Root";
 import MessagePage from "./pages/Message/MessagePage";
 import ProfilePage from "./pages/Profile/ProfilePage";
-import CreatePost from "./components/Home/CreatePost/CreatePost";
-import PostsList from "./components/Home/PostsList/PostsList";
 import PostDetail from "./components/Home/PostDetail/PostDetail";
 import AuthPage from "./pages/Auth/AuthPage";
 import SignupForm from "./components/Login/FormSignup/SIgnupForm";
@@ -17,6 +15,7 @@ import Calendar from "./components/Edu/Calendar/Calendar";
 import LearnResult from "./components/Edu/LearnResult/LearnResult";
 import StudentInfo from "./components/Edu/StudentInfo/StudenInfo";
 import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
+import HomePosts from "./components/Home/HomePosts/HomePosts";
 
 const routes = createBrowserRouter([
   {
@@ -53,12 +52,7 @@ const routes = createBrowserRouter([
         children: [
           {
             path: "posts",
-            element: (
-              <>
-                <CreatePost />
-                <PostsList />
-              </>
-            ),
+            element: <HomePosts />,
           },
           {
             path: "posts/:id",

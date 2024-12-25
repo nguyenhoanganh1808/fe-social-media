@@ -3,24 +3,88 @@ import styles from "./Post.module.css";
 import PropTypes from "prop-types";
 import { formatDistanceToNowStrict } from "date-fns";
 import InteractionButton from "../../../Button/InteractionButton/InteractionButton";
-import { Bookmark } from "lucide-react";
+import { Bookmark, Ellipsis } from "lucide-react";
 import { Link } from "react-router-dom";
 import Avatar from "../../../Avatar/Avatar";
+import useToggle from "../../../../hooks/useToggle";
+import { Pencil, Trash2 } from "lucide-react";
+import UpdatePostModal from "../../CreatePost/CreatePostModal/UpdatePostModal";
+import useDialog from "../../../../hooks/useDialog";
 
-function Post({ post }) {
-  const distanceFromNow = formatDistanceToNowStrict(post.postTime);
+const actionsButton = [
+  {
+    icon: Pencil,
+    title: "Edit",
+    color: "var(--icon-color)",
+  },
+  {
+    icon: Trash2,
+    color: "red",
+    title: "Delete",
+  },
+];
+
+function Post({ post, handlePostDeleted, handlePostUpdated }) {
+  const { isOpen, toggle } = useToggle();
+  const { closeDialog, dialogRef, showDialog } = useDialog();
+
+  const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
+
   return (
     <div className={styles.wrapper}>
-      <Avatar src={post.authorImage} size={40} />
+      <UpdatePostModal
+        ref={dialogRef}
+        closeDialog={closeDialog}
+        handlePostUpdated={handlePostUpdated}
+        postData={post}
+      />
+      <Avatar src={""} size={40} />
       <div className={styles.container}>
         <Link className={styles.link} to={`/posts/1`}>
           <div className={styles.authorAndTime}>
-            <p className={styles.author}>{post.authorName}</p>
-            <p className={styles.time}>{distanceFromNow} ago</p>
+            <div>
+              <p className={styles.author}>{post.user.username}</p>
+              <p className={styles.time}>{distanceFromNow} ago</p>
+            </div>
+
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggle();
+              }}
+            >
+              <div className={styles.ellipsis}>
+                <Ellipsis />
+              </div>
+              {isOpen && (
+                <div className={styles.actionsContainer}>
+                  <ul>
+                    {actionsButton.map((action) => (
+                      <li className={styles.buttons} key={action.title}>
+                        <button
+                          style={{ color: action.color }}
+                          onClick={() => {
+                            if (action.title === "Edit") {
+                              showDialog();
+                            } else {
+                              handlePostDeleted(post.id);
+                            }
+                          }}
+                        >
+                          <action.icon />
+                          {action.title}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
-          <p>{post.content}</p>
+          <p>{post.textContent}</p>
           <ul>
-            {post.images.map((image) => (
+            {post.mediaFiles.map((image) => (
               <img
                 className={styles.contentImage}
                 key={image}
@@ -41,14 +105,19 @@ function Post({ post }) {
 
 Post.propTypes = {
   post: PropTypes.shape({
-    authorImage: PropTypes.string.isRequired,
-    authorName: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(PropTypes.string).isRequired,
-    likeCount: PropTypes.number.isRequired,
-    commentCount: PropTypes.number.isRequired,
-    postTime: PropTypes.instanceOf(Date).isRequired,
+    id: PropTypes.number,
+    textContent: PropTypes.string,
+    title: PropTypes.string,
+    user: {
+      id: PropTypes.number,
+      username: PropTypes.string,
+    },
+    mediaFiles: PropTypes.array,
+    createdAt: PropTypes.string,
+    isSaved: PropTypes.bool,
   }),
+  handlePostDeleted: PropTypes.func,
+  handlePostUpdated: PropTypes.func,
 };
 
 export default Post;

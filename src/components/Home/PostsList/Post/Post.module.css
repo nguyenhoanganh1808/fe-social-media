@@ -20,6 +20,13 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  justify-content: space-between;
+}
+
+.authorAndTime > div {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .time {
@@ -42,4 +49,40 @@
 .wrapper {
   display: flex;
   gap: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.ellipsis {
+  padding: 12px;
+  z-index: 50;
+  border-radius: 50%;
+}
+
+.ellipsis:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -120px;
+  top: 10px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: var(--primary-box-shadow);
+}
+
+.buttons button {
+  display: flex;
+  gap: 12px;
+  outline: none;
+  border: none;
+}
+
+.buttons button:hover {
+  color: var(--icon-color);
+  background-color: var(--background-color);
+  width: 100%;
 }
