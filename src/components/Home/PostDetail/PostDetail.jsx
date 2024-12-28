@@ -1,35 +1,61 @@
+import { useParams } from "react-router-dom";
 import Avatar from "../../Avatar/Avatar";
 import Post from "../PostsList/Post/Post";
 import Comments from "./Comments/Comments";
 import styles from "./PostDetail.module.css";
+import { useEffect, useState } from "react";
+import { PostService } from "../../../services/post.service";
+import Spinner from "../../common/Spinner/Spinner";
+import useToggle from "../../../hooks/useToggle";
+import CommentInput from "./Comments/CommentInput/CommentInput";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function PostDetail() {
-  const postDetail = {
-    userImg:
-      "https://cafefcdn.com/thumb_w/640/203337114487263232/2024/10/24/avatar1729758071101-17297580727161334032661.jpg",
-    authorImage:
-      "https://cafefcdn.com/thumb_w/640/203337114487263232/2024/10/24/avatar1729758071101-17297580727161334032661.jpg",
-    authorName: "Elon Musk",
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    images: [],
-    likeCount: 241000,
-    commentCount: 45,
-    postTime: new Date("2024-10-24T08:30:00"),
-  };
+  const [postDetail, setPostDetail] = useState(null);
+  const { user } = useAuth();
+  const { isOpen, open, close } = useToggle();
+  const { id } = useParams();
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    async function fetchPost() {
+      const { body } = await PostService.getPostById(id);
+      setPostDetail(body);
+    }
+    fetchPost();
+  }, [id]);
+
+  if (!postDetail) {
+    return (
+      <div className="w-full flex justify-center">
+        <Spinner size={30} />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Post post={postDetail} />
       <hr />
       <div className={styles.commentContainer}>
-        <Avatar src={postDetail.userImg} size={40} />
-        <input
-          className={styles.commentInput}
-          placeholder="Write your comment.."
-          type="text"
-        />
+        <Avatar src={user.avatarUrl} size={40} />
+        {isOpen ? (
+          <CommentInput
+            postId={id}
+            parentId={null}
+            onClose={close}
+            setComments={setComments}
+          />
+        ) : (
+          <input
+            onClick={open}
+            className={styles.commentInput}
+            placeholder="Write your comment.."
+            type="text"
+          />
+        )}
       </div>
-      <Comments />
+      <Comments comments={comments} setComments={setComments} />
     </div>
   );
 }

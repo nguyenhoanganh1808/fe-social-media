@@ -20,18 +20,21 @@ export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
     ]);
   };
 
-  const mediaList = fileArray.map((file) => {
-    if (file.type.startsWith("image/")) {
-      return { url: URL.createObjectURL(file), type: "image" };
-    } else if (file.type.startsWith("vide/")) {
-      return {
-        url: URL.createObjectURL(file),
-        type: "video",
-      };
-    } else {
-      return file;
-    }
-  });
+  const mediaList =
+    defaultFiles.length > 0
+      ? defaultFiles
+      : fileArray.map((file) => {
+          if (file.type.startsWith("image/")) {
+            return { url: URL.createObjectURL(file), type: "image" };
+          } else if (file.type.startsWith("vide/")) {
+            return {
+              url: URL.createObjectURL(file),
+              type: "video",
+            };
+          } else {
+            return file;
+          }
+        });
 
   const label =
     fileArray.length > 0 ? (

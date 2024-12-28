@@ -6,10 +6,13 @@ export default function createPost(jsonData) {
     user: {
       id: jsonData.user?.id || null,
       username: jsonData.user?.username || "Anonymous",
+      avatarUrl: jsonData.user.avatarUrl,
     },
     mediaFiles: jsonData.mediaFiles || [],
     createdAt: jsonData.createdAt || new Date().toISOString(),
     isSaved: jsonData.isSaved || false,
     reactionType: jsonData.reactionType,
+    reactionCount: jsonData.reactionCount,
+    commentCount: jsonData.commentCount,
   };
 }

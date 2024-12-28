@@ -10,6 +10,7 @@ import useToggle from "../../../../hooks/useToggle";
 import { Pencil, Trash2 } from "lucide-react";
 import UpdatePostModal from "../../CreatePost/CreatePostModal/UpdatePostModal";
 import useDialog from "../../../../hooks/useDialog";
+import CustomSlider from "../../CreatePost/CreatePostModal/CustomSlider/CustomSlider";
 
 const actionsButton = [
   {
@@ -38,9 +39,11 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
         handlePostUpdated={handlePostUpdated}
         postData={post}
       />
-      <Avatar src={""} size={40} />
+      <div className="mt-3">
+        <Avatar src={post.user.avatarUrl} size={40} />
+      </div>
       <div className={styles.container}>
-        <Link className={styles.link} to={`/posts/1`}>
+        <Link className={styles.link} to={`/posts/${post.id}`}>
           <div className={styles.authorAndTime}>
             <div>
               <p className={styles.author}>{post.user.username}</p>
@@ -84,14 +87,9 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
           </div>
           <p>{post.textContent}</p>
           <ul>
-            {post.mediaFiles.map((image) => (
-              <img
-                className={styles.contentImage}
-                key={image}
-                src={image}
-                alt=""
-              />
-            ))}
+            {post.mediaFiles.length > 0 && (
+              <CustomSlider images={post.mediaFiles} />
+            )}
           </ul>
         </Link>
         <div className={styles.interactionContainer}>
@@ -108,13 +106,16 @@ Post.propTypes = {
     id: PropTypes.number,
     textContent: PropTypes.string,
     title: PropTypes.string,
-    user: {
+    user: PropTypes.shape({
       id: PropTypes.number,
       username: PropTypes.string,
-    },
+      avatarUrl: PropTypes.string.isRequired,
+    }),
     mediaFiles: PropTypes.array,
     createdAt: PropTypes.string,
     isSaved: PropTypes.bool,
+    reactionCount: PropTypes.number.isRequired,
+    commentCount: PropTypes.number.isRequired,
   }),
   handlePostDeleted: PropTypes.func,
   handlePostUpdated: PropTypes.func,

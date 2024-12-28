@@ -5,11 +5,18 @@ import { Share, MessageCircle } from "lucide-react";
 import HeartButton from "../../../../Button/HeartButton/HeartButton";
 
 function InteractionBar({ post }) {
-  console.log("post: ", post);
   return (
     <div className={styles.container}>
-      <InteractionButton icon={<HeartButton post={post} />} count={1000} />
-      <InteractionButton icon={<MessageCircle size={20} />} count={1000} />
+      <InteractionButton
+        icon={
+          <HeartButton post={post} defaultLike={post.reactionType === "LIKE"} />
+        }
+        count={post.reactionCount}
+      />
+      <InteractionButton
+        icon={<MessageCircle size={20} />}
+        count={post.commentCount}
+      />
       <InteractionButton count={200} icon={<Share size={20} />} />
     </div>
   );
@@ -18,13 +25,9 @@ function InteractionBar({ post }) {
 InteractionBar.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number,
-    authorImage: PropTypes.string.isRequired,
-    authorName: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(PropTypes.string).isRequired,
-    likeCount: PropTypes.number.isRequired,
+    reactionType: PropTypes.string,
+    reactionCount: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
-    postTime: PropTypes.instanceOf(Date).isRequired,
   }),
 };
 

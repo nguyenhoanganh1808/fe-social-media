@@ -11,11 +11,12 @@ import Picker from "@emoji-mart/react";
 import Header from "../Header/Header";
 
 import { FormProvider, useForm } from "react-hook-form";
-import FilePreview from "./FilePreview/FilePreview";
+// import FilePreview from "./FilePreview/FilePreview";
 
 import GifPicker from "gif-picker-react";
 import GifPreview from "./GifPreview/GifPreview";
 import Spinner from "../../../common/Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const UpdatePostModal = forwardRef(function UpdatePostModal(
   { closeDialog, postData, handlePostUpdated },
@@ -54,6 +55,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
   const handleEmojiClick = (emoji) => {
     setValue("content", getValues("content") + emoji.native);
   };
+  const navigate = useNavigate();
 
   const handleGifSelect = (gif) => {
     if (gif) {
@@ -63,11 +65,11 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
     }
   };
 
-  const handleRemoveFile = (fileIndex) => {
-    const updatedFiles = [...postData.mediaFiles];
-    updatedFiles.splice(fileIndex, 1);
-    setValue("files", updatedFiles);
-  };
+  // const handleRemoveFile = (fileIndex) => {
+  //   const updatedFiles = [...postData.mediaFiles];
+  //   updatedFiles.splice(fileIndex, 1);
+  //   setValue("files", updatedFiles);
+  // };
 
   const onSubmit = async (data) => {
     const updatedData = {
@@ -76,6 +78,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
     };
     setLoading(true);
     await handlePostUpdated(postData.id, updatedData);
+    navigate(`/posts/${postData.id}`);
     setLoading(false);
     closeDialog();
   };
@@ -134,12 +137,12 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                 {gifPreviewVisible && (
                   <GifPreview gifUrl={gif} onClose={closeGifPreview} />
                 )}
-                <FilePreview
+                {/* <FilePreview
                   files={postData.mediaFiles}
                   onRemove={handleRemoveFile}
-                />
+                /> */}
 
-                {addImageFormVisible && (
+                {addImageFormVisible && postData.mediaFiles.length > 0 && (
                   <AddImageOrVideoInput
                     onClose={closeAddImageForm}
                     defaultFiles={postData.mediaFiles}
@@ -216,7 +219,7 @@ UpdatePostModal.propTypes = {
     id: PropTypes.string.isRequired,
     textContent: PropTypes.string,
     gifUrl: PropTypes.string,
-    mediaFiles: PropTypes.arrayOf(PropTypes.object),
+    mediaFiles: PropTypes.arrayOf(PropTypes.any),
   }),
   closeDialog: PropTypes.func,
   toggleValidation: PropTypes.func,

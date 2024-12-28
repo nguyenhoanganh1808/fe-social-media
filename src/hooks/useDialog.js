@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 export default function useDialog() {
   const [modalOpen, setModalOpen] = useState(false);
-
   const dialogRef = useRef(null);
   function showDialog() {
     dialogRef.current?.showModal();

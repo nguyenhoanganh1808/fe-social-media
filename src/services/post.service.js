@@ -139,4 +139,27 @@ export const PostService = {
       throw new Error(e);
     }
   },
+
+  async getPostById(postId) {
+    const url = `${baseUrl}/${postId}`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update post");
+      }
+
+      return await response.json();
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
 };

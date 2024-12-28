@@ -4,10 +4,8 @@ import ReactionService from "../../../services/reaction.service";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-export default function HeartButton({ post }) {
-  const [isLiked, setIsLiked] = useState(
-    post.reactionType === "LIKE" ? true : false
-  );
+export default function HeartButton({ post, defaultLike }) {
+  const [isLiked, setIsLiked] = useState(defaultLike);
 
   const handleReactPost = async () => {
     try {
@@ -40,6 +38,6 @@ export default function HeartButton({ post }) {
 HeartButton.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number,
-    reactionType: PropTypes.string,
   }),
+  defaultLike: PropTypes.bool.isRequired,
 };

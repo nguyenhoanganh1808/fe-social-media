@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import ActiveFriendList from "../../components/Home/ActiveFriendList/ActiveFriendList";
 import Communities from "../../components/Home/Communities/Communities";
 import Suggest from "../../components/Home/Suggest/Suggest";
@@ -8,11 +8,15 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   // Redirect to /posts on component mount
   useEffect(() => {
+    if (id) {
+      return;
+    }
     navigate("/posts");
-  }, [navigate]);
+  }, [id, navigate]);
 
   return (
     <main className={styles.container}>
