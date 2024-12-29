@@ -24,7 +24,6 @@ const ProfileService = {
       if (!response.ok) {
         const errorText = await response.text();
         toast.error(errorText || "Failed to update bio");
-
         throw new Error(`HTTP error status: ${response.status}`);
       }
     } catch (error) {
@@ -34,34 +33,36 @@ const ProfileService = {
   },
 
   async updateProfileImage(profileImageType, file) {
-    const url = `${baseUrl}/profile/update-profile-image`;
+    const url =
+      `${baseUrl}/update-profile-image?` +
+      new URLSearchParams({ profileImageType: profileImageType });
     const token = localStorage.getItem("jwt-token");
 
     const formData = new FormData();
     formData.append("profileImage", file);
 
-    const queryParams = new URLSearchParams({
-      profileImageType: profileImageType,
-    });
-
     try {
-      const response = await fetch(`${url}?${queryParams.toString()}`, {
+      const response = await fetch(url, {
         mode: "cors",
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
+          Accept: "*/*",
         },
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        return { error: errorText || "Failed to update profile image" };
       }
 
-      return await response.json(); // Parse JSON response
+      return {
+        success: true,
+      };
     } catch (error) {
       console.error("Error updating avatar:", error);
-      return { error: error.message };
+      return { error: error.message || "Failed to update profile image" };
     }
   },
 };
