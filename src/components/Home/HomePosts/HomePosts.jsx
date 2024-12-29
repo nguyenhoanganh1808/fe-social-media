@@ -10,7 +10,7 @@ export default function HomePosts() {
     handlePostDeleted,
     toggleValidation,
     handlePostUpdated,
-  } = useFetchPost(PostService.getUserPosts);
+  } = useFetchPost(PostService.getFeed);
 
   return (
     <>

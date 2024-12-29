@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AuthContext from "../hooks/useAuthContext";
 import { UserService } from "../services/user.service";
+import { AuthService } from "../services/auth.service";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -24,14 +25,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    AuthService.logout();
+  };
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,7 +8,7 @@ export const UserService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      await fetch(url, {
         mode: "cors",
         headers: {
           Authorization: "Bearer " + token,
@@ -16,9 +16,8 @@ export const UserService = {
         method: "POST",
         body: JSON.stringify(data),
       });
-      const responseData = await response.json();
-      return responseData;
     } catch (e) {
+      console.log(e);
       throw new Error(e);
     }
   },

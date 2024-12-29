@@ -15,7 +15,7 @@ export default function PostsList({
         {posts.map((post) => (
           <div className={styles.postContainer} key={post.userImg}>
             <Post
-              key={post.title}
+              key={post.id}
               post={post}
               handlePostDeleted={handlePostDeleted}
               handlePostUpdated={handlePostUpdated}
@@ -36,7 +36,7 @@ PostsList.propTypes = {
       textContent: PropTypes.string,
       title: PropTypes.string,
       user: {
-        id: PropTypes.number,
+        id: PropTypes.string.isRequired,
         username: PropTypes.string,
       },
       mediaFiles: PropTypes.array,

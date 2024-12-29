@@ -10,7 +10,6 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // Redirect to /posts on component mount
   useEffect(() => {
     if (id) {
       return;

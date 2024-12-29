@@ -51,7 +51,7 @@ export const AuthService = {
     }
   },
 
-  async logout() {
+  logout() {
     localStorage.removeItem("jwt-token");
   },
 };

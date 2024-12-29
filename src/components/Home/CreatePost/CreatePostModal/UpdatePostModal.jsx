@@ -216,7 +216,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
 
 UpdatePostModal.propTypes = {
   postData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     textContent: PropTypes.string,
     gifUrl: PropTypes.string,
     mediaFiles: PropTypes.arrayOf(PropTypes.any),

@@ -11,6 +11,9 @@ import { Pencil, Trash2 } from "lucide-react";
 import UpdatePostModal from "../../CreatePost/CreatePostModal/UpdatePostModal";
 import useDialog from "../../../../hooks/useDialog";
 import CustomSlider from "../../CreatePost/CreatePostModal/CustomSlider/CustomSlider";
+import { useState } from "react";
+import { PostService } from "../../../../services/post.service";
+import { toast } from "react-toastify";
 
 const actionsButton = [
   {
@@ -28,8 +31,23 @@ const actionsButton = [
 function Post({ post, handlePostDeleted, handlePostUpdated }) {
   const { isOpen, toggle } = useToggle();
   const { closeDialog, dialogRef, showDialog } = useDialog();
+  const [isSaved, setIsSaved] = useState(post.isSaved);
 
   const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
+
+  const toggleSaved = async () => {
+    setIsSaved(!isSaved);
+    try {
+      if (isSaved) {
+        await PostService.unSavePost(post.id);
+      } else {
+        await PostService.savePost(post.id);
+      }
+    } catch (e) {
+      console.log(e);
+      setIsSaved(!isSaved);
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -94,7 +112,11 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
         </Link>
         <div className={styles.interactionContainer}>
           <InteractionBar post={post} />
-          <InteractionButton count={null} icon={<Bookmark />} />
+          <InteractionButton
+            onClick={toggleSaved}
+            count={null}
+            icon={<Bookmark color="null" fill={isSaved ? "#84CBF3" : "gray"} />}
+          />
         </div>
       </div>
     </div>
@@ -107,7 +129,7 @@ Post.propTypes = {
     textContent: PropTypes.string,
     title: PropTypes.string,
     user: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string.isRequired,
       username: PropTypes.string,
       avatarUrl: PropTypes.string.isRequired,
     }),

@@ -16,6 +16,9 @@ import LearnResult from "./components/Edu/LearnResult/LearnResult";
 import StudentInfo from "./components/Edu/StudentInfo/StudenInfo";
 import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
 import HomePosts from "./components/Home/HomePosts/HomePosts";
+import About from "./components/Profile/About";
+import UserPosts from "./components/Profile/UserPosts";
+import SavedPosts from "./components/Home/SavedPosts";
 
 const routes = createBrowserRouter([
   {
@@ -67,6 +70,21 @@ const routes = createBrowserRouter([
       {
         path: "/profile/:id",
         element: <ProfilePage />,
+
+        children: [
+          {
+            index: true,
+            element: <UserPosts />,
+          },
+          {
+            path: "about",
+            element: <About />,
+          },
+          {
+            path: "saved",
+            element: <SavedPosts />,
+          },
+        ],
       },
       {
         path: "/edu",

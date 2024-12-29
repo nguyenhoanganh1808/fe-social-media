@@ -25,6 +25,7 @@ const AuthContext = createContext({
     },
   },
   login: null,
+  setUser: null,
   logout: null,
 });
 

@@ -2,6 +2,7 @@ import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./FormCreateProfile.module.css";
 import useFormCreateProfile from "../../../hooks/useFormCreateProfile";
+import { majors } from "../../../lib/constants";
 
 export default function FormCreateProfile() {
   const { register, handleSubmit, errors, onSubmit, validationRules } =
@@ -75,7 +76,7 @@ export default function FormCreateProfile() {
                 {...register("gender", validationRules.gender)}
                 type="radio"
                 id="male"
-                value="Male"
+                value="MALE"
               />
               <label htmlFor="male">Male</label>
             </div>
@@ -84,7 +85,7 @@ export default function FormCreateProfile() {
                 {...register("gender", validationRules.gender)}
                 type="radio"
                 id="female"
-                value="Female"
+                value="FEMALE"
               />
               <label htmlFor="female">Female</label>
             </div>
@@ -95,6 +96,29 @@ export default function FormCreateProfile() {
             {errors.gender.message}
           </p>
         )}
+
+        <div className="ml-2 flex gap-12">
+          <label
+            htmlFor="majors"
+            className="font-bold block mb-2 text-base text-gray-900 dark:text-white"
+          >
+            Select an major
+          </label>
+          <select
+            {...register("major")}
+            id="majors"
+            className="max-w-[378px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option selected>Choose a major</option>
+            {majors.map((major) => {
+              return (
+                <option key={major} value={major}>
+                  {major}
+                </option>
+              );
+            })}
+          </select>
+        </div>
 
         {/* School Year */}
         <Input
