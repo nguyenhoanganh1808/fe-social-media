@@ -1,10 +1,11 @@
+import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
 
 const baseUrl = API_ENDPOINT + "/profile";
 
 const ProfileService = {
   async updateBio(newBio) {
-    const url = `${baseUrl}/profile/update-profile`;
+    const url = `${baseUrl}/update-profile`;
     const token = localStorage.getItem("jwt-token");
 
     try {
@@ -13,6 +14,7 @@ const ProfileService = {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           bio: newBio,
@@ -20,10 +22,13 @@ const ProfileService = {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to update bio");
+
+        throw new Error(`HTTP error status: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error updating avatar:", error);
+      console.error("Error updating bio:", error);
       return { error: error.message };
     }
   },

@@ -13,7 +13,6 @@ import useDialog from "../../../../hooks/useDialog";
 import CustomSlider from "../../CreatePost/CreatePostModal/CustomSlider/CustomSlider";
 import { useState } from "react";
 import { PostService } from "../../../../services/post.service";
-import { toast } from "react-toastify";
 
 const actionsButton = [
   {
