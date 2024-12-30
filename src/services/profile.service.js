@@ -4,6 +4,35 @@ import { API_ENDPOINT } from "../lib/constants";
 const baseUrl = API_ENDPOINT + "/profile";
 
 const ProfileService = {
+  async updateContact(newContact) {
+    const url = `${baseUrl}/update-contact`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          newContact,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to update contact");
+        return { error: errorText };
+      }
+      toast.success("Update contact success!");
+      return { success: true };
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      return { error: error.message };
+    }
+  },
   async updateProfile(newProfile) {
     const url = `${baseUrl}/update-profile`;
     const token = localStorage.getItem("jwt-token");
@@ -23,13 +52,13 @@ const ProfileService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed to update bio");
+        toast.error(errorText || "Failed to update profile");
         return { error: errorText };
       }
       toast.success("Update profile success!");
       return { success: true };
     } catch (error) {
-      console.error("Error updating bio:", error);
+      console.error("Error updating profile:", error);
       return { error: error.message };
     }
   },
