@@ -16,9 +16,12 @@ import LearnResult from "./components/Edu/LearnResult/LearnResult";
 import StudentInfo from "./components/Edu/StudentInfo/StudenInfo";
 import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
 import HomePosts from "./components/Home/HomePosts/HomePosts";
-import About from "./components/Profile/About";
+import About from "./components/Home/About/About";
 import UserPosts from "./components/Profile/UserPosts";
 import SavedPosts from "./components/Home/SavedPosts";
+import Overview from "./components/Home/About/Overview";
+import WorkAndEdu from "./components/Home/About/WorkAndEdu";
+import Contact from "./components/Home/About/Contact";
 
 const routes = createBrowserRouter([
   {
@@ -79,6 +82,21 @@ const routes = createBrowserRouter([
           {
             path: "about",
             element: <About />,
+            children: [
+              {
+                index: true,
+                element: <Overview />,
+                path: "overview",
+              },
+              {
+                path: "work-and-education",
+                element: <WorkAndEdu />,
+              },
+              {
+                path: "contact-and-basic-info",
+                element: <Contact />,
+              },
+            ],
           },
           {
             path: "saved",

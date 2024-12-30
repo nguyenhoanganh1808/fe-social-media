@@ -10,7 +10,7 @@ export default function NavBar() {
     },
     {
       title: "About",
-      href: `/profile/${id}/about`,
+      href: `/profile/${id}/about/overview`,
     },
     {
       title: "Saved",

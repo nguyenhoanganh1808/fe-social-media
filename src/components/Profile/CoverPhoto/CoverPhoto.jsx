@@ -4,7 +4,6 @@ import { useAuth } from "../../../hooks/useAuthContext";
 import { useState } from "react";
 import ProfileService from "../../../services/profile.service";
 import { toast } from "react-toastify";
-import { UserService } from "../../../services/user.service";
 
 export default function CoverPhoto() {
   const { user, setUser } = useAuth();
