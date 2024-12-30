@@ -24,9 +24,10 @@ const ProfileService = {
       if (!response.ok) {
         const errorText = await response.text();
         toast.error(errorText || "Failed to update bio");
-        throw new Error(`HTTP error status: ${response.status}`);
+        return { error: errorText };
       }
       toast.success("Update profile success!");
+      return { success: true };
     } catch (error) {
       console.error("Error updating bio:", error);
       return { error: error.message };

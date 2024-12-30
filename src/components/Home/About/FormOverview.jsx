@@ -73,7 +73,9 @@ export default function FormOverview() {
         {errors.tagName && <ErrorText text={errors.tagName.message} />}
       </div>
 
-      <label htmlFor="birthDay">Birthday</label>
+      <label htmlFor="birthDay" className="text-sm">
+        Birthday
+      </label>
       <div className="relative max-w-sm mt-2">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
           <svg

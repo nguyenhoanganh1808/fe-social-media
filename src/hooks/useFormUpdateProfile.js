@@ -4,7 +4,7 @@ import { useState } from "react";
 import ProfileService from "../services/profile.service";
 
 export default function useFormUpdateProfile() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -60,7 +60,16 @@ export default function useFormUpdateProfile() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await ProfileService.updateProfile(data);
+    const result = await ProfileService.updateProfile(data);
+    if (result.success) {
+      setUser((prevUser) => ({
+        ...prevUser,
+        studentCode: data.studentCode,
+        nickName: data.nickName,
+        tagName: data.tagName,
+        gender: data.gender,
+      }));
+    }
     setLoading(false);
   };
 
