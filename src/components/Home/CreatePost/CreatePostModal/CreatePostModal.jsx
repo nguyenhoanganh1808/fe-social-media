@@ -17,6 +17,7 @@ import Spinner from "../../../common/Spinner/Spinner";
 
 import GifPreview from "../CreatePostModal/GifPreview/GifPreview";
 import GifPicker from "gif-picker-react";
+import SelectPrivacy from "./SelectPrivacy";
 
 const CreatePostModal = forwardRef(function CreatePostModal(
   { closeDialog, toggleValidation },
@@ -95,8 +96,8 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 <div className={styles.avatarContainer}>
                   <img className={styles.avatar} src={user.avatarUrl} alt="" />
                   <div>
-                    <p className={styles.link}>@{user.tagName}</p>
                     <p className={styles.name}>{user.nickName}</p>
+                    <SelectPrivacy />
                   </div>
                 </div>
                 <textarea

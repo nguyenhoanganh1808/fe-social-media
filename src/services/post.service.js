@@ -78,7 +78,7 @@ export const PostService = {
     const postRequestString = JSON.stringify({
       textContent: content,
       title: "",
-      privacyId: 1,
+      privacyId: parseInt(data.privacy),
       link: link,
     });
     formData.append("postRequestString", postRequestString);

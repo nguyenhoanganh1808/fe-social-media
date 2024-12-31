@@ -3,7 +3,7 @@ import styles from "./SubmitButton.module.css";
 
 function SubmitButton({ children }) {
   return (
-    <button type="submit" className={styles.submitBtn}>
+    <button type="submit" className={`${styles.submitBtn} p-2 rounded-md`}>
       {children}
     </button>
   );
