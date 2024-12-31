@@ -13,7 +13,9 @@
   overflow: hidden;
 }
 
-.container input {
+.container input[type="text"],
+.container input[type="number"],
+.container input[type="tel"] {
   width: 70%;
 }
 

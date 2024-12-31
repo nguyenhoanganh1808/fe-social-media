@@ -10,9 +10,9 @@ import useToggle from "../../../../hooks/useToggle";
 import { Pencil, Trash2 } from "lucide-react";
 import UpdatePostModal from "../../CreatePost/CreatePostModal/UpdatePostModal";
 import useDialog from "../../../../hooks/useDialog";
-import CustomSlider from "../../CreatePost/CreatePostModal/CustomSlider/CustomSlider";
 import { useState } from "react";
 import { PostService } from "../../../../services/post.service";
+import { CustomCarousel } from "../../CreatePost/CreatePostModal/CustomSlider/Carousel";
 
 const actionsButton = [
   {
@@ -105,7 +105,7 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
           <p>{post.textContent}</p>
           <ul>
             {post.mediaFiles.length > 0 && (
-              <CustomSlider images={post.mediaFiles} />
+              <CustomCarousel medias={post.mediaFiles} />
             )}
           </ul>
         </Link>

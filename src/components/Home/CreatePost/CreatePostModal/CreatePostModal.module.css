@@ -48,8 +48,11 @@
 }
 
 .contentInput {
-  outline: none;
-  resize: none;
+  border-color: transparent;
+  outline-color: transparent;
+  border-radius: 12px;
+  overflow: auto;
+  margin-top: 10px;
   line-height: 1.5;
   font-size: 2rem;
 }
@@ -88,10 +91,6 @@
   font-size: 1rem;
   font-weight: 500;
   padding: 6px;
-}
-
-.contentInput:hover {
-  cursor: text;
 }
 
 .btnDeactive {

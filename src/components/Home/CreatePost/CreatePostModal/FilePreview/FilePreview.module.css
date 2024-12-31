@@ -20,7 +20,7 @@
 
 .file {
   display: flex;
-  gap: 12px;
+  /* gap: 12px; */
 }
 
 .fileName {

@@ -32,19 +32,25 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     handleRemoveFile,
   } = useFormCreatePost();
   const { register, handleSubmit, setValue, getValues, reset } = methods;
+  const [option, setOption] = useState("text");
+
   const [gif, setGif] = useState(null);
   const { user } = useAuth();
   const {
     isOpen: addImageFormVisible,
     close: closeAddImageForm,
-    toggle: toggleAddImageForm,
+    open: openAddImageForm,
   } = useToggle();
   const {
     isOpen: gifPreviewVisible,
     open: openGifPreview,
     close: closeGifPreview,
   } = useToggle();
-  const { isOpen: addLinkFormVisible, toggle: toggleAddLinkForm } = useToggle();
+  const {
+    isOpen: addLinkFormVisible,
+    open: openAddLinkForm,
+    close: closeAddLinkForm,
+  } = useToggle();
   const {
     isOpen: addGifPickerVisible,
     toggle: toggleGifPicker,
@@ -99,7 +105,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                   placeholder={`What's on your mind, ${user.nickName}`}
                   name="content"
                   id="content"
-                  cols={34}
+                  cols={30}
                   rows={addImageFormVisible ? 1 : 5}
                 ></textarea>
                 <div className={styles.emojiPickerContainer}>
@@ -133,12 +139,20 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                   <div>
                     <img
                       className={styles.addImage}
-                      onClick={toggleAddImageForm}
+                      onClick={() => {
+                        openAddImageForm();
+                        setOption("media");
+                      }}
                       src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png"
                       alt="Add image"
                     />
                   </div>
-                  <label htmlFor="file">
+                  <label
+                    onClick={() => {
+                      closeAddImageForm();
+                    }}
+                    htmlFor="file"
+                  >
                     <FilesIcon color="blue" size={30} />
                   </label>
                   <input
@@ -148,11 +162,9 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                     multiple
                     style={{ display: "none" }}
                   />
-
                   <div>
-                    <Link onClick={toggleAddLinkForm} color="red" size={30} />
+                    <Link onClick={openAddLinkForm} color="red" size={30} />
                   </div>
-
                   <div className={styles.gifPickerContainer}>
                     <div className={styles.gifContainer}></div>
                     <img
@@ -167,13 +179,13 @@ const CreatePostModal = forwardRef(function CreatePostModal(
               <button
                 type="submit"
                 disabled={loading}
-                className={
+                className={`${
                   postContent !== "" ||
                   fileArray.length > 0 ||
                   imagesArray.length > 0
                     ? styles.submitBtn
                     : styles.btnDeactive
-                }
+                } rounded-md`}
                 // onClick={handlePostSubmit}
               >
                 {loading ? <Spinner borderWidth={3} size={30} /> : "Post"}

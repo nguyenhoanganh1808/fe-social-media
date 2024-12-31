@@ -23,6 +23,16 @@ const useFormCreatePost = () => {
     setValue("file", updatedFileList.files);
   };
 
+  const resetMediaArray = () => {
+    const emptyList = new DataTransfer();
+    setValue("mediaFiles", emptyList);
+  };
+
+  const resetFileArray = () => {
+    const emptyList = new DataTransfer();
+    setValue("file", emptyList);
+  };
+
   const onSubmit = async (data) => {
     setLoading(true);
     try {
@@ -41,6 +51,8 @@ const useFormCreatePost = () => {
     fileArray,
     imagesArray,
     handleRemoveFile,
+    resetMediaArray,
+    resetFileArray,
     postContent,
   };
 };

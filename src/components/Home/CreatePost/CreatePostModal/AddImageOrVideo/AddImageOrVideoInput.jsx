@@ -1,47 +1,40 @@
 import styles from "./AddImageOrVideoInput.module.css";
 import { ImagePlus, X } from "lucide-react";
-import CustomSlider from "../CustomSlider/CustomSlider";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { CustomCarousel } from "../CustomSlider/Carousel";
 
 export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
   const { register, setValue, getValues } = useFormContext();
   const [fileArray, setFileArray] = useState([]);
 
   const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
+    const selectedFiles = Array.from(e.target.files).map((file) => {
+      if (file.type.startsWith("image/")) {
+        return { url: URL.createObjectURL(file), type: "IMAGE" };
+      } else {
+        return {
+          url: URL.createObjectURL(file),
+          type: "VIDEO",
+        };
+      }
+    });
 
     setFileArray((prevFiles) => [...prevFiles, ...selectedFiles]);
 
     setValue("mediaFiles", [
       ...(getValues("mediaFiles") || []),
-      ...selectedFiles,
+      ...Array.from(e.target.files),
     ]);
   };
-
-  const mediaList =
-    defaultFiles.length > 0
-      ? defaultFiles
-      : fileArray.map((file) => {
-          if (file.type.startsWith("image/")) {
-            return { url: URL.createObjectURL(file), type: "image" };
-          } else if (file.type.startsWith("vide/")) {
-            return {
-              url: URL.createObjectURL(file),
-              type: "video",
-            };
-          } else {
-            return file;
-          }
-        });
 
   const label =
     fileArray.length > 0 ? (
       <label className={styles.addBtn} htmlFor="mediaFiles">
         <div>
           <ImagePlus size={30} />
-          <p>Add more images/videos</p>
+          <p>Add more images</p>
         </div>
       </label>
     ) : (
@@ -93,7 +86,7 @@ export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
               color="#65686c"
             />
             {label}
-            <CustomSlider images={mediaList} />
+            <CustomCarousel medias={fileArray} />
           </div>
         )}
       </div>

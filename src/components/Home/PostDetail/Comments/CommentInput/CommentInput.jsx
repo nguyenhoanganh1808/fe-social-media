@@ -1,6 +1,7 @@
 import useFormCreateComment from "../../../../../hooks/useFormCreateComment";
 import CommentService from "../../../../../services/comment.service";
-import Spinner from "../../../../common/Spinner/Spinner";
+import LoadingButton from "../../../../common/Spinner/LoadingButton";
+import CancelButton from "../../../../common/CancelButton";
 import styles from "./CommentInput.module.css";
 import PropTypes from "prop-types";
 
@@ -34,18 +35,17 @@ export default function CommentInput({
         className={styles.inputContainer}
       >
         <textarea
+          className="border-transparent focus:border-transparent focus:ring-0"
           {...register("commentinput", validationRules.commentinput)}
           required
           name={`commentinput`}
           id={`commentinput`}
         ></textarea>
-        <div className={styles.buttonContainer}>
-          <button type="button" onClick={onClose}>
-            Cancel
-          </button>
-          <button type="submit">
-            {loading ? <Spinner size={20} borderWidth={3} /> : "Comment"}
-          </button>
+        <div className="ml-auto mt-3">
+          <CancelButton onClick={onClose}>Cancel</CancelButton>
+          <LoadingButton isLoading={loading} type="submit">
+            Comment
+          </LoadingButton>
         </div>
       </form>
       {errors.commentinput && (

@@ -1,5 +1,5 @@
 import useFormUpdateProfile from "../../../hooks/useFormUpdateProfile";
-import ErrorText from "./ErrorText";
+import ErrorText from "../../common/ErrorText";
 import LoadingButton from "../../common/Spinner/LoadingButton";
 
 export default function FormOverview() {

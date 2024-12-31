@@ -1,6 +1,11 @@
+import { Plus } from "lucide-react";
+import LucideCircleButton from "../../Button/LucideCircleButton/LucideCircleButton";
 import styles from "./Communities.module.css";
+import useToggle from "../../../hooks/useToggle";
+import FormCreateGroupModal from "./FormCreateGroupModal";
 
 export default function Communities() {
+  const { close, isOpen, open } = useToggle();
   const datas = [
     {
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCy70vlO2WmaZP4m9EhyjwqW7EaE7OQeOz5w&s",
@@ -20,7 +25,13 @@ export default function Communities() {
   ];
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.header}>Communities</h1>
+      <FormCreateGroupModal onCloseModal={close} openModal={isOpen} />
+      <div className="flex justify-between items-center h-full">
+        <h1 className={styles.header}>Communities</h1>
+        <LucideCircleButton onClick={open} size={25}>
+          <Plus />
+        </LucideCircleButton>
+      </div>
       <ul className={styles.communitiesList}>
         {datas.map((community) => (
           <div className={styles.container} key={community.name}>

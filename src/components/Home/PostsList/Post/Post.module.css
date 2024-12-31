@@ -79,6 +79,7 @@
 .buttons button {
   display: flex;
   gap: 12px;
+  padding: 12px;
   outline: none;
   border: none;
 }

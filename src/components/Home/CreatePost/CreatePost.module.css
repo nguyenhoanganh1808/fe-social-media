@@ -23,6 +23,7 @@
 .postContent {
   resize: none;
   width: 100%;
+  border: none;
   flex: 1;
   border-radius: var(--default-radius);
   background-color: var(--background-color);
