@@ -1,26 +1,30 @@
 import { useState } from "react";
 import styles from "./HeartButton.module.css";
 import ReactionService from "../../../services/reaction.service";
-import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-export default function HeartButton({ post, defaultLike }) {
+export default function HeartButton({ post, defaultLike, setLikeCount }) {
   const [isLiked, setIsLiked] = useState(defaultLike);
 
   const handleReactPost = async () => {
-    try {
-      if (!isLiked) {
-        setIsLiked(true);
-        const response = await ReactionService.reactPost(post.id);
-        if (!response.ok) setIsLiked(false);
-      } else {
+    let result;
+    if (!isLiked) {
+      setIsLiked(true);
+      setLikeCount((prev) => prev + 1);
+      result = await ReactionService.reactPost(post.id);
+      if (result.error) {
         setIsLiked(false);
-        const response = await ReactionService.deleteReaction(post.id);
-        console.log("delete rection response: ", response);
-        // if (!response.ok) setIsLiked(true);
+        setLikeCount((prev) => prev - 1);
       }
-    } catch (e) {
-      toast.error(e.message || "Failed to react to post");
+    } else {
+      setIsLiked(false);
+      setLikeCount((prev) => prev - 1);
+
+      result = await ReactionService.deleteReaction(post.id);
+      if (result.error) {
+        setIsLiked(true);
+        setLikeCount((prev) => prev + 1);
+      }
     }
   };
   return (
@@ -38,6 +42,8 @@ export default function HeartButton({ post, defaultLike }) {
 HeartButton.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number,
+    reactionCount: PropTypes.number.isRequired,
   }),
   defaultLike: PropTypes.bool.isRequired,
+  setLikeCount: PropTypes.func.isRequired,
 };

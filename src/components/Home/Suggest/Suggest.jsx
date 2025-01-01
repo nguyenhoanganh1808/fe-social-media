@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Suggest.module.css";
 import SuggestRequestCard from "./SuggestRequestCard/SuggestRequestCard";
 
 export default function Suggest() {
+  const [users, setUsers] = useState([]);
   const [activeTab, setActiveTab] = useState("suggests");
+
+  useEffect(() => {
+    function fetch() {
+      // const result = await UserSer
+    }
+  }, []);
+
   const datas = [
     {
       id: 0,

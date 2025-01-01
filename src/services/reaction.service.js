@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
 
 const baseUrl = API_ENDPOINT + "/reactions";
@@ -6,13 +7,6 @@ const ReactionService = {
   async reactPost(id) {
     const url = baseUrl + "/reactPost";
     const token = localStorage.getItem("jwt-token");
-
-    console.log("URL:", url);
-    console.log("Token:", token);
-    console.log(
-      "Request Body:",
-      JSON.stringify({ postId: id, reactionTypeId: 1 })
-    );
 
     try {
       const response = await fetch(url, {
@@ -30,13 +24,17 @@ const ReactionService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || "Failed to react profile");
+        toast.error(errorText || "Failed to react post");
+        return {
+          error: errorText,
+        };
       }
 
-      return response;
+      return { success: true };
     } catch (e) {
       console.log(e);
-      throw new Error(e.message || "An error occurred while react the profile");
+      toast.error(e.message || "An error occurred while reacting to post");
+      return { error: e.message || "An error occurred while reacting to post" };
     }
   },
 
@@ -56,11 +54,20 @@ const ReactionService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || "Failed to react profile");
+        toast.error(errorText || "Failed to delete reaction");
+        return {
+          error: errorText || "Failed to delete reaction",
+        };
       }
-      return response;
+      return {
+        success: true,
+      };
     } catch (e) {
-      throw new Error(e.message || "An error occurred while react the profile");
+      console.log(e);
+      toast.error(e.message || "An error occurred while deleting the reaction");
+      return {
+        error: e.message || "An error occurred while deleting the reaction",
+      };
     }
   },
 };

@@ -1,11 +1,11 @@
 import Input from "../Input/Input";
-import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./FormCreateProfile.module.css";
 import useFormCreateProfile from "../../../hooks/useFormCreateProfile";
 import { majors } from "../../../lib/constants";
+import LoadingButton from "../../common/Spinner/LoadingButton";
 
 export default function FormCreateProfile() {
-  const { register, handleSubmit, errors, onSubmit, validationRules } =
+  const { register, handleSubmit, errors, onSubmit, validationRules, loading } =
     useFormCreateProfile();
 
   return (
@@ -204,8 +204,9 @@ export default function FormCreateProfile() {
           </p>
         )}
 
-        {/* Submit Button */}
-        <SubmitButton>CREATE PROFILE</SubmitButton>
+        <LoadingButton type="submit" isLoading={loading}>
+          CREATE PROFILE
+        </LoadingButton>
       </form>
     </div>
   );

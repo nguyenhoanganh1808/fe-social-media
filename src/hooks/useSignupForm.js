@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { AuthService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function useSignUpForm() {
   const {
@@ -11,6 +12,7 @@ export default function useSignUpForm() {
     getValues,
   } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const validationRules = {
     username: {
@@ -61,7 +63,7 @@ export default function useSignUpForm() {
 
   const onSubmit = async (data) => {
     delete data["confirmpassword"];
-
+    setLoading(true);
     try {
       await AuthService.register({ ...data, roleId: 2 });
       toast.success("Registration successful!");
@@ -70,11 +72,13 @@ export default function useSignUpForm() {
     } catch (error) {
       toast.error(error || "Registration error");
     }
+    setLoading(false);
   };
 
   return {
     register,
     handleSubmit,
+    loading,
     errors,
     onSubmit,
     validationRules,

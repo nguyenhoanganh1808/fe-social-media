@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import Input from "../Input/Input";
 import styles from "../FormSignin/SignInForm.module.css";
-import SubmitButton from "../SubmitButton/SubmitButton";
 import useSignUpForm from "../../../hooks/useSignupForm";
+import LoadingButton from "../../common/Spinner/LoadingButton";
 
 export default function SignupForm() {
-  const { register, errors, handleSubmit, onSubmit, validationRules } =
+  const { register, errors, handleSubmit, onSubmit, validationRules, loading } =
     useSignUpForm();
   return (
     <div className={styles.wrapper}>
@@ -85,7 +85,9 @@ export default function SignupForm() {
           </p>
         )}
 
-        <SubmitButton>SIGN UP</SubmitButton>
+        <LoadingButton type="submit" isLoading={loading}>
+          SIGN UP
+        </LoadingButton>
         <p>
           Already have an account? <Link to="/auth/login">Sign in</Link>
         </p>

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { UserService } from "../services/user.service";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function useFormCreateProfile() {
   const {
@@ -10,6 +10,7 @@ export default function useFormCreateProfile() {
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const validationRules = {
     code: {
@@ -93,18 +94,19 @@ export default function useFormCreateProfile() {
   };
 
   const onSubmit = async (data) => {
-    try {
-      await UserService.createProfile(data);
+    setLoading(true);
+    const result = await UserService.createProfile(data);
+    if (result.success) {
       navigate("/posts");
-    } catch (e) {
-      toast.error(e || "Something went wrong");
     }
+    setLoading(false);
   };
 
   return {
     register,
     handleSubmit,
     errors,
+    loading,
     onSubmit,
     validationRules,
   };

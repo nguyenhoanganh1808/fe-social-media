@@ -1,24 +1,36 @@
+import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
 
 const baseUrl = API_ENDPOINT + "/profile";
 
 export const UserService = {
-  async createProfile(data) {
+  async createProfile(profile) {
     const url = `${baseUrl}/create-profile`;
     const token = localStorage.getItem("jwt-token");
-
+    console.log("token: ", token);
     try {
-      await fetch(url, {
+      const response = await fetch(url, {
         mode: "cors",
+        method: "POST",
         headers: {
           Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
         },
-        method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(profile),
       });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when create profile");
+        console.log(errorText);
+        return { error: errorText };
+      }
+
+      return {
+        success: true,
+      };
     } catch (e) {
-      console.log(e);
-      throw new Error(e);
+      toast.error(e || "Failed when create profile");
+      return { error: e };
     }
   },
 

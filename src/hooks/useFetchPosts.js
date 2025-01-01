@@ -20,13 +20,13 @@ export default function useFetchPost(fetchFunction) {
     try {
       const postData = await fetchFunction(page, 10);
       setPosts((prevPosts) => {
-        const postMap = new Map(prevPosts.map((post) => [post.id, post])); // Create a map of current posts
+        const postMap = new Map(prevPosts.map((post) => [post.id, post]));
         postData.forEach((newPost) => {
           if (!postMap.has(newPost.id)) {
-            postMap.set(newPost.id, newPost); // Add only unique posts
+            postMap.set(newPost.id, newPost);
           }
         });
-        return Array.from(postMap.values()); // Convert the map back to an array
+        return Array.from(postMap.values());
       });
 
       setPage((prevPage) => prevPage + 1);

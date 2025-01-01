@@ -13,6 +13,7 @@ import useDialog from "../../../../hooks/useDialog";
 import { useState } from "react";
 import { PostService } from "../../../../services/post.service";
 import { CustomCarousel } from "../../CreatePost/CreatePostModal/CustomSlider/Carousel";
+import FileView from "./FileView";
 
 const actionsButton = [
   {
@@ -104,8 +105,11 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
           </div>
           <p>{post.textContent}</p>
           <ul>
-            {post.mediaFiles.length > 0 && (
+            {post.mediaFiles.length > 0 &&
+            post.mediaFiles[0].type !== "DOCUMENT" ? (
               <CustomCarousel medias={post.mediaFiles} />
+            ) : (
+              post.mediaFiles.map((file) => <FileView key={file.url} />)
             )}
           </ul>
         </Link>
