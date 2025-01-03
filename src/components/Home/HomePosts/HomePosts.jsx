@@ -10,11 +10,15 @@ export default function HomePosts() {
     handlePostDeleted,
     toggleValidation,
     handlePostUpdated,
+    handlePostCreated,
   } = useFetchPost(PostService.getFeed);
 
   return (
     <>
-      <CreatePost toggleValidation={toggleValidation} />
+      <CreatePost
+        toggleValidation={toggleValidation}
+        handlePostCreated={handlePostCreated}
+      />
       <PostsList
         posts={posts}
         loading={loading}

@@ -27,14 +27,17 @@ export const PostService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-
-        throw new Error(errorText || "Failed to unsave post");
+        toast.error(errorText || "Failed to unsave post");
+        return { error: errorText || "Failed to unsave post" };
       }
 
-      return response;
+      return { success: true };
     } catch (e) {
       console.log(e);
-      throw new Error(e || "An error occurred while unsave post");
+      toast.error(e || "An error occurred while unsave post");
+      return {
+        error: e || "An error occurred while unsave post",
+      };
     }
   },
   async savePost(postId) {
@@ -57,15 +60,15 @@ export const PostService = {
       if (!response.ok) {
         const errorText = await response.text();
         console.log(errorText);
-        toast.error(errorText || "Failed to save profile");
-        throw new Error(errorText);
+        toast.error(errorText || "Failed to save post");
+        return { error: errorText };
       }
 
-      return response;
+      return { success: true };
     } catch (e) {
       console.log(e);
       toast.error(e || "An error occurred while save the profile");
-      throw new Error(e);
+      return { error: e || "An error occurred while save the profile" };
     }
   },
 
@@ -106,10 +109,19 @@ export const PostService = {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create post");
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
       }
+      toast.success("Post created successfully");
+      return { success: true };
     } catch (e) {
-      throw new Error(e);
+      toast.error(e || "An error occurred while creating the post");
+      return {
+        error: e || "An error occurred while creating the post",
+      };
     }
   },
 
@@ -253,10 +265,18 @@ export const PostService = {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update post");
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
       }
+      return { success: true };
     } catch (e) {
-      throw new Error(e);
+      toast.error(e || "An error occurred while updating the post");
+      return {
+        error: e || "An error occurred while updating the post",
+      };
     }
   },
 

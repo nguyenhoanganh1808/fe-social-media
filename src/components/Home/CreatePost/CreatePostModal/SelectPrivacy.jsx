@@ -35,7 +35,7 @@ export default function SelectPrivacy() {
             value={item.value}
             className="flex items-center hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
           >
-            <span>{item.label}</span>
+            {item.label}
           </option>
         ))}
       </select>

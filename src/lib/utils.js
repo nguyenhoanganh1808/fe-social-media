@@ -36,3 +36,19 @@ export function formatTime(elapsedTime) {
   );
   return `${minutes}:${seconds},${milliseconds}`;
 }
+
+export async function convertToFiles(defaultFiles) {
+  const filePromises = defaultFiles.map(async (file) => {
+    const response = await fetch(file.url);
+    const blob = await response.blob();
+    return new File(
+      [blob],
+      `default_${file.type.toLowerCase()}.${blob.type.split("/")[1]}`,
+      {
+        type: blob.type,
+      }
+    );
+  });
+
+  return Promise.all(filePromises);
+}

@@ -4,6 +4,7 @@ import styles from "./Header.module.css";
 import PropTypes from "prop-types";
 
 export default function Header({
+  title,
   addGifPickerVisible,
   closeGifPicker,
   closeDialog,
@@ -15,7 +16,7 @@ export default function Header({
           <ArrowLeft color="#1c1e21" />
         </LucideCircleButton>
       )}
-      <h1>{addGifPickerVisible ? "Choose a GIF" : "Create Post"}</h1>
+      <h1>{addGifPickerVisible ? "Choose a GIF" : title}</h1>
       <X
         onClick={closeDialog}
         className={styles.closeBtn}
@@ -30,4 +31,5 @@ Header.propTypes = {
   addGifPickerVisible: PropTypes.bool,
   closeGifPicker: PropTypes.func,
   closeDialog: PropTypes.func,
+  title: PropTypes.string.isRequired,
 };

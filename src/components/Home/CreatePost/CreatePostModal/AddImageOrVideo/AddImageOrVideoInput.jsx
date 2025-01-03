@@ -4,8 +4,11 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { CustomCarousel } from "../CustomSlider/Carousel";
+import { convertToFiles } from "../../../../../lib/utils";
 
 export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
+  console.log("default file: ", defaultFiles);
+
   const { register, setValue, getValues } = useFormContext();
   const [fileArray, setFileArray] = useState([]);
 
@@ -27,6 +30,7 @@ export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
       ...(getValues("mediaFiles") || []),
       ...Array.from(e.target.files),
     ]);
+    console.log("mediaFiles: ", getValues("mediaFiles"));
   };
 
   const label =
@@ -62,9 +66,10 @@ export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
 
   useEffect(() => {
     if (defaultFiles.length > 0) {
-      const initialFiles = defaultFiles.map((url) => ({ url, type: "image" })); // Assuming defaultFiles are image URLs
-      setFileArray(initialFiles);
-      setValue("mediaFiles", initialFiles);
+      setFileArray(defaultFiles);
+      convertToFiles(defaultFiles).then((files) => {
+        setValue("mediaFiles", files);
+      });
     }
   }, [defaultFiles, setValue]);
 

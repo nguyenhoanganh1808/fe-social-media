@@ -4,7 +4,7 @@ import { useAuth } from "../../../hooks/useAuthContext";
 import PropTypes from "prop-types";
 import useDialog from "../../../hooks/useDialog";
 
-export default function CreatePost({ toggleValidation }) {
+export default function CreatePost({ toggleValidation, handlePostCreated }) {
   const { user } = useAuth();
   const { dialogRef, closeDialog, showDialog } = useDialog();
 
@@ -13,6 +13,7 @@ export default function CreatePost({ toggleValidation }) {
       <CreatePostModal
         toggleValidation={toggleValidation}
         closeDialog={closeDialog}
+        handlePostCreated={handlePostCreated}
         ref={dialogRef}
       />
       <img className={styles.avatar} src={user.avatarUrl} alt="User avatar" />
@@ -32,4 +33,5 @@ export default function CreatePost({ toggleValidation }) {
 
 CreatePost.propTypes = {
   toggleValidation: PropTypes.func,
+  handlePostCreated: PropTypes.func,
 };

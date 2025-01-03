@@ -13,7 +13,7 @@ export default function PostsList({
     <div className={styles.container}>
       <ul className={styles.postWrapper}>
         {posts.map((post) => (
-          <div className={styles.postContainer} key={post.userImg}>
+          <div className={styles.postContainer} key={post.id}>
             <Post
               key={post.id}
               post={post}
@@ -35,10 +35,10 @@ PostsList.propTypes = {
     PropTypes.shape({
       textContent: PropTypes.string,
       title: PropTypes.string,
-      user: {
+      user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         username: PropTypes.string,
-      },
+      }),
       mediaFiles: PropTypes.array,
       createdAt: PropTypes.string,
       isSaved: PropTypes.bool,

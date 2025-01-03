@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { PostService } from "../services/post.service";
-import { toast } from "react-toastify";
 import { useState } from "react";
 
 const useFormCreatePost = () => {
@@ -35,13 +34,15 @@ const useFormCreatePost = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    try {
-      await PostService.createPost(data);
-      toast.success("Post created successfully");
-    } catch (e) {
-      toast.error(e.message || "Failed to create post");
+
+    const result = await PostService.createPost(data);
+
+    if (result.error) {
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    return result;
   };
 
   return {
@@ -54,6 +55,7 @@ const useFormCreatePost = () => {
     resetMediaArray,
     resetFileArray,
     postContent,
+    setLoading,
   };
 };
 

@@ -16,7 +16,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import GifPicker from "gif-picker-react";
 import GifPreview from "./GifPreview/GifPreview";
 import Spinner from "../../../common/Spinner/Spinner";
-import { useNavigate } from "react-router-dom";
 
 const UpdatePostModal = forwardRef(function UpdatePostModal(
   { closeDialog, postData, handlePostUpdated },
@@ -38,7 +37,13 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
     isOpen: addImageFormVisible,
     close: closeAddImageForm,
     toggle: toggleAddImageForm,
-  } = useToggle(postData.mediaFiles !== null ? true : false);
+  } = useToggle(
+    postData.mediaFiles.length > 0 &&
+      postData.mediaFiles[0].type !== "DOCUMENT" &&
+      postData.mediaFiles[0].type !== "OTHER"
+      ? true
+      : false
+  );
   const {
     isOpen: gifPreviewVisible,
     open: openGifPreview,
@@ -55,7 +60,6 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
   const handleEmojiClick = (emoji) => {
     setValue("content", getValues("content") + emoji.native);
   };
-  const navigate = useNavigate();
 
   const handleGifSelect = (gif) => {
     if (gif) {
@@ -72,15 +76,13 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
   // };
 
   const onSubmit = async (data) => {
-    const updatedData = {
-      ...data,
-      // gifUrl: gif,
-    };
     setLoading(true);
-    await handlePostUpdated(postData.id, updatedData);
-    navigate(`/posts/${postData.id}`);
+    console.log("data: ", data);
+    const result = await handlePostUpdated(postData.id, data);
+    if (result.success) {
+      closeDialog();
+    }
     setLoading(false);
-    closeDialog();
   };
 
   useEffect(() => {
@@ -93,6 +95,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
         addGifPickerVisible={addGifPickerVisible}
         closeDialog={closeDialog}
         closeGifPicker={closeGifPicker}
+        title="Edit Post"
       />
 
       <hr />
@@ -113,7 +116,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                 </div>
                 <textarea
                   {...register("content")}
-                  className={styles.contentInput}
+                  className={`${styles.contentInput} border-transparent focus:border-transparent focus:ring-0`}
                   placeholder={`Edit your post, ${user.nickName}`}
                   name="content"
                   id="content"
@@ -142,12 +145,14 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                   onRemove={handleRemoveFile}
                 /> */}
 
-                {addImageFormVisible && postData.mediaFiles.length > 0 && (
-                  <AddImageOrVideoInput
-                    onClose={closeAddImageForm}
-                    defaultFiles={postData.mediaFiles}
-                  />
-                )}
+                {addImageFormVisible &&
+                  postData.mediaFiles.length > 0 &&
+                  postData.mediaFiles[0]?.type !== "DOCUMENT" && (
+                    <AddImageOrVideoInput
+                      onClose={closeAddImageForm}
+                      defaultFiles={postData.mediaFiles}
+                    />
+                  )}
 
                 {addLinkFormVisible && <AddLinks />}
               </div>
@@ -190,11 +195,11 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
               </div>
               <button
                 type="submit"
-                className={
+                className={`${
                   postData.textContent !== "" || postData.mediaFiles.length > 0
                     ? styles.submitBtn
                     : styles.btnDeactive
-                }
+                } rounded-md`}
               >
                 {loading ? <Spinner /> : "Update"}
               </button>

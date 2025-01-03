@@ -41,7 +41,7 @@ export default function CommentInput({
           name={`commentinput`}
           id={`commentinput`}
         ></textarea>
-        <div className="ml-auto mt-3">
+        <div className="ml-auto mt-3 flex items-start space-x-2">
           <CancelButton onClick={onClose}>Cancel</CancelButton>
           <LoadingButton isLoading={loading} type="submit">
             Comment

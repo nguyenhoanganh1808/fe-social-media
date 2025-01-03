@@ -19,6 +19,7 @@ export default function useFetchPost(fetchFunction) {
     setLoading(true);
     try {
       const postData = await fetchFunction(page, 10);
+      setPosts([]);
       setPosts((prevPosts) => {
         const postMap = new Map(prevPosts.map((post) => [post.id, post]));
         postData.forEach((newPost) => {
@@ -41,16 +42,15 @@ export default function useFetchPost(fetchFunction) {
   }, [page, loading, hasMore, fetchFunction]);
 
   useEffect(() => {
-    setPosts([]);
     setPage(0);
     setHasMore(true);
   }, [revalidate]);
 
   useEffect(() => {
-    if (page === 0 && posts.length === 0 && hasMore) {
+    if (page === 0 && hasMore) {
       fetchPosts();
     }
-  }, [page, posts.length, hasMore, fetchPosts]);
+  }, [page, hasMore, fetchPosts]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,33 +76,37 @@ export default function useFetchPost(fetchFunction) {
     }
   };
 
+  const handlePostCreated = async () => {
+    setPage(0);
+    setHasMore(true);
+  };
+
   const handlePostUpdated = async (postId, newContent) => {
     setLoading(true);
-    try {
-      await PostService.updatePost(postId, newContent);
+
+    const result = await PostService.updatePost(postId, newContent);
+    console.log("newContent: ", newContent);
+    if (result.success) {
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId
             ? {
                 ...post,
                 textContent: newContent.content,
-                mediaFiles: newContent.mediaFiles,
+                mediaFiles: newContent.mediaFiles ? newContent.mediaFiles : [],
               }
             : post
         )
       );
-
-      toast.success("Post edited successfully");
-    } catch (e) {
-      toast.error(e.message || "Failed to edit post");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
+    return result;
   };
 
   return {
     posts,
     loading,
+    handlePostCreated,
     handlePostDeleted,
     handlePostUpdated,
     toggleValidation,

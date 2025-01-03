@@ -36,16 +36,15 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
   const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
 
   const toggleSaved = async () => {
-    setIsSaved(!isSaved);
-    try {
-      if (isSaved) {
-        await PostService.unSavePost(post.id);
-      } else {
-        await PostService.savePost(post.id);
-      }
-    } catch (e) {
-      console.log(e);
-      setIsSaved(!isSaved);
+    setIsSaved((prevIsSaved) => !prevIsSaved);
+    let result;
+    if (isSaved) {
+      result = await PostService.unSavePost(post.id);
+    } else {
+      result = await PostService.savePost(post.id);
+    }
+    if (result.error) {
+      setIsSaved((prevIsSaved) => !prevIsSaved);
     }
   };
 
@@ -105,7 +104,8 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
           </div>
           <p>{post.textContent}</p>
           <ul>
-            {post.mediaFiles.length > 0 &&
+            {post &&
+            post.mediaFiles.length > 0 &&
             post.mediaFiles[0].type !== "DOCUMENT" ? (
               <CustomCarousel medias={post.mediaFiles} />
             ) : (

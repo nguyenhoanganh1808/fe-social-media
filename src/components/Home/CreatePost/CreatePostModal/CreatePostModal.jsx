@@ -20,7 +20,7 @@ import GifPicker from "gif-picker-react";
 import SelectPrivacy from "./SelectPrivacy";
 
 const CreatePostModal = forwardRef(function CreatePostModal(
-  { closeDialog, toggleValidation },
+  { closeDialog, toggleValidation, handlePostCreated },
   ref
 ) {
   const {
@@ -31,6 +31,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     postContent,
     loading,
     handleRemoveFile,
+    setLoading,
   } = useFormCreatePost();
   const { register, handleSubmit, setValue, getValues, reset } = methods;
   const [option, setOption] = useState("text");
@@ -77,6 +78,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
         addGifPickerVisible={addGifPickerVisible}
         closeDialog={closeDialog}
         closeGifPicker={closeGifPicker}
+        title="Create Post"
       />
 
       <hr />
@@ -84,8 +86,12 @@ const CreatePostModal = forwardRef(function CreatePostModal(
         <form
           className={styles.formContainer}
           onSubmit={handleSubmit(async (data) => {
-            await onSubmit(data);
-            toggleValidation();
+            const result = await onSubmit(data);
+            if (result.success) {
+              await handlePostCreated();
+              setLoading(false);
+            }
+            // toggleValidation();
             reset();
             closeDialog();
           })}
@@ -102,7 +108,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 </div>
                 <textarea
                   {...register("content")}
-                  className={styles.contentInput}
+                  className={`${styles.contentInput} border-transparent focus:border-transparent focus:ring-0`}
                   placeholder={`What's on your mind, ${user.nickName}`}
                   name="content"
                   id="content"
