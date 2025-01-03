@@ -1,33 +1,33 @@
 import EditButton from "../EditButton/EditButton";
-import PropTypes from "prop-types";
-import styles from "./Skills.module.css";
-import { useState } from "react";
-import SkillItem from "./SkillItem/SkillItem";
 
-export default function Skill({ data }) {
-  const [isEditting, setIsEditting] = useState(false);
+import styles from "./Skills.module.css";
+import SkillItem from "./SkillItem/SkillItem";
+import FormEditSkills from "./FormEditSkills";
+import useToggle from "../../../hooks/useToggle";
+import { useAuth } from "../../../hooks/useAuthContext";
+
+export default function Skill() {
+  const { close, isOpen, open } = useToggle();
+  const { user } = useAuth();
 
   return (
     <div className={styles.container}>
+      <FormEditSkills onCloseModal={close} openModal={isOpen} />
       <h2 className={styles.title}>Skills</h2>
       <hr />
       <ul>
-        {data.skills.map((skill, index) => {
-          return <SkillItem key={`${skill}-${index}`} skill={skill} />;
+        {user.skills.map((skill) => {
+          return <SkillItem key={skill.id} skill={skill.name} />;
         })}
       </ul>
 
-      {!isEditting && (
-        <EditButton onClick={() => setIsEditting(!isEditting)}>
-          Edit Skills
-        </EditButton>
-      )}
+      <EditButton
+        onClick={() => {
+          open();
+        }}
+      >
+        Edit Skills
+      </EditButton>
     </div>
   );
 }
-
-Skill.propTypes = {
-  data: PropTypes.shape({
-    skills: PropTypes.arrayOf(PropTypes.string),
-  }),
-};

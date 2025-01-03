@@ -9,6 +9,7 @@ const AuthContext = createContext({
     gender: null,
     bio: null,
     avatarUrl: null,
+    skills: [],
     coverImageUrl: null,
     informationDetail: {
       fullName: null,

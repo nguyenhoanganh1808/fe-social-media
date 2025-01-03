@@ -4,6 +4,47 @@ import { API_ENDPOINT } from "../lib/constants";
 const baseUrl = API_ENDPOINT + "/profile";
 
 const ProfileService = {
+  async addSkill(skills) {
+    const url = `${baseUrl}/add-skill`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const requests = skills.map((skill) =>
+        fetch(url, {
+          mode: "cors",
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(skill),
+        })
+      );
+
+      const responses = await Promise.all(requests);
+
+      const failedRequests = [];
+      for (const response of responses) {
+        if (!response.ok) {
+          const errorText = await response.text();
+          failedRequests.push(errorText || "Failed to update skill");
+        }
+      }
+
+      if (failedRequests.length > 0) {
+        failedRequests.forEach((error) => toast.error(error));
+        return { error: failedRequests };
+      }
+
+      toast.success("All skills updated successfully!");
+      return { success: true };
+    } catch (error) {
+      console.error("Error updating skills:", error);
+      toast.error("An unexpected error occurred while updating skills.");
+      return { error: error.message };
+    }
+  },
+
   async updateInformationDetail(newInformationDetail) {
     const url = `${baseUrl}/update-information-detail`;
     const token = localStorage.getItem("jwt-token");
