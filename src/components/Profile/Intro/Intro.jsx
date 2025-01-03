@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, House, MapPin } from "lucide-react";
 import EditButton from "../EditButton/EditButton";
 import PropTypes from "prop-types";
 import styles from "./Intro.module.css";
@@ -8,8 +8,9 @@ import ProfileService from "../../../services/profile.service";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Spinner from "../../common/Spinner/Spinner";
+import { Link } from "react-router-dom";
 
-export default function Intro({ data }) {
+export default function Intro() {
   const [isEditting, setIsEditting] = useState(false);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm();
@@ -63,10 +64,26 @@ export default function Intro({ data }) {
         </EditButton>
       )}
       <div className={styles.detailContainer}>
-        <GraduationCap size={40} />
-        <p>Study at {data.school}</p>
+        <GraduationCap size={20} />
+        {user.informationDetail.major && (
+          <p> Study {user.informationDetail.major} at UIT</p>
+        )}
       </div>
-      <EditButton>Edit Details</EditButton>
+      <div className={styles.detailContainer}>
+        <MapPin size={20} />
+        {user.informationDetail.homeTown !== "" && (
+          <p>{user.informationDetail.homeTown}</p>
+        )}
+      </div>
+      <div className={styles.detailContainer}>
+        <House size={20} />
+        {user.informationDetail.currentCity !== "" && (
+          <p>Live at {user.informationDetail.currentCity}</p>
+        )}
+      </div>
+      <Link to={`/profile/${user.id}/about/work-and-education`}>
+        <EditButton>Edit Details</EditButton>
+      </Link>
     </div>
   );
 }

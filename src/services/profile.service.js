@@ -4,6 +4,35 @@ import { API_ENDPOINT } from "../lib/constants";
 const baseUrl = API_ENDPOINT + "/profile";
 
 const ProfileService = {
+  async updateInformationDetail(newInformationDetail) {
+    const url = `${baseUrl}/update-information-detail`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          newInformationDetail,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to update contact");
+        return { error: errorText };
+      }
+      toast.success("Update information success!");
+      return { success: true };
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      return { error: error.message };
+    }
+  },
   async updateContact(newContact) {
     const url = `${baseUrl}/update-contact`;
     const token = localStorage.getItem("jwt-token");

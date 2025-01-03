@@ -17,6 +17,7 @@ const AuthContext = createContext({
       activityClass: null,
       currentCity: null,
       homeTown: null,
+      work: null,
     },
     contact: {
       email: null,

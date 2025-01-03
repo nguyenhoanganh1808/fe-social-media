@@ -1,3 +1,5 @@
+import FormInformationDetail from "./FormInformationDetail";
+
 export default function WorkAndEdu() {
-  return <div>Work and edu</div>;
+  return <FormInformationDetail />;
 }
