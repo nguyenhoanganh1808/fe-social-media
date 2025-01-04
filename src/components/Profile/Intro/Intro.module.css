@@ -27,7 +27,7 @@
 }
 
 .bioInput {
-  width: 100%;
+  /* width: 100%; */
   resize: none;
   padding: 8px;
   border-radius: 8px;
@@ -44,6 +44,5 @@
 
 .buttonContainer {
   align-self: flex-end;
-  display: flex;
   gap: 8px;
 }

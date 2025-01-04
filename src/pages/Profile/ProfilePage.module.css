@@ -31,10 +31,9 @@
 
 .downContainer {
   display: flex;
-  max-width: 80vw;
-  justify-content: center;
+  /* justify-content: center; */
   margin: 8px;
-  gap: 16px;
+  /* gap: 16px; */
 }
 
 .leftDownContainer {

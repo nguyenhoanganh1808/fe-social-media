@@ -1,14 +1,14 @@
 import { GraduationCap, House, MapPin } from "lucide-react";
 import EditButton from "../EditButton/EditButton";
-import PropTypes from "prop-types";
 import styles from "./Intro.module.css";
 import { useState } from "react";
 import { useAuth } from "../../../hooks/useAuthContext";
 import ProfileService from "../../../services/profile.service";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import Spinner from "../../common/Spinner/Spinner";
 import { Link } from "react-router-dom";
+import CancelButton from "../../common/CancelButton";
+import LoadingButton from "../../common/Spinner/LoadingButton";
 
 export default function Intro() {
   const [isEditting, setIsEditting] = useState(false);
@@ -50,11 +50,13 @@ export default function Intro() {
           defaultValue={user.bio}
         ></textarea>
         {isEditting && (
-          <div className={`${styles.buttonContainer} ml-auto`}>
-            <button onClick={() => setIsEditting(false)}>Cancel</button>
-            <button className="bg-blue-500 py-0 text-white" type="submit">
-              {loading ? <Spinner size={20} borderWidth={3} /> : "Save"}
-            </button>
+          <div className={`${styles.buttonContainer} `}>
+            <CancelButton onClick={() => setIsEditting(false)}>
+              Cancel
+            </CancelButton>
+            <LoadingButton isLoading={loading} type="submit" className="">
+              Save
+            </LoadingButton>
           </div>
         )}
       </form>
@@ -87,10 +89,3 @@ export default function Intro() {
     </div>
   );
 }
-
-Intro.propTypes = {
-  data: PropTypes.shape({
-    school: PropTypes.string,
-    bio: PropTypes.string,
-  }),
-};

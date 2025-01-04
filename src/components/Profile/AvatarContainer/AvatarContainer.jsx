@@ -10,7 +10,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import ProfileService from "../../../services/profile.service";
 
-export default function AvatarContainer({ userData }) {
+export default function AvatarContainer() {
   const { user, setUser } = useAuth();
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
 
@@ -40,7 +40,7 @@ export default function AvatarContainer({ userData }) {
   return (
     <div className={styles.avatarContainer}>
       <div className={styles.followContainer}>
-        <p>{formatNumber(userData.followersNumber)}</p>
+        <p>{formatNumber(1000)}</p>
         <p>Followers</p>
       </div>
       <div className={styles.avatar}>
@@ -59,7 +59,7 @@ export default function AvatarContainer({ userData }) {
         />
       </div>
       <div className={styles.followContainer}>
-        <p>{formatNumber(userData.followingNumber)}</p>
+        <p>{formatNumber(2000)}</p>
         <p>Following</p>
       </div>
     </div>
