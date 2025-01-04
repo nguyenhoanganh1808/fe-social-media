@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CommentService from "../../../../services/comment.service";
 import Comment from "./Comment/Comment";
 import Spinner from "../../../common/Spinner/Spinner";
@@ -8,19 +8,26 @@ import PropTypes from "prop-types";
 export default function Comments({ comments, setComments }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
+
+  const loadComments = useCallback(async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
+    const limit = 10;
+    const cmts = await CommentService.getComments(id, page, limit, true);
+
+    if (cmts.success) {
+      setComments([...comments, ...cmts.data._embedded.commentResponseList]);
+      setPage(page + 1);
+      setHasMore(cmts.data.page.number + 1 < cmts.data.page.totalPages);
+    }
+    setLoading(false);
+  }, [id, page, loading, hasMore, comments, setComments]);
 
   useEffect(() => {
-    const fetch = async () => {
-      setLoading(true);
-      const cmts = await CommentService.getComments(id, 0, 100, true);
-
-      if (cmts._embedded) {
-        setComments(cmts._embedded.commentResponseList);
-      }
-      setLoading(false);
-    };
-    fetch();
-  }, [id, setComments]);
+    loadComments();
+  }, [loadComments]);
 
   return (
     <div>
@@ -28,19 +35,18 @@ export default function Comments({ comments, setComments }) {
         <strong>Comments</strong>
       </h2>
       <hr />
-      {loading ? (
-        <div className="w-full justify-center flex">
-          <Spinner />
-        </div>
-      ) : (
-        comments.map((comment, index) => (
-          <Comment
-            key={index}
-            comments={comments}
-            setComments={setComments}
-            {...comment}
-          />
-        ))
+
+      {comments.map((comment, index) => (
+        <Comment
+          key={index}
+          comments={comments}
+          setComments={setComments}
+          {...comment}
+        />
+      ))}
+      <div className="flex justify-center">{loading && <Spinner />}</div>
+      {!loading && hasMore && (
+        <button onClick={loadComments}>Load more comments</button>
       )}
     </div>
   );

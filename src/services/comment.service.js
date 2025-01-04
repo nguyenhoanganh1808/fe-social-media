@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
 
 const baseUrl = `${API_ENDPOINT}/comments`;
@@ -16,11 +17,25 @@ const CommentService = {
         },
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to fetch reply");
+        return {
+          error: errorText,
+        };
+      }
+
       const data = await response.json();
 
-      return data._embedded.commentResponseList;
+      return {
+        success: true,
+        data: data._embedded.commentResponseList,
+      };
     } catch (e) {
-      throw new Error(e);
+      toast.error(e || "Failed to fetch reply");
+      return {
+        error: e || "Failed to fetch reply",
+      };
     }
   },
   async replyComment(data, parentId, postId) {
@@ -109,13 +124,20 @@ const CommentService = {
       });
 
       if (!response.ok) {
-        throw new Error("Something went wrong");
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to fetch comments");
+        return {
+          error: errorText,
+        };
       }
 
       const data = await response.json();
-      return data;
+      return { success: true, data: data };
     } catch (e) {
-      throw new Error(e);
+      toast.error(e || "Failed to fetch comments");
+      return {
+        errro: e || "Failed to fetch comments",
+      };
     }
   },
 };
