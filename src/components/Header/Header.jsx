@@ -7,9 +7,13 @@ import useSearch from "../../hooks/useSearch";
 import SearchItem from "./SearchItem";
 
 export default function Header() {
-  const { searchResults, searchValue, setSearchValue } = useSearch(
-    SearchService.search
-  );
+  const {
+    searchResults,
+    searchValue,
+    setSearchValue,
+    isShowResult,
+    setIsShowResult,
+  } = useSearch(SearchService.search);
 
   console.log("searchResult: ", searchResults);
 
@@ -26,18 +30,20 @@ export default function Header() {
             type="search"
             placeholder="# Explore"
           />
-          {searchValue.length > 0 && (
+          {searchValue.length > 0 && isShowResult && (
             <ul className="absolute top-14 w-full bg-white rounded-lg shadow-lg p-3 space-y-3 flex flex-col">
               {searchResults.groups.map((result) => (
                 <SearchItem
+                  onClick={() => setIsShowResult(false)}
                   key={result.id}
                   imgUrl=""
                   title={result.name}
-                  to={`/groups/${result.id}`}
+                  to={`/groups/${result.id}/`}
                 />
               ))}
               {searchResults.users.map((result) => (
                 <SearchItem
+                  onClick={() => setIsShowResult(false)}
                   key={result.id}
                   imgUrl={result.avatarUrl}
                   title={result.nickname}

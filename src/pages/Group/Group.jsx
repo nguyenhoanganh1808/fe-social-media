@@ -7,11 +7,11 @@ import {
   useParams,
 } from "react-router-dom";
 import { GroupService } from "../../services/group.service";
-import Spinner from "../../components/common/Spinner/Spinner";
 import AvatarList from "../../components/Group/AvatarList";
 import LoadingButton from "../../components/common/Spinner/LoadingButton";
 import { Plus } from "lucide-react";
 import { groupNavItem } from "../../lib/constants";
+import Spinner from "../../components/common/Spinner/Spinner";
 
 export default function Group() {
   const { id } = useParams();
@@ -45,18 +45,17 @@ export default function Group() {
     setLoading(false);
   }, [id]);
 
-  console.log("pathname: ", location.pathname);
   useEffect(() => {
     fetchGroupDetail();
   }, [fetchGroupDetail]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="w-full flex justify-center mt-5">
-  //       <Spinner borderWidth={3} size={30} />;
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="w-full flex justify-center mt-5">
+        <Spinner borderWidth={3} size={30} />;
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col">
@@ -100,7 +99,7 @@ export default function Group() {
         </ul>
       </div>
       <div className="px-52 my-5">
-        <Outlet />
+        <Outlet context={{ members: group.members }} />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ export default function useSearch(apiCall) {
     users: [],
     posts: [],
   });
+  const [isShowResult, setIsShowResult] = useState(true);
 
   useEffect(() => {
     async function filter() {
@@ -24,5 +25,7 @@ export default function useSearch(apiCall) {
     searchValue,
     setSearchValue,
     searchResults,
+    isShowResult,
+    setIsShowResult,
   };
 }
