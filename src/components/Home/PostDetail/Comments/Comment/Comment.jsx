@@ -8,7 +8,6 @@ import useToggle from "../../../../../hooks/useToggle";
 import CommentInput from "../CommentInput/CommentInput";
 import CommentService from "../../../../../services/comment.service";
 import { useState } from "react";
-import CancelButton from "../../../../common/CancelButton";
 import TextButton from "../../../../common/TextButton";
 
 export default function Comment({

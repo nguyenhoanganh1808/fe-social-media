@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PostService } from "../services/post.service";
 
-export default function useFetchPost(fetchFunction) {
+export default function useFetchPost(fetchFunction, groupId = 0) {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function useFetchPost(fetchFunction) {
 
     setLoading(true);
     try {
-      const postData = await fetchFunction(page, 10);
+      const postData = await fetchFunction(page, 10, groupId);
       setPosts([]);
       setPosts((prevPosts) => {
         const postMap = new Map(prevPosts.map((post) => [post.id, post]));
@@ -39,7 +39,7 @@ export default function useFetchPost(fetchFunction) {
     } finally {
       setLoading(false);
     }
-  }, [page, loading, hasMore, fetchFunction]);
+  }, [page, loading, hasMore, fetchFunction, groupId]);
 
   useEffect(() => {
     setPage(0);

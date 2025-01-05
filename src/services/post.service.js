@@ -72,6 +72,59 @@ export const PostService = {
     }
   },
 
+  async createGroupPost(groupId, data) {
+    const url = `${baseUrl}/groups/${groupId}/createGroupPost`;
+    const token = localStorage.getItem("jwt-token");
+
+    const { content, file, mediaFiles, link } = data;
+    const formData = new FormData();
+    const postRequestString = JSON.stringify({
+      textContent: content,
+      title: "",
+      privacyId: parseInt(data.privacy),
+      link: link,
+    });
+    formData.append("postRequestString", postRequestString);
+
+    if (file && file.length > 0) {
+      for (let i = 0; i < file.length; i++) {
+        formData.append("mediaFiles", file[i]);
+      }
+    }
+
+    if (mediaFiles && mediaFiles.length > 0) {
+      mediaFiles.forEach((file) => {
+        formData.append("mediaFiles", file);
+      });
+    }
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "An error occurred while creating the post");
+        return {
+          error: errorText || "An error occurred while creating the post",
+        };
+      }
+      toast.success("Post created successfully");
+      return { success: true };
+    } catch (e) {
+      toast.error(e || "An error occurred while creating the post");
+      return {
+        error: e || "An error occurred while creating the post",
+      };
+    }
+  },
+
   async createPost(data) {
     const url = `${baseUrl}/createPost`;
     const token = localStorage.getItem("jwt-token");
@@ -177,6 +230,39 @@ export const PostService = {
       return posts;
     } catch (e) {
       throw new Error(e);
+    }
+  },
+
+  async getPostInGroup(page, size, groupId) {
+    const url = baseUrl + "/groups/" + groupId + `?size=${size}&page=${page}`;
+
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to fetch posts");
+        return {
+          error: errorText || "Failed to fetch posts",
+        };
+      }
+
+      const data = await response.json();
+
+      const posts = data.map((post) => createPost(post));
+      return posts;
+    } catch (e) {
+      toast.error(e || "Failed to fetch posts");
+      return {
+        error: e || "Failed to fetch posts",
+      };
     }
   },
 

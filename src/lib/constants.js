@@ -18,3 +18,22 @@ export const majors = [
   "Information Security",
   "E-Commerce",
 ];
+
+export const groupNavItem = [
+  {
+    title: "Discussion",
+    to: "",
+  },
+  {
+    title: "Media",
+    to: "media",
+  },
+  {
+    title: "Files",
+    to: "files",
+  },
+  {
+    title: "Members",
+    to: "members",
+  },
+];

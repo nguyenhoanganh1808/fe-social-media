@@ -1,31 +1,33 @@
 import { forwardRef, useState } from "react";
-import styles from "./CreatePostModal.module.css";
+import styles from "../Home/CreatePost/CreatePostModal/CreatePostModal.module.css";
 import PropTypes from "prop-types";
 import { Smile, FilesIcon, Link } from "lucide-react";
-import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
-import AddLinks from "./AddLinks/AddLinks";
-import useToggle from "../../../../hooks/useToggle";
-import { useAuth } from "../../../../hooks/useAuthContext";
+import useToggle from "../../hooks/useToggle";
+import { useAuth } from "../../hooks/useAuthContext";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import Header from "../Header/Header";
+import Header from "../Home/CreatePost/Header/Header";
 
-import useFormCreatePost from "../../../../hooks/useFormCreatePost";
+import useFormCreatePost from "../../hooks/useFormCreatePost";
 import { FormProvider } from "react-hook-form";
-import FilePreview from "./FilePreview/FilePreview";
-import Spinner from "../../../common/Spinner/Spinner";
+import FilePreview from "../Home/CreatePost/CreatePostModal/FilePreview/FilePreview";
+import Spinner from "../common/Spinner/Spinner";
 
-import GifPreview from "../CreatePostModal/GifPreview/GifPreview";
+import GifPreview from "../Home/CreatePost/CreatePostModal/GifPreview/GifPreview";
 import GifPicker from "gif-picker-react";
-import SelectPrivacy from "./SelectPrivacy";
+import SelectPrivacy from "../Home/CreatePost/CreatePostModal/SelectPrivacy";
+import AddImageOrVideoInput from "../Home/CreatePost/CreatePostModal/AddImageOrVideo/AddImageOrVideoInput";
+import AddLinks from "../Home/CreatePost/CreatePostModal/AddLinks/AddLinks";
+import { PostService } from "../../services/post.service";
+import { useParams } from "react-router-dom";
 
-const CreatePostModal = forwardRef(function CreatePostModal(
+const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
   { closeDialog, handlePostCreated },
   ref
 ) {
   const {
     methods,
-    onSubmit,
+
     fileArray,
     imagesArray,
     postContent,
@@ -34,6 +36,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     setLoading,
   } = useFormCreatePost();
   const { register, handleSubmit, setValue, getValues, reset } = methods;
+  const { id } = useParams();
 
   const [gif, setGif] = useState(null);
   const { user } = useAuth();
@@ -67,6 +70,16 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     }
   };
 
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const result = await PostService.createGroupPost(id, data);
+    if (result.error) {
+      setLoading(false);
+      return;
+    }
+    return result;
+  };
+
   return (
     <dialog className={styles.wrapper} ref={ref}>
       <Header
@@ -84,9 +97,8 @@ const CreatePostModal = forwardRef(function CreatePostModal(
             const result = await onSubmit(data);
             if (result.success) {
               await handlePostCreated();
-              setLoading(false);
             }
-            // toggleValidation();
+            setLoading(false);
             reset();
             closeDialog();
           })}
@@ -207,7 +219,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
   );
 });
 
-CreatePostModal.propTypes = {
+CreatePostInGroupModal.propTypes = {
   author: PropTypes.shape({
     avatarUrl: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
@@ -218,4 +230,4 @@ CreatePostModal.propTypes = {
   handlePostCreated: PropTypes.func,
 };
 
-export default CreatePostModal;
+export default CreatePostInGroupModal;

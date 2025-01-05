@@ -22,6 +22,9 @@ import SavedPosts from "./components/Home/SavedPosts";
 import Overview from "./components/Home/About/Overview";
 import WorkAndEdu from "./components/Home/About/WorkAndEdu";
 import Contact from "./components/Home/About/Contact";
+import Group from "./pages/Group/Group";
+import Disussion from "./components/Group/Discussion";
+import Members from "./components/Group/Members";
 
 const routes = createBrowserRouter([
   {
@@ -69,6 +72,20 @@ const routes = createBrowserRouter([
       {
         path: "/message",
         element: <MessagePage />,
+      },
+      {
+        path: "/groups/:id",
+        element: <Group />,
+        children: [
+          {
+            index: true,
+            element: <Disussion />,
+          },
+          {
+            path: "members",
+            element: <Members />,
+          },
+        ],
       },
       {
         path: "/profile/:id",
