@@ -14,6 +14,7 @@ import { useState } from "react";
 import { PostService } from "../../../../services/post.service";
 import { CustomCarousel } from "../../CreatePost/CreatePostModal/CustomSlider/Carousel";
 import FileView from "./FileView";
+import { useAuth } from "../../../../hooks/useAuthContext";
 
 const actionsButton = [
   {
@@ -32,8 +33,9 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
   const { isOpen, toggle } = useToggle();
   const { closeDialog, dialogRef, showDialog } = useDialog();
   const [isSaved, setIsSaved] = useState(post.isSaved);
-
+  const { user } = useAuth();
   const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
+  const isAuthor = user.userId === post.user.id;
 
   const toggleSaved = async () => {
     setIsSaved((prevIsSaved) => !prevIsSaved);
@@ -74,9 +76,11 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
                 toggle();
               }}
             >
-              <div className={styles.ellipsis}>
-                <Ellipsis />
-              </div>
+              {isAuthor && (
+                <div className={styles.ellipsis}>
+                  <Ellipsis />
+                </div>
+              )}
               {isOpen && (
                 <div className={styles.actionsContainer}>
                   <ul>

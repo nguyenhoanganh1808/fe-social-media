@@ -5,9 +5,13 @@ import PostsList from "../Home/PostsList/PostsList";
 import Intro from "./Intro/Intro";
 import Skill from "./Skills/Skills";
 import styles from "../../pages/Profile/ProfilePage.module.css";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuthContext";
 
 export default function UserPosts() {
   const { posts, loading } = useFetchPost(PostService.getUserPosts);
+  const { id } = useParams();
+  const { user } = useAuth();
 
   return (
     <div className="container flex flex-col gap-3 lg:flex-row justify-center">
@@ -16,7 +20,7 @@ export default function UserPosts() {
         <Skill />
       </div>
       <div className={styles.rightDownContainer}>
-        <CreatePost />
+        {id === user.userId && <CreatePost />}
         <PostsList posts={posts} loading={loading} />
       </div>
     </div>

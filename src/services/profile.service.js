@@ -4,6 +4,34 @@ import { API_ENDPOINT } from "../lib/constants";
 const baseUrl = API_ENDPOINT + "/profile";
 
 const ProfileService = {
+  async getProfileByUserId(userId) {
+    const url =
+      `${baseUrl}/get-profile-by-userid?` +
+      new URLSearchParams({ userId: userId });
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to get info");
+        return { error: errorText };
+      }
+
+      return { success: true, data: await response.json() };
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      return { error: error.message };
+    }
+  },
   async addSkill(skills) {
     const url = `${baseUrl}/add-skill`;
     const token = localStorage.getItem("jwt-token");

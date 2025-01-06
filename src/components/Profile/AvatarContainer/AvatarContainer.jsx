@@ -10,9 +10,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import ProfileService from "../../../services/profile.service";
 
-export default function AvatarContainer() {
+export default function AvatarContainer({ userInfo }) {
   const { user, setUser } = useAuth();
-  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
+  const [avatarUrl, setAvatarUrl] = useState(userInfo.avatarUrl);
 
   const handleAvatarUrl = async (event) => {
     const file = event.target.files[0];
@@ -45,11 +45,13 @@ export default function AvatarContainer() {
       </div>
       <div className={styles.avatar}>
         <Avatar src={avatarUrl} size={130} />
-        <label htmlFor="avatarFile">
-          <LucideCircleButton size={40}>
-            <Camera fill="gray" color="white" />
-          </LucideCircleButton>
-        </label>
+        {userInfo.userId === user.userId && (
+          <label htmlFor="avatarFile">
+            <LucideCircleButton size={40}>
+              <Camera fill="gray" color="white" />
+            </LucideCircleButton>
+          </label>
+        )}
         <input
           onChange={handleAvatarUrl}
           className={styles.avatarInput}
@@ -67,9 +69,8 @@ export default function AvatarContainer() {
 }
 
 AvatarContainer.propTypes = {
-  userData: PropTypes.shape({
-    followersNumber: PropTypes.number.isRequired,
-    followingNumber: PropTypes.number.isRequired,
-    avatarUrl: PropTypes.string.isRequired,
+  userInfo: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
+    avatarUrl: PropTypes.string,
   }),
 };

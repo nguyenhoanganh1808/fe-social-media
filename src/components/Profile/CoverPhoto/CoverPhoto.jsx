@@ -4,10 +4,11 @@ import { useAuth } from "../../../hooks/useAuthContext";
 import { useState } from "react";
 import ProfileService from "../../../services/profile.service";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
-export default function CoverPhoto() {
+export default function CoverPhoto({ userInfo }) {
   const { user, setUser } = useAuth();
-  const [coverImageUrl, setCoverImageUrl] = useState(user.coverImageUrl);
+  const [coverImageUrl, setCoverImageUrl] = useState(userInfo.coverImageUrl);
 
   const handleCoverPhotoChange = async (event) => {
     const file = event.target.files[0];
@@ -35,12 +36,14 @@ export default function CoverPhoto() {
   return (
     <div className={styles.coverPhotoContainer}>
       <img className={styles.coverPhoto} src={coverImageUrl} alt="" />
-      <label className={styles.changeCoverPhotoBtn} htmlFor="coverPhotoInput">
-        <div>
-          <Camera size={30} />
-          <p>Add Cover Photo</p>
-        </div>
-      </label>
+      {userInfo.userId === user.userId && (
+        <label className={styles.changeCoverPhotoBtn} htmlFor="coverPhotoInput">
+          <div>
+            <Camera size={30} />
+            <p>Add Cover Photo</p>
+          </div>
+        </label>
+      )}
       <input
         className={styles.changeCoverPhotoInput}
         type="file"
@@ -51,3 +54,10 @@ export default function CoverPhoto() {
     </div>
   );
 }
+
+CoverPhoto.propTypes = {
+  userInfo: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
+    coverImageUrl: PropTypes.string,
+  }),
+};

@@ -6,7 +6,7 @@ import { useAuth } from "../../../hooks/useAuthContext";
 import ProfileService from "../../../services/profile.service";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CancelButton from "../../common/CancelButton";
 import LoadingButton from "../../common/Spinner/LoadingButton";
 
@@ -15,6 +15,7 @@ export default function Intro() {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm();
   const { user, setUser } = useAuth();
+  const { id } = useParams();
 
   const onSubmitBio = async (formData) => {
     console.log(formData);
@@ -60,7 +61,7 @@ export default function Intro() {
           </div>
         )}
       </form>
-      {!isEditting && (
+      {!isEditting && id === user.userId && (
         <EditButton onClick={() => setIsEditting(!isEditting)}>
           Edit Bio
         </EditButton>
@@ -83,9 +84,11 @@ export default function Intro() {
           <p>Live at {user.informationDetail.currentCity}</p>
         )}
       </div>
-      <Link to={`/profile/${user.id}/about/work-and-education`}>
-        <EditButton>Edit Details</EditButton>
-      </Link>
+      {id === user.userId && (
+        <Link to={`/profile/${user.id}/about/work-and-education`}>
+          <EditButton>Edit Details</EditButton>
+        </Link>
+      )}
     </div>
   );
 }
