@@ -8,10 +8,9 @@ import {
 } from "react-router-dom";
 import { GroupService } from "../../services/group.service";
 import AvatarList from "../../components/Group/AvatarList";
-import LoadingButton from "../../components/common/Spinner/LoadingButton";
-import { Plus } from "lucide-react";
 import { groupNavItem } from "../../lib/constants";
 import Spinner from "../../components/common/Spinner/Spinner";
+import Invite from "../../components/Group/Invite";
 
 export default function Group() {
   const { id } = useParams();
@@ -74,10 +73,7 @@ export default function Group() {
           </div>
 
           <div className="mt-auto">
-            <LoadingButton className="flex items-center gap-2">
-              <Plus size={20} />
-              Invite
-            </LoadingButton>
+            <Invite />
           </div>
         </div>
         <hr className="h-px mt-4 bg-gray-400 border-0 dark:bg-gray-700" />

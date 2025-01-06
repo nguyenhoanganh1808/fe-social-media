@@ -13,7 +13,7 @@ export default function Header() {
     setSearchValue,
     isShowResult,
     setIsShowResult,
-  } = useSearch(SearchService.search);
+  } = useSearch(SearchService.search, { groups: [], users: [], posts: [] });
 
   console.log("searchResult: ", searchResults);
 

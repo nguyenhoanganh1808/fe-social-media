@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 
-export default function useSearch(apiCall) {
+export default function useSearch(apiCall, defaultResult) {
   const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState({
-    groups: [],
-    users: [],
-    posts: [],
-  });
+  const [searchResults, setSearchResults] = useState(defaultResult);
   const [isShowResult, setIsShowResult] = useState(true);
 
   useEffect(() => {
-    async function filter() {
-      if (searchValue.length > 0) {
-        const result = await apiCall(searchValue);
-        if (result.success) {
-          setSearchResults(result.data);
-        }
+    const timeoutId = setTimeout(async () => {
+      const result = await apiCall(searchValue);
+      if (result.success) {
+        setSearchResults(result.data);
+      } else {
+        setSearchResults([]);
       }
-    }
-    filter();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }, [searchValue, apiCall]);
 
   return {
