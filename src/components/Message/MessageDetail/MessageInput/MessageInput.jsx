@@ -78,31 +78,20 @@ export default function MessageInput({ receiverId, setMessageData }) {
   const onSubmit = async (data) => {
     reset();
     setMessageInput("");
-    setMessageData((prevMessages) => [
-      {
-        id: prevMessages.length,
-        content: data.message,
-        createdAt: new Date(),
-        senderId: { id: user.userId },
-        state: "pending",
-      },
-      ...prevMessages,
-    ]);
-    const result = await MessageService.sendMessageToUser(receiverId, data);
-    if (result.success) {
-      setMessageData((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === prevMessages.length - 1 ? { ...msg, state: "sent" } : msg
-        )
-      );
-    } else {
-      console.error("Message failed to send:", result.error);
-      setMessageData((prevMessages) =>
-        prevMessages.map((msg, index) =>
-          index === prevMessages.length - 1 ? { ...msg, state: "failed" } : msg
-        )
-      );
-    }
+
+    const pendingMessage = {
+      id: `pending-${Date.now()}`, // Unique temporary ID
+      content: data.message,
+      createdAt: new Date(),
+      senderId: { id: user.userId },
+      state: "pending",
+    };
+    setMessageData((prevMessages) => [pendingMessage, ...prevMessages]);
+    await MessageService.sendMessageToUser(receiverId, data);
+
+    setMessageData((prevMessages) =>
+      prevMessages.filter((msg) => msg.id !== pendingMessage.id)
+    );
   };
 
   // const playAudio = () => {

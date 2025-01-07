@@ -16,6 +16,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "emoji-mart": "^5.6.0",
+    "firebase": "^11.1.0",
     "flowbite-react": "^0.10.2",
     "framer-motion": "^11.11.17",
     "gif-picker-react": "^1.4.0",
