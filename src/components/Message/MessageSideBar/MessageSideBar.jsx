@@ -3,9 +3,16 @@ import { PenBoxIcon } from "lucide-react";
 import data from "../data";
 import { useState } from "react";
 import ChatList from "./ChatsList/ChatsList";
+import PropTypes from "prop-types";
+import SpinningContainer from "../../common/SpinningContainer";
 
-export default function MessageSideBar() {
+export default function MessageSideBar({ conversations, loading }) {
   const [activeTab, setActiveTab] = useState("Primary");
+  // const { loading, conversations } = useFetchConversations();
+  if (loading) {
+    return <SpinningContainer />;
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -36,7 +43,12 @@ export default function MessageSideBar() {
         })}
       </div>
 
-      <ChatList />
+      <ChatList conversations={conversations} />
     </div>
   );
 }
+
+MessageSideBar.propTypes = {
+  conversations: PropTypes.any,
+  loading: PropTypes.bool.isRequired,
+};

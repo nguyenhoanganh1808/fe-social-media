@@ -1,10 +1,38 @@
+import { useOutletContext } from "react-router-dom";
 import useFormUpdateProfile from "../../../hooks/useFormUpdateProfile";
 import ErrorText from "../../common/ErrorText";
 import LoadingButton from "../../common/Spinner/LoadingButton";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function FormOverview() {
   const { errors, handleSubmit, onSubmit, register, validationRules, loading } =
     useFormUpdateProfile();
+  const { userInfo } = useOutletContext();
+  const { user } = useAuth();
+  const isAuthor = userInfo.userId === user.userId;
+
+  if (!isAuthor) {
+    // Display a text-only version if the user is not the author
+    return (
+      <div className="max-w-md mx-auto space-y-3">
+        <p>
+          <strong>Student Code:</strong> {userInfo.studentCode}
+        </p>
+        <p>
+          <strong>NickName:</strong> {userInfo.nickName}
+        </p>
+        <p>
+          <strong>Tag Name:</strong> {userInfo.tagName}
+        </p>
+        <p>
+          <strong>Birthday:</strong> {userInfo.birthDay}
+        </p>
+        <p>
+          <strong>Gender:</strong> {userInfo.gender}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form

@@ -27,8 +27,8 @@ export default function useFormCreateProfile() {
     nickName: {
       required: "Nickname is required",
       minLength: {
-        value: 8,
-        message: "Nickname must be at least 8 characters long",
+        value: 4,
+        message: "Nickname must be at least 4 characters long",
       },
       maxLength: {
         value: 100,

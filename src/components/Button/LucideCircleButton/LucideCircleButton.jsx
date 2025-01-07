@@ -7,11 +7,12 @@ export default function LucideCircleButton({
   onClick,
   size = 65,
   color = "#38bdf8",
+  type = "button",
 }) {
   const sizeInPx = size + "px";
   return (
     <button
-      type="button"
+      type={type}
       onClick={onClick}
       className={`${styles.iconContainer} ${
         isHoverFill ? styles.hoverFill : ""
@@ -32,4 +33,5 @@ LucideCircleButton.propTypes = {
   onClick: PropTypes.func,
   size: PropTypes.number,
   color: PropTypes.string,
+  type: PropTypes.string,
 };

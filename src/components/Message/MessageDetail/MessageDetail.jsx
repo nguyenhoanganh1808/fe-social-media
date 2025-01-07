@@ -4,19 +4,23 @@ import styles from "./MessageDetail.module.css";
 import { PhoneIcon, VideoIcon, InfoIcon } from "lucide-react";
 import useToggle from "../../../hooks/useToggle";
 
-export default function MessageDetail() {
-  const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
-  const chatData = {
-    user: {
-      avatarUrl:
-        "https://helios-i.mashable.com/imagery/articles/05c4IP1XV043hN2GYTXjwBP/hero-image.fill.size_1200x1200.v1708642421.jpg",
-      isOnline: true,
-      name: "Michel",
-    },
-    lastMessage: "Hey, how's it going?",
-  };
+import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import SpinningContainer from "../../common/SpinningContainer";
 
-  const person = chatData.user;
+export default function MessageDetail({ conversations, loading }) {
+  const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
+
+  const { id } = useParams();
+  const userData = conversations.find(
+    (conversation) => conversation.id == id
+  ).otherUser;
+
+  console.log("con: ", conversations);
+
+  if (loading) {
+    return <SpinningContainer />;
+  }
 
   return (
     <>
@@ -24,11 +28,11 @@ export default function MessageDetail() {
         <div className={styles.headerContainer}>
           <div>
             <div className={styles.avatarContainer}>
-              <img className={styles.avatar} src={person.avatarUrl} alt="" />
-              {person.isOnline && <span className={styles.dot}></span>}
+              <img className={styles.avatar} src={userData.avatarUrl} alt="" />
+              {<span className={styles.dot}></span>}
             </div>
             <div>
-              <p className={styles.name}>{person.name}</p>
+              <p className={styles.name}>{userData.nickname}</p>
               Active now
             </div>
           </div>
@@ -40,7 +44,21 @@ export default function MessageDetail() {
         </div>
         <Chats />
       </div>
-      {isInfoOpen && <Info chatData={chatData} />}
+      {isInfoOpen && <Info userInfo={userData} />}
     </>
   );
 }
+
+MessageDetail.propTypes = {
+  conversations: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      otherUser: PropTypes.shape({
+        avatarUrl: PropTypes.string.isRequired,
+        nickname: PropTypes.string.isRequired,
+        otherUser: PropTypes.object, // Adjust if you know the structure of the object
+      }).isRequired,
+    })
+  ).isRequired,
+  loading: PropTypes.bool.isRequired,
+};

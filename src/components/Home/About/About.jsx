@@ -1,20 +1,21 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useOutletContext } from "react-router-dom";
+const items = [
+  {
+    title: "Overview",
+    href: `overview`,
+  },
+  {
+    title: "Work and education",
+    href: "work-and-education",
+  },
+  {
+    title: "Contact and basic info",
+    href: "contact-and-basic-info",
+  },
+];
 
 export default function About() {
-  const items = [
-    {
-      title: "Overview",
-      href: `overview`,
-    },
-    {
-      title: "Work and education",
-      href: "work-and-education",
-    },
-    {
-      title: "Contact and basic info",
-      href: "contact-and-basic-info",
-    },
-  ];
+  const { userInfo } = useOutletContext();
   return (
     <div className="mt-5 flex-1 w-[60vw] flex bg-white rounded-md">
       <aside
@@ -42,7 +43,7 @@ export default function About() {
         </div>
       </aside>
       <div className="flex-1 mt-3">
-        <Outlet />
+        <Outlet context={{ userInfo }} />
       </div>
     </div>
   );

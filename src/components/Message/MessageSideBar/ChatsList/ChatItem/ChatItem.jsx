@@ -1,29 +1,39 @@
+import { NavLink } from "react-router-dom";
 import styles from "./ChatItem.module.css";
 import PropTypes from "prop-types";
 
-export default function ChatItem({ chatData }) {
-  const person = chatData.user;
+export default function ChatItem({ conversation }) {
+  const person = conversation.lastMessage.senderId;
+
   return (
-    <div className={styles.container}>
+    <NavLink
+      className={({ isActive }) =>
+        `${styles.container} ${isActive ? "bg-blue-100" : ""}`
+      }
+      to={`/message/${conversation.id}`}
+    >
       <div className={styles.avatarContainer}>
         <img className={styles.avatar} src={person.avatarUrl} alt="" />
-        {person.isOnline && <span className={styles.dot}></span>}
+        {<span className={styles.dot}></span>}
       </div>
       <div>
-        <p>{person.name}</p>
-        <p className={styles.chat}>{chatData.lastMessage}</p>
+        <span className="font-semibold text-black">{person.nickname}</span>
+        <p className={styles.chat}>{conversation.lastMessage.content}</p>
       </div>
-    </div>
+    </NavLink>
   );
 }
 
 ChatItem.propTypes = {
-  chatData: PropTypes.shape({
-    user: PropTypes.shape({
-      avatarUrl: PropTypes.string,
-      isOnline: PropTypes.bool,
-      name: PropTypes.string.isRequired,
+  conversation: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    lastMessage: PropTypes.shape({
+      content: PropTypes.string,
+      senderId: PropTypes.shape({
+        avatarUrl: PropTypes.string,
+        isOnline: PropTypes.bool,
+        nickname: PropTypes.string.isRequired,
+      }),
     }),
-    lastMessage: PropTypes.string,
   }),
 };

@@ -1,11 +1,49 @@
+import { useOutletContext } from "react-router-dom";
 import useFormUpdateInformationDetail from "../../../hooks/useFormUpdateInformationDetail";
 import { majors } from "../../../lib/constants";
 import ErrorText from "../../common/ErrorText";
 import LoadingButton from "../../common/Spinner/LoadingButton";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function FormInformationDetail() {
   const { errors, handleSubmit, onSubmit, register, validationRules, loading } =
     useFormUpdateInformationDetail();
+  const { userInfo } = useOutletContext();
+  const { user } = useAuth();
+  const isAuthor = userInfo.userId === user.userId;
+
+  if (!isAuthor) {
+    // Display a text-only version if the user is not the author
+    return (
+      <div className="max-w-md mx-auto space-y-3">
+        <p>
+          <strong>Full name:</strong> {userInfo.informationDetail.fullName}
+        </p>
+        <p>
+          <strong>Major:</strong> {userInfo.informationDetail.major}
+        </p>
+        <p>
+          <strong>School year:</strong> {userInfo.informationDetail.schoolYear}
+        </p>
+        <p>
+          <strong>Activity class:</strong>{" "}
+          {userInfo.informationDetail.activityClass}
+        </p>
+        {userInfo.informationDetail.work > 0 && (
+          <p>
+            <strong>Work:</strong> {userInfo.informationDetail.work[0]}
+          </p>
+        )}
+        <p>
+          <strong>Current city:</strong>{" "}
+          {userInfo.informationDetail.currentCity}
+        </p>
+        <p>
+          <strong>Home town:</strong> {userInfo.informationDetail.homeTown}
+        </p>
+      </div>
+    );
+  }
   return (
     <form
       noValidate

@@ -7,11 +7,6 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [revalidate, setRevalidate] = useState(false);
-
-  const toggleValidation = () => {
-    setRevalidate((prev) => !prev);
-  };
 
   const fetchPosts = useCallback(async () => {
     if (loading || !hasMore) return;
@@ -19,7 +14,7 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     setLoading(true);
     try {
       const postData = await fetchFunction(page, 10, groupId);
-      setPosts([]);
+
       setPosts((prevPosts) => {
         const postMap = new Map(prevPosts.map((post) => [post.id, post]));
         postData.forEach((newPost) => {
@@ -42,11 +37,6 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
   }, [page, loading, hasMore, fetchFunction, groupId]);
 
   useEffect(() => {
-    setPage(0);
-    setHasMore(true);
-  }, [revalidate]);
-
-  useEffect(() => {
     if (page === 0 && hasMore) {
       fetchPosts();
     }
@@ -55,11 +45,11 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight
-      )
-        return;
-      fetchPosts();
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 1
+      ) {
+        fetchPosts();
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -77,6 +67,7 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
   };
 
   const handlePostCreated = async () => {
+    setPosts([]);
     setPage(0);
     setHasMore(true);
   };
@@ -109,6 +100,5 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     handlePostCreated,
     handlePostDeleted,
     handlePostUpdated,
-    toggleValidation,
   };
 }

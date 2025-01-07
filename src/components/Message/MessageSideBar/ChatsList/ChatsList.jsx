@@ -1,14 +1,18 @@
-import data from "../../data";
 import ChatItem from "./ChatItem/ChatItem";
+import PropTypes from "prop-types";
 
-export default function ChatList() {
+export default function ChatList({ conversations }) {
   return (
     <div>
       <ul>
-        {data[1].chats.map((chat, index) => {
-          return <ChatItem key={index} chatData={chat} />;
+        {conversations.map((conversation) => {
+          return <ChatItem key={conversation.id} conversation={conversation} />;
         })}
       </ul>
     </div>
   );
 }
+
+ChatList.propTypes = {
+  conversations: PropTypes.any,
+};

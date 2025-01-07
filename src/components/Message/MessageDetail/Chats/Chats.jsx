@@ -1,40 +1,40 @@
+import { useEffect, useState } from "react";
 import MessageInput from "../MessageInput/MessageInput";
 import styles from "./Chats.module.css";
 import MessageItem from "./MessageItem/MessageItem";
+import { MessageService } from "../../../../services/message.service";
+import { useParams } from "react-router-dom";
+import SpinningContainer from "../../../common/SpinningContainer";
 
 export default function Chats() {
-  const data = [
-    {
-      id: 1,
-      user: {
-        name: "John Doe",
-        avatarUrl: "https://example.com/avatar1.jpg",
-      },
-      lastMessage: "Hey, how's it going?",
-      timestamp: "10:30 AM",
-    },
-    {
-      id: 2,
-      user: {
-        name: "Jane Smith",
-        avatarUrl: "https://example.com/avatar2.jpg",
-      },
-      lastMessage: "Can we reschedule our meeting?",
-      timestamp: "9:15 AM",
-    },
-    {
-      id: 3,
-      user: {
-        name: "Michael Brown",
-        avatarUrl: "https://example.com/avatar3.jpg",
-      },
-      lastMessage: "Thanks for the help earlier!",
-      timestamp: "Yesterday",
-    },
-  ];
+  const [messageData, setMessageData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function fetch() {
+      setLoading(true);
+      const result = await MessageService.getMessage(id, 0, 10);
+      if (result.success) {
+        setMessageData(result.data);
+      }
+      setLoading(false);
+    }
+    fetch();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-end">
+        <SpinningContainer />;
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.wrapper}>
-      {data.map((chat) => {
+    <div className={`${styles.wrapper}`}>
+      {messageData?.map((chat) => {
         return <MessageItem key={chat.id} messageData={chat} />;
       })}
       <MessageInput />

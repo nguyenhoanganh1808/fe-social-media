@@ -1,10 +1,31 @@
+import { useOutletContext } from "react-router-dom";
 import useFormUpdateContact from "../../../hooks/useFormUpdateContact";
 import ErrorText from "../../common/ErrorText";
 import LoadingButton from "../../common/Spinner/LoadingButton";
+import { useAuth } from "../../../hooks/useAuthContext";
 
 export default function FormContact() {
   const { errors, handleSubmit, onSubmit, register, validationRules, loading } =
     useFormUpdateContact();
+  const { userInfo } = useOutletContext();
+  const { user } = useAuth();
+  const isAuthor = userInfo.userId === user.userId;
+  if (!isAuthor) {
+    // Display a text-only version if the user is not the author
+    return (
+      <div className="max-w-md mx-auto space-y-3">
+        <p>
+          <strong>Email:</strong> {userInfo.contact.email}
+        </p>
+        <p>
+          <strong>Phone number:</strong> {userInfo.contact.phoneNumber}
+        </p>
+        <p>
+          <strong>Address:</strong> {userInfo.contact.address}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form

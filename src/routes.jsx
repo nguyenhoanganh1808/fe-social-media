@@ -70,7 +70,7 @@ const routes = createBrowserRouter([
         ],
       },
       {
-        path: "/message",
+        path: "/message/:id",
         element: <MessagePage />,
       },
       {

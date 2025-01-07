@@ -52,3 +52,10 @@ export async function convertToFiles(defaultFiles) {
 
   return Promise.all(filePromises);
 }
+
+export function formatToTime(inputTimestamp) {
+  const date = new Date(inputTimestamp);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}

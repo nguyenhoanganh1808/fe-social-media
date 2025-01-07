@@ -5,7 +5,7 @@ import LucideCIrcleButton from "../../../Button/LucideCircleButton/LucideCircleB
 import { Bell, CircleUserRound, Search } from "lucide-react";
 import ListGroupItem from "./ListGroupItem/ListGroupItem";
 
-export default function Info({ chatData }) {
+export default function Info({ userInfo }) {
   const listGroupData = [
     {
       title: "Chat Info",
@@ -24,8 +24,8 @@ export default function Info({ chatData }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.userContainer}>
-        <Avatar src={chatData.user.avatarUrl} alt="" size={70} />
-        <p>{chatData.user.name}</p>
+        <Avatar src={userInfo.avatarUrl} alt="" size={70} />
+        <p>{userInfo.nickname}</p>
         <p>Active now</p>
       </div>
 
@@ -53,11 +53,9 @@ export default function Info({ chatData }) {
 }
 
 Info.propTypes = {
-  chatData: PropTypes.shape({
-    user: PropTypes.shape({
-      avatarUrl: PropTypes.string,
-      isOnline: PropTypes.bool,
-      name: PropTypes.string,
-    }),
+  userInfo: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+    isOnline: PropTypes.bool,
+    nickname: PropTypes.string,
   }),
 };

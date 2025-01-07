@@ -9,8 +9,9 @@ import { toast } from "react-toastify";
 import { Link, useParams } from "react-router-dom";
 import CancelButton from "../../common/CancelButton";
 import LoadingButton from "../../common/Spinner/LoadingButton";
+import PropTypes from "prop-types";
 
-export default function Intro() {
+export default function Intro({ userInfo }) {
   const [isEditting, setIsEditting] = useState(false);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm();
@@ -48,7 +49,7 @@ export default function Intro() {
           rows={isEditting ? 5 : "auto"}
           disabled={!isEditting}
           id="bio"
-          defaultValue={user.bio}
+          defaultValue={userInfo.bio}
         ></textarea>
         {isEditting && (
           <div className={`${styles.buttonContainer} `}>
@@ -69,19 +70,19 @@ export default function Intro() {
       <div className={styles.detailContainer}>
         <GraduationCap size={20} />
         {user.informationDetail.major && (
-          <p> Study {user.informationDetail.major} at UIT</p>
+          <p> Study {userInfo.informationDetail.major} at UIT</p>
         )}
       </div>
       <div className={styles.detailContainer}>
         <MapPin size={20} />
         {user.informationDetail.homeTown !== "" && (
-          <p>{user.informationDetail.homeTown}</p>
+          <p>{userInfo.informationDetail.homeTown}</p>
         )}
       </div>
       <div className={styles.detailContainer}>
         <House size={20} />
         {user.informationDetail.currentCity !== "" && (
-          <p>Live at {user.informationDetail.currentCity}</p>
+          <p>Live at {userInfo.informationDetail.currentCity}</p>
         )}
       </div>
       {id === user.userId && (
@@ -92,3 +93,14 @@ export default function Intro() {
     </div>
   );
 }
+
+Intro.propTypes = {
+  userInfo: PropTypes.shape({
+    bio: PropTypes.string,
+    informationDetail: PropTypes.shape({
+      major: PropTypes.string,
+      homeTown: PropTypes.string,
+      currentCity: PropTypes.string,
+    }),
+  }),
+};

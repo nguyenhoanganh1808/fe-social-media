@@ -7,6 +7,7 @@ export default function useSearch(apiCall, defaultResult) {
 
   useEffect(() => {
     const timeoutId = setTimeout(async () => {
+      setIsShowResult(true);
       const result = await apiCall(searchValue);
       if (result.success) {
         setSearchResults(result.data);

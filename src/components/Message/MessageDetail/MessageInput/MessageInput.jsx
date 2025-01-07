@@ -9,16 +9,21 @@ import useHover from "../../../../hooks/useHover";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { formatTime } from "../../../../lib/utils";
+import { useForm } from "react-hook-form";
+import { MessageService } from "../../../../services/message.service";
+import { useParams } from "react-router-dom";
 
 export default function MessageInput() {
   const [messageInput, setMessageInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const { register, handleSubmit } = useForm();
   const [audioBlob, setAudioBlob] = useState(null);
   const {
     isHovered: showEmojiPicker,
     onMouseEnter: onMouseEmojiEnter,
     onMouseLeave: onMouseEmojiLeave,
   } = useHover();
+  const { id } = useParams();
   const [time, setTime] = useState("0:00,00");
   const startTimeRef = useRef(null);
   const intervalRef = useRef(null);
@@ -69,6 +74,10 @@ export default function MessageInput() {
     setTime("00:00,00");
   };
 
+  const onSubmit = async (data) => {
+    await MessageService.sendMessageToUser(id, data);
+  };
+
   // const playAudio = () => {
   //   if (audioBlob) {
   //     const audioURL = URL.createObjectURL(audioBlob);
@@ -78,13 +87,16 @@ export default function MessageInput() {
   // };
 
   const handleEmojiClick = (emoji) => {
-    setMessageInput((prev) => prev + emoji.navite);
+    setMessageInput((prev) => prev + emoji.native);
   };
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.inputContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+        <div
+          className={styles.inputContainer}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div
             className={styles.smileyContainer}
             onMouseEnter={onMouseEmojiEnter}
@@ -104,14 +116,15 @@ export default function MessageInput() {
                   }}
                   className={styles.emojiPicker}
                 >
-                  <Picker data={data} />
+                  <Picker data={data} onEmojiSelect={handleEmojiClick} />
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           <input
-            className={styles.input}
+            {...register("message")}
+            className={`${styles.input} border-transparent focus:border-transparent focus:ring-0`}
             type="text"
             id="message"
             name="message"
@@ -159,7 +172,11 @@ export default function MessageInput() {
             </motion.div>
           </LucideCircleButton>
         ) : (
-          <LucideCircleButton isHoverFill={true} onClick={stopRecording}>
+          <LucideCircleButton
+            type="submit"
+            isHoverFill={true}
+            onClick={stopRecording}
+          >
             <motion.div
               key="send-horizontal"
               initial={{ scale: 0 }}
@@ -169,7 +186,7 @@ export default function MessageInput() {
             </motion.div>
           </LucideCircleButton>
         )}
-      </div>
+      </form>
     </>
   );
 }
