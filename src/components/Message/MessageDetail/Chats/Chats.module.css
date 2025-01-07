@@ -1,6 +1,7 @@
 .wrapper {
   background-color: white;
   height: calc(100% - 70px);
+
   border-radius: 0 0 15px 15px;
 
   display: flex;

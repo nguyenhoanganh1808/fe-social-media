@@ -25,7 +25,7 @@ export default function MessageItem({ messageData }) {
               </p>
             </div>
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              Delivered
+              {messageData.state === "pending" ? "Pending" : "Delivered"}
             </span>
           </div>
         </div>
@@ -65,6 +65,7 @@ export default function MessageItem({ messageData }) {
 MessageItem.propTypes = {
   messageData: PropTypes.shape({
     id: PropTypes.number.isRequired,
+    state: PropTypes.string,
     senderId: PropTypes.shape({
       id: PropTypes.string.isRequired,
       nickname: PropTypes.string.isRequired,

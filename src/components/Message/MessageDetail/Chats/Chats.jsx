@@ -1,28 +1,13 @@
-import { useEffect, useState } from "react";
 import MessageInput from "../MessageInput/MessageInput";
 import styles from "./Chats.module.css";
 import MessageItem from "./MessageItem/MessageItem";
-import { MessageService } from "../../../../services/message.service";
-import { useParams } from "react-router-dom";
 import SpinningContainer from "../../../common/SpinningContainer";
+import PropTypes from "prop-types";
+import useFetchMessages from "../../../../hooks/useFetchMessages";
 
-export default function Chats() {
-  const [messageData, setMessageData] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    async function fetch() {
-      setLoading(true);
-      const result = await MessageService.getMessage(id, 0, 10);
-      if (result.success) {
-        setMessageData(result.data);
-      }
-      setLoading(false);
-    }
-    fetch();
-  }, [id]);
+export default function Chats({ otherUser }) {
+  const { loading, isFetchingMore, chatListRef, messageData } =
+    useFetchMessages();
 
   if (loading) {
     return (
@@ -34,10 +19,27 @@ export default function Chats() {
 
   return (
     <div className={`${styles.wrapper}`}>
-      {messageData?.map((chat) => {
-        return <MessageItem key={chat.id} messageData={chat} />;
-      })}
-      <MessageInput />
+      <ul className="w-full overflow-y-scroll" ref={chatListRef}>
+        {isFetchingMore && <SpinningContainer />}
+        {messageData
+          ?.map((chat) => {
+            return <MessageItem key={chat.id} messageData={chat} />;
+          })
+          .reverse()}
+      </ul>
+      <MessageInput receiverId={otherUser.id} />;
     </div>
   );
 }
+
+Chats.propTypes = {
+  otherUser: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    otherUser: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      avatarUrl: PropTypes.string.isRequired,
+      nickname: PropTypes.string.isRequired,
+      otherUser: PropTypes.object,
+    }).isRequired,
+  }),
+};

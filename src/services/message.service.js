@@ -68,6 +68,68 @@ export const MessageService = {
     }
   },
 
+  async getPendingMessages() {
+    const url = `${baseUrl}/pending/conversations`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
+      }
+
+      return { success: true, data: await response.json() };
+    } catch (e) {
+      toast.error(e || "An error occurred while fetch pending message");
+      return {
+        error: e || "An error occurred while fetch pending message",
+      };
+    }
+  },
+
+  async approveConversation(approve, conversationId) {
+    const url =
+      `${baseUrl}/approve/${conversationId}?` +
+      new URLSearchParams({ approve });
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
+      }
+
+      return { success: true };
+    } catch (e) {
+      toast.error(e || "An error occurred while approve");
+      return {
+        error: e || "An error occurred while approve",
+      };
+    }
+  },
+
   async sendMessageToUser(userId, data) {
     const url = `${baseUrl}/oneToOne/send`;
     const token = localStorage.getItem("jwt-token");

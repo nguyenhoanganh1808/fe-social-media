@@ -11,23 +11,24 @@ import Picker from "@emoji-mart/react";
 import { formatTime } from "../../../../lib/utils";
 import { useForm } from "react-hook-form";
 import { MessageService } from "../../../../services/message.service";
-import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import { useAuth } from "../../../../hooks/useAuthContext";
 
-export default function MessageInput() {
+export default function MessageInput({ receiverId, setMessageData }) {
   const [messageInput, setMessageInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [audioBlob, setAudioBlob] = useState(null);
   const {
     isHovered: showEmojiPicker,
     onMouseEnter: onMouseEmojiEnter,
     onMouseLeave: onMouseEmojiLeave,
   } = useHover();
-  const { id } = useParams();
   const [time, setTime] = useState("0:00,00");
   const startTimeRef = useRef(null);
   const intervalRef = useRef(null);
   const mediaRecorderRef = useRef(null);
+  const { user } = useAuth();
 
   const startRecording = async () => {
     try {
@@ -75,7 +76,33 @@ export default function MessageInput() {
   };
 
   const onSubmit = async (data) => {
-    await MessageService.sendMessageToUser(id, data);
+    reset();
+    setMessageInput("");
+    setMessageData((prevMessages) => [
+      {
+        id: prevMessages.length,
+        content: data.message,
+        createdAt: new Date(),
+        senderId: { id: user.userId },
+        state: "pending",
+      },
+      ...prevMessages,
+    ]);
+    const result = await MessageService.sendMessageToUser(receiverId, data);
+    if (result.success) {
+      setMessageData((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === prevMessages.length - 1 ? { ...msg, state: "sent" } : msg
+        )
+      );
+    } else {
+      console.error("Message failed to send:", result.error);
+      setMessageData((prevMessages) =>
+        prevMessages.map((msg, index) =>
+          index === prevMessages.length - 1 ? { ...msg, state: "failed" } : msg
+        )
+      );
+    }
   };
 
   // const playAudio = () => {
@@ -190,3 +217,8 @@ export default function MessageInput() {
     </>
   );
 }
+
+MessageInput.propTypes = {
+  receiverId: PropTypes.string.isRequired,
+  setMessageData: PropTypes.func.isRequired,
+};

@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 
 export default function useFetchConversations() {
   const [conversations, setConversations] = useState([]);
+  const [pendingConversations, setPendingConversations] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isLoadingPending, setIsLoadingPending] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchConversations = useCallback(async () => {
@@ -47,6 +49,18 @@ export default function useFetchConversations() {
   }, [fetchConversations, hasMore, page]);
 
   useEffect(() => {
+    async function fetchPendingConversations() {
+      setIsLoadingPending(true);
+      const result = await MessageService.getPendingMessages();
+      if (result.success) {
+        setPendingConversations(result.data);
+      }
+      setIsLoadingPending(false);
+    }
+    fetchPendingConversations();
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (
         window.innerHeight + document.documentElement.scrollTop >=
@@ -63,5 +77,7 @@ export default function useFetchConversations() {
   return {
     loading,
     conversations,
+    pendingConversations,
+    isLoadingPending,
   };
 }

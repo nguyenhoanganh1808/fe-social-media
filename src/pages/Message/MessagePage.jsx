@@ -5,13 +5,19 @@ import useFetchConversations from "../../hooks/useFetchConversations";
 import SpinningContainer from "../../components/common/SpinningContainer";
 
 export default function MessagePage() {
-  const { conversations, loading } = useFetchConversations();
+  const { conversations, loading, isLoadingPending, pendingConversations } =
+    useFetchConversations();
 
-  if (loading || conversations.length === 0) return <SpinningContainer />;
+  if (loading || conversations[0] == null) return <SpinningContainer />;
 
   return (
     <div className={styles.container}>
-      <MessageSideBar loading={loading} conversations={conversations} />
+      <MessageSideBar
+        loading={loading}
+        conversations={conversations}
+        pendingConversations={pendingConversations}
+        isLoadingPending={isLoadingPending}
+      />
       <MessageDetail loding={loading} conversations={conversations} />
     </div>
   );

@@ -12,11 +12,9 @@ export default function MessageDetail({ conversations, loading }) {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
 
   const { id } = useParams();
-  const userData = conversations.find(
+  const otherUser = conversations.find(
     (conversation) => conversation.id == id
   ).otherUser;
-
-  console.log("con: ", conversations);
 
   if (loading) {
     return <SpinningContainer />;
@@ -28,11 +26,11 @@ export default function MessageDetail({ conversations, loading }) {
         <div className={styles.headerContainer}>
           <div>
             <div className={styles.avatarContainer}>
-              <img className={styles.avatar} src={userData.avatarUrl} alt="" />
+              <img className={styles.avatar} src={otherUser.avatarUrl} alt="" />
               {<span className={styles.dot}></span>}
             </div>
             <div>
-              <p className={styles.name}>{userData.nickname}</p>
+              <p className={styles.name}>{otherUser.nickname}</p>
               Active now
             </div>
           </div>
@@ -42,9 +40,9 @@ export default function MessageDetail({ conversations, loading }) {
             <InfoIcon onClick={toggleInfo} />
           </div>
         </div>
-        <Chats />
+        <Chats otherUser={otherUser} />
       </div>
-      {isInfoOpen && <Info userInfo={userData} />}
+      {isInfoOpen && <Info userInfo={otherUser} />}
     </>
   );
 }
@@ -54,6 +52,7 @@ MessageDetail.propTypes = {
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       otherUser: PropTypes.shape({
+        id: PropTypes.string.isRequired,
         avatarUrl: PropTypes.string.isRequired,
         nickname: PropTypes.string.isRequired,
         otherUser: PropTypes.object, // Adjust if you know the structure of the object

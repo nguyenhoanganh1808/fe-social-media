@@ -2,7 +2,7 @@
   flex-basis: 20%;
   background-color: white;
   border-radius: 15px;
-  max-width: 350px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   gap: 12px;

@@ -1,12 +1,18 @@
 import ChatItem from "./ChatItem/ChatItem";
 import PropTypes from "prop-types";
 
-export default function ChatList({ conversations }) {
+export default function ChatList({ data, activeTab }) {
   return (
     <div>
       <ul>
-        {conversations.map((conversation) => {
-          return <ChatItem key={conversation.id} conversation={conversation} />;
+        {data.map((conversation) => {
+          return (
+            <ChatItem
+              key={conversation.id}
+              conversation={conversation}
+              activeTab={activeTab}
+            />
+          );
         })}
       </ul>
     </div>
@@ -14,5 +20,6 @@ export default function ChatList({ conversations }) {
 }
 
 ChatList.propTypes = {
-  conversations: PropTypes.any,
+  data: PropTypes.any,
+  activeTab: PropTypes.string.isRequired,
 };
