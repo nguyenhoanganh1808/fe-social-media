@@ -7,12 +7,15 @@ import { Tooltip } from "flowbite-react";
 import { MessageService } from "../../../../../services/message.service";
 import { useState } from "react";
 import Spinner from "../../../../common/Spinner/Spinner";
+import { useAuth } from "../../../../../hooks/useAuthContext";
+import { formatRelativeTime } from "../../../../../lib/utils";
 
 export default function ChatItem({ conversation, activeTab }) {
   const otherUser = conversation.otherUser;
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const { user } = useAuth();
+  const createdAt = formatRelativeTime(conversation.lastMessage.createdAt);
   const handleApprove = async (value) => {
     setLoading(true);
     const result = await MessageService.approveConversation(
@@ -24,6 +27,11 @@ export default function ChatItem({ conversation, activeTab }) {
     }
     setLoading(false);
   };
+
+  const author =
+    conversation.lastMessage.senderId.id === user.userId
+      ? "You"
+      : conversation.lastMessage.senderId.nickname;
 
   return (
     <NavLink
@@ -38,7 +46,10 @@ export default function ChatItem({ conversation, activeTab }) {
       </div>
       <div>
         <span className="font-semibold text-black">{otherUser.nickname}</span>
-        <p className={styles.chat}>{conversation.lastMessage.content}</p>
+        <p className={styles.chat}>
+          <strong>{author}: </strong> {conversation.lastMessage.content} -{" "}
+          {createdAt}
+        </p>
       </div>
       {activeTab === "Request" && (
         <div className="ml-auto flex gap-3">
@@ -82,7 +93,9 @@ ChatItem.propTypes = {
 
     lastMessage: PropTypes.shape({
       content: PropTypes.string,
+      createdAt: PropTypes.string.isRequired,
       senderId: PropTypes.shape({
+        id: PropTypes.string.isRequired,
         avatarUrl: PropTypes.string,
         isOnline: PropTypes.bool,
         nickname: PropTypes.string.isRequired,

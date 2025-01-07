@@ -60,6 +60,7 @@ export default function useFetchMessages() {
       if (chatListElement) {
         chatListElement.removeEventListener("scroll", handleScroll);
       }
+      setCurrentPage(0);
     };
   }, [messageData, fetchMoreMessages]);
   return {
@@ -67,5 +68,6 @@ export default function useFetchMessages() {
     loading,
     isFetchingMore,
     chatListRef,
+    setMessageData,
   };
 }

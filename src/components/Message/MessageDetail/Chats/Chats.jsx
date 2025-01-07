@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import useFetchMessages from "../../../../hooks/useFetchMessages";
 
 export default function Chats({ otherUser }) {
-  const { loading, isFetchingMore, chatListRef, messageData } =
+  const { loading, isFetchingMore, chatListRef, messageData, setMessageData } =
     useFetchMessages();
 
   if (loading) {
@@ -19,7 +19,7 @@ export default function Chats({ otherUser }) {
 
   return (
     <div className={`${styles.wrapper}`}>
-      <ul className="w-full overflow-y-scroll" ref={chatListRef}>
+      <ul className="w-full overflow-y-scroll mt-3" ref={chatListRef}>
         {isFetchingMore && <SpinningContainer />}
         {messageData
           ?.map((chat) => {
@@ -27,7 +27,8 @@ export default function Chats({ otherUser }) {
           })
           .reverse()}
       </ul>
-      <MessageInput receiverId={otherUser.id} />;
+      <MessageInput receiverId={otherUser.id} setMessageData={setMessageData} />
+      ;
     </div>
   );
 }

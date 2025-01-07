@@ -59,3 +59,27 @@ export function formatToTime(inputTimestamp) {
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
+
+export function formatRelativeTime(timestamp) {
+  const date = new Date(timestamp);
+  const now = Date.now(); // Current timestamp
+  const difference = now - date; // Difference in milliseconds
+
+  const seconds = Math.floor(difference / 1000); // Convert to seconds
+  const minutes = Math.floor(seconds / 60); // Convert to minutes
+  const hours = Math.floor(minutes / 60); // Convert to hours
+  const days = Math.floor(hours / 24); // Convert to days
+  const weeks = Math.floor(days / 7); // Convert to weeks
+
+  if (seconds < 60) {
+    return `${seconds}s`; // Less than a minute
+  } else if (minutes < 60) {
+    return `${minutes}m`; // Less than an hour
+  } else if (hours < 24) {
+    return `${hours}h`; // Less than a day
+  } else if (days < 7) {
+    return `${days}d`; // Less than a week
+  } else {
+    return `${weeks}w`; // More than a week
+  }
+}
