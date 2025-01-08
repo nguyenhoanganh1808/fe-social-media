@@ -39,16 +39,7 @@ export default function Comments({ comments, setComments }) {
       </h2>
       <hr />
 
-      {comments.length > 0 && !loading ? (
-        comments.map((comment, index) => (
-          <Comment
-            key={index}
-            comments={comments}
-            setComments={setComments}
-            {...comment}
-          />
-        ))
-      ) : (
+      {comments.length === 0 && !loading ? (
         <EmptyState
           svg={
             <svg
@@ -67,6 +58,15 @@ export default function Comments({ comments, setComments }) {
           }
           title="comment"
         />
+      ) : (
+        comments.map((comment, index) => (
+          <Comment
+            key={index}
+            comments={comments}
+            setComments={setComments}
+            {...comment}
+          />
+        ))
       )}
       <div className="flex justify-center">{loading && <Spinner />}</div>
       {!loading && hasMore && (

@@ -61,13 +61,45 @@ export default function useFetchNotifications() {
       orderBy("createdAt", "desc"),
       limit(1)
     );
+    const allNotificationQuery = query(
+      notificationRef,
+      orderBy("createdAt", "desc"),
+      limit(100)
+    );
+
+    const unsubscribeAllNoti = onSnapshot(
+      allNotificationQuery,
+      (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          const newNotification = { id: change.doc.id, ...change.doc.data() };
+          console.log("Notification updated:", newNotification);
+
+          if (
+            change.type === "modified" &&
+            change.doc.data().isRead !== undefined
+          ) {
+            console.log("Notification updated:", newNotification);
+            setNotifications((prevData) =>
+              prevData.map((notif) =>
+                notif.id === newNotification.id
+                  ? { ...notif, isRead: newNotification.isRead }
+                  : notif
+              )
+            );
+          }
+        });
+      },
+      (error) => {
+        console.error("Error with Firestore listener:", error);
+      }
+    );
 
     const unsubscribe = onSnapshot(
       notificationQuery,
       (snapshot) => {
         snapshot.docChanges().forEach((change) => {
+          const newNotification = { id: change.doc.id, ...change.doc.data() };
           if (change.type === "added") {
-            const newNotification = { id: change.doc.id, ...change.doc.data() };
             console.log("New message added:", newNotification);
             setNotifications((prevData) => [newNotification, ...prevData]);
             toast(ToastNotification, { position: "bottom-right" });
@@ -79,14 +111,18 @@ export default function useFetchNotifications() {
       }
     );
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      unsubscribeAllNoti();
+    };
   }, [user.userId]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (notificationListRef.current) {
-        const { scrollTop } = notificationListRef.current;
-        if (scrollTop <= 5) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          notificationListRef.current;
+        if (scrollHeight - scrollTop <= clientHeight + 25) {
           fetchMoreNotifications();
         }
       }
@@ -109,5 +145,6 @@ export default function useFetchNotifications() {
     notifications,
     loading,
     isFetchingMore,
+    notificationListRef,
   };
 }

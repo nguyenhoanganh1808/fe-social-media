@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { NotificationService } from "../../services/notification.service";
 import BlueDot from "../common/BlueDot";
 
-export default function NotificationItem({ notificationData }) {
+export default function NotificationItem({ notificationData, onClose }) {
   const formatTime = formatDistanceToNow(notificationData.createdAt);
 
   const handleReadNotification = async () => {
     await NotificationService.markNotificationAsRead(notificationData.id);
+    onClose();
   };
 
   return (
@@ -68,4 +69,5 @@ NotificationItem.propTypes = {
     }).isRequired,
     message: PropTypes.string.isRequired,
   }).isRequired,
+  onClose: PropTypes.func.isRequired,
 };

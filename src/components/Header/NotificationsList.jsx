@@ -5,8 +5,9 @@ import EmptyState from "../common/EmptyState";
 import SpinningContainer from "../common/SpinningContainer";
 
 export default function NotificationsList() {
-  const { isOpen, toggle } = useToggle();
-  const { notifications, isFetchingMore, loading } = useFetchNotifications();
+  const { isOpen, toggle, close } = useToggle();
+  const { notifications, isFetchingMore, loading, notificationListRef } =
+    useFetchNotifications();
 
   return (
     <>
@@ -43,11 +44,15 @@ export default function NotificationsList() {
             {loading ? (
               <SpinningContainer />
             ) : notifications.length > 0 ? (
-              <ul className="h-[500px] overflow-scroll">
+              <ul
+                className="h-[500px] overflow-y-auto"
+                ref={notificationListRef}
+              >
                 {notifications.map((notification) => (
                   <NotificationItem
                     key={notification.id}
                     notificationData={notification}
+                    onClose={close}
                   />
                 ))}
                 {isFetchingMore && <SpinningContainer />}
