@@ -5,6 +5,8 @@ import { useState } from "react";
 import ChatList from "./ChatsList/ChatsList";
 import PropTypes from "prop-types";
 import SpinningContainer from "../../common/SpinningContainer";
+import useToggle from "../../../hooks/useToggle";
+import FormCreateGroupChatModal from "./FormCreateGroupChatModal";
 
 export default function MessageSideBar({
   conversations,
@@ -12,6 +14,7 @@ export default function MessageSideBar({
   pendingConversations,
 }) {
   const [activeTab, setActiveTab] = useState("Primary");
+  const { close, isOpen, open } = useToggle();
   let sidebarItems;
 
   if (activeTab === "Primary") {
@@ -29,7 +32,8 @@ export default function MessageSideBar({
     <div className={styles.container}>
       <div className={styles.header}>
         <h4>Messages</h4>
-        <PenBoxIcon size={30} />
+        <FormCreateGroupChatModal isOpenModal={isOpen} onCloseModal={close} />
+        <PenBoxIcon onClick={open} size={30} />
       </div>
 
       <input

@@ -28,7 +28,6 @@ export default function Chats({ otherUser }) {
           .reverse()}
       </ul>
       <MessageInput receiverId={otherUser.id} setMessageData={setMessageData} />
-      ;
     </div>
   );
 }

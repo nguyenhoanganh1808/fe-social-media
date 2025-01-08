@@ -15,7 +15,7 @@ export const AuthService = {
       },
     });
 
-    if (response.status === 401) {
+    if (response.status === 403) {
       const newAccessToken = await this.refreshAccessToken();
 
       return fetch(url, {

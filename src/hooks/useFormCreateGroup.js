@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { SearchService } from "../services/search.service";
-import { GroupService } from "../services/group.service";
 
-export default function useFormCreateGroup() {
+export default function useFormCreateGroup(apiCall) {
   const {
     register,
     handleSubmit,
@@ -15,6 +14,9 @@ export default function useFormCreateGroup() {
 
   const validationRules = {
     name: {
+      required: "Group name is required",
+    },
+    chatGroupName: {
       required: "Group name is required",
     },
     description: {},
@@ -38,8 +40,9 @@ export default function useFormCreateGroup() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await GroupService.createGroup(data);
+    const result = await apiCall(data);
     setLoading(false);
+    return result;
   };
   return {
     register,

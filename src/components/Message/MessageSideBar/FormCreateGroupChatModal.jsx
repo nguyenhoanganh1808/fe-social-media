@@ -1,13 +1,16 @@
 import { Modal } from "flowbite-react";
 
 import LoadingButton from "../../common/Spinner/LoadingButton";
-import Input from "../../common/Input";
 
 import useFormCreateGroup from "../../../hooks/useFormCreateGroup";
 import PropTypes from "prop-types";
-import { GroupService } from "../../../services/group.service";
+import { ChatGroupService } from "../../../services/chat-group.service";
+import Input from "../../common/Input";
 
-export default function FormCreateGroupModal({ openModal, onCloseModal }) {
+export default function FormCreateGroupChatModal({
+  isOpenModal,
+  onCloseModal,
+}) {
   const {
     errors,
     filterUsers,
@@ -18,33 +21,32 @@ export default function FormCreateGroupModal({ openModal, onCloseModal }) {
     setSearchValue,
     loading,
     validationRules,
-  } = useFormCreateGroup(GroupService.createGroup);
+  } = useFormCreateGroup(ChatGroupService.CreateChatGroup);
+
+  const handleFormSubmit = async (data) => {
+    const response = await onSubmit(data);
+    if (response.success) {
+      onCloseModal();
+    }
+  };
 
   return (
-    <Modal show={openModal} size="md" onClose={onCloseModal} popup>
-      <Modal.Header>Create new group</Modal.Header>
+    <Modal show={isOpenModal} size="md" onClose={onCloseModal} popup>
+      <Modal.Header>Create new group chat</Modal.Header>
       <Modal.Body>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleFormSubmit)}
           className="space-y-4"
           noValidate
         >
           <div>
             <Input
-              id="name"
+              id="chatGroupName"
               label="Group name"
               type="text"
               errors={errors.name}
               register={register}
               rules={validationRules.name}
-            />
-            <Input
-              id="description"
-              label="Description"
-              type="text"
-              errors={errors.description}
-              register={register}
-              rules={validationRules.description}
             />
 
             <div className="mt-3 w-full">
@@ -90,8 +92,7 @@ export default function FormCreateGroupModal({ openModal, onCloseModal }) {
                     <div className="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                       <input
                         id={`member-${user.id}`}
-                        {...register("members")}
-                        {...register("members")}
+                        {...register("memberIds")}
                         type="checkbox"
                         value={user.id}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
@@ -128,7 +129,7 @@ export default function FormCreateGroupModal({ openModal, onCloseModal }) {
   );
 }
 
-FormCreateGroupModal.propTypes = {
-  openModal: PropTypes.bool.isRequired,
+FormCreateGroupChatModal.propTypes = {
+  isOpenModal: PropTypes.bool.isRequired,
   onCloseModal: PropTypes.func.isRequired,
 };
