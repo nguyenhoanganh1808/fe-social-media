@@ -44,7 +44,7 @@ export default function ChatItem({ conversation, activeTab }) {
         <img className={styles.avatar} src={otherUser.avatarUrl} alt="" />
         {<span className={styles.dot}></span>}
       </div>
-      <div>
+      <div className="md:block hidden">
         <span className="font-semibold text-black">{otherUser.nickname}</span>
         <p className={styles.chat}>
           <strong>{author}: </strong> {conversation.lastMessage.content} -{" "}

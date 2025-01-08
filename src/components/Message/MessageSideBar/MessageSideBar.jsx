@@ -1,5 +1,5 @@
 import styles from "./MessageSideBar.module.css";
-import { PenBoxIcon } from "lucide-react";
+import { Menu, PenBoxIcon } from "lucide-react";
 import data from "../data";
 import { useState } from "react";
 import ChatList from "./ChatsList/ChatsList";
@@ -15,6 +15,7 @@ export default function MessageSideBar({
 }) {
   const [activeTab, setActiveTab] = useState("Primary");
   const { close, isOpen, open } = useToggle();
+  const { isOpen: isOpenDropdown, toggle: toggleDropdown } = useToggle();
   let sidebarItems;
 
   if (activeTab === "Primary") {
@@ -31,9 +32,9 @@ export default function MessageSideBar({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h4>Messages</h4>
+        <h4 className="truncate">Messages</h4>
         <FormCreateGroupChatModal isOpenModal={isOpen} onCloseModal={close} />
-        <PenBoxIcon onClick={open} size={30} />
+        <PenBoxIcon className="hidden md:block" onClick={open} size={30} />
       </div>
 
       <input
@@ -42,7 +43,7 @@ export default function MessageSideBar({
         placeholder="Search Messages"
       />
 
-      <div className={styles.titleWrapper}>
+      <div className={`${styles.titleWrapper}`}>
         {data.map((type, index) => {
           const isActive = activeTab === type.title;
           const numNoti =
@@ -67,6 +68,44 @@ export default function MessageSideBar({
             </div>
           );
         })}
+      </div>
+      <div className="flex justify-center rounded-full hover:cursor-pointer relative">
+        <Menu className="md:hidden block" onClick={toggleDropdown} size={20} />
+        {isOpenDropdown && (
+          <div
+            id="dropdown"
+            className="z-10 absolute left-16 top-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+          >
+            <ul
+              className="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              {data.map((type, index) => {
+                const isActive = activeTab === type.title;
+
+                return (
+                  <div
+                    onClick={() => setActiveTab(type.title)}
+                    key={index}
+                    className={isActive ? "bg-blue-200" : ""}
+                  >
+                    <div className="relative">
+                      <span className="sr-only">Notifications</span>
+                      <li>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          {type.title}
+                        </a>
+                      </li>
+                    </div>
+                  </div>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </div>
 
       <ChatList activeTab={activeTab} data={sidebarItems} />

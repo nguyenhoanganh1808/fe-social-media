@@ -24,3 +24,9 @@
   margin: 12px 0;
   gap: 12px;
 }
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 100%;
+  }
+}

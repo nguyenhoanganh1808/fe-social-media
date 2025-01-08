@@ -51,16 +51,16 @@ export default function Group() {
   if (loading) {
     return (
       <div className="w-full flex justify-center mt-5">
-        <Spinner borderWidth={3} size={30} />;
+        <Spinner borderWidth={3} size={30} />
       </div>
     );
   }
 
   return (
     <div className="w-full flex flex-col">
-      <div className="bg-white mx-auto w-full px-52 shadow-sm">
+      <div className="bg-white mx-auto w-full lg:px-52 px-3 shadow-sm">
         <div className="block w-full h-[400px] bg-black"></div>
-        <div className="mt-3 flex justify-between">
+        <div className="mt-3 flex lg:flex-row flex-col justify-between">
           <div>
             <h3 className="font-semibold text-3xl">{group.name}</h3>
             <Link
@@ -94,7 +94,7 @@ export default function Group() {
           ))}
         </ul>
       </div>
-      <div className="px-52 my-5">
+      <div className="lg:px-52 px-3 my-5">
         <Outlet context={{ members: group.members }} />
       </div>
     </div>

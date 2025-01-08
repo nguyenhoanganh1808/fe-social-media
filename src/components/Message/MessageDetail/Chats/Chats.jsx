@@ -12,7 +12,7 @@ export default function Chats({ otherUser }) {
   if (loading) {
     return (
       <div className="flex items-end">
-        <SpinningContainer />;
+        <SpinningContainer />
       </div>
     );
   }
@@ -40,6 +40,6 @@ Chats.propTypes = {
       avatarUrl: PropTypes.string.isRequired,
       nickname: PropTypes.string.isRequired,
       otherUser: PropTypes.object,
-    }).isRequired,
+    }),
   }),
 };

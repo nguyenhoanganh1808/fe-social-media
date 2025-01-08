@@ -18,6 +18,11 @@
   display: flex;
 }
 
+.rightContainer > div {
+  align-items: center;
+  display: flex;
+}
+
 .leftContainer {
   gap: 16px;
 }

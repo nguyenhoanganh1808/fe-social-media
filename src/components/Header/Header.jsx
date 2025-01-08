@@ -2,63 +2,29 @@ import styles from "./Header.module.css";
 import Tab from "./Tab/Tab";
 import { Link } from "react-router-dom";
 import FlyOutMenu from "../FlyOutMenu/FlyOutMenu";
-import { SearchService } from "../../services/search.service";
-import useSearch from "../../hooks/useSearch";
-import SearchItem from "./SearchItem";
+
 import NotificationsList from "./NotificationsList";
+import Search from "./Search";
 
 export default function Header() {
-  const {
-    searchResults,
-    searchValue,
-    setSearchValue,
-    isShowResult,
-    setIsShowResult,
-  } = useSearch(SearchService.search, { groups: [], users: [], posts: [] });
-
   return (
     <header className={styles.header}>
       <div className={styles.leftContainer}>
         <Link className="w-12 h-12" to={`/`}>
           <img src="/images/logo-uit.svg" alt="UIT logo" />
         </Link>
-        <div className="relative">
-          <input
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            type="search"
-            placeholder="# Explore"
-          />
-          {searchValue.length > 0 && isShowResult && (
-            <ul className="absolute top-14 w-full bg-white rounded-lg shadow-lg p-3 space-y-3 flex flex-col">
-              {searchResults.groups.map((result) => (
-                <SearchItem
-                  onClick={() => setIsShowResult(false)}
-                  key={result.id}
-                  imgUrl=""
-                  title={result.name}
-                  to={`/groups/${result.id}/`}
-                />
-              ))}
-              {searchResults.users.map((result) => (
-                <SearchItem
-                  onClick={() => setIsShowResult(false)}
-                  key={result.id}
-                  imgUrl={result.avatarUrl}
-                  title={result.nickname}
-                  to={`/profile/${result.id}`}
-                />
-              ))}
-            </ul>
-          )}
+        <div className="lg:block hidden">
+          <Search />
         </div>
       </div>
 
       <div className={styles.rightContainer}>
         <Tab />
-        <hr className={styles.hr} />
-        <NotificationsList />
-        <FlyOutMenu />
+        <div>
+          <hr className={styles.hr} />
+          <NotificationsList />
+          <FlyOutMenu />
+        </div>
       </div>
     </header>
   );

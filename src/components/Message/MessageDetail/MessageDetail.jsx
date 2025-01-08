@@ -9,6 +9,12 @@ import PropTypes from "prop-types";
 
 export default function MessageDetail({ conversations }) {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
+  const {
+    isOpen: isInfoOpenMobile,
+    toggle: toggleInfoMobile,
+    close: closeInfoMobile,
+  } = useToggle();
+
   const { id } = useParams();
 
   if (!id) return;
@@ -22,27 +28,38 @@ export default function MessageDetail({ conversations }) {
 
   return (
     <>
-      <div className={styles.wrapper}>
+      {isInfoOpenMobile && (
+        <Info userInfo={otherUser} closeInfoMobile={closeInfoMobile} />
+      )}
+      <div
+        className={`${styles.wrapper} ${
+          isInfoOpenMobile ? "hidden" : "visible"
+        }`}
+      >
         <div className={styles.headerContainer}>
           <div>
             <div className={styles.avatarContainer}>
               <img className={styles.avatar} src={otherUser.avatarUrl} alt="" />
               {<span className={styles.dot}></span>}
             </div>
-            <div>
-              <p className={styles.name}>{otherUser.nickname}</p>
+            <div className="truncate">
+              <p className={`${styles.name} `}>{otherUser.nickname}</p>
               Active now
             </div>
           </div>
           <div className={styles.icons}>
             <PhoneIcon />
             <VideoIcon />
-            <InfoIcon onClick={toggleInfo} />
+            <InfoIcon className="md:block hidden" onClick={toggleInfo} />
+            <InfoIcon className="md:hidden block" onClick={toggleInfoMobile} />
           </div>
         </div>
+
         <Chats otherUser={otherUser} />
       </div>
-      {isInfoOpen && <Info userInfo={otherUser} />}
+      {isInfoOpen && (
+        <Info closeInfoMobile={closeInfoMobile} userInfo={otherUser} />
+      )}
     </>
   );
 }
@@ -55,9 +72,8 @@ MessageDetail.propTypes = {
         id: PropTypes.string.isRequired,
         avatarUrl: PropTypes.string.isRequired,
         nickname: PropTypes.string.isRequired,
-        otherUser: PropTypes.object, // Adjust if you know the structure of the object
+        otherUser: PropTypes.object,
       }).isRequired,
     })
   ).isRequired,
-  loading: PropTypes.bool.isRequired,
 };

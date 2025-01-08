@@ -1,8 +1,10 @@
 import styles from "./Tab.module.css";
-import { Book, Mail, Home } from "lucide-react";
+import { Book, Mail, Home, Menu } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import useToggle from "../../../hooks/useToggle";
+import { MobileDrawer } from "../MobileDrawer";
 
 const TabData = [
   {
@@ -25,8 +27,14 @@ const TabData = [
 ];
 
 export default function Tab() {
+  const { isOpen, toggle, close } = useToggle();
   return (
     <nav className={styles.nav}>
+      <Menu
+        onClick={toggle}
+        className="block lg:hidden hover:cursor-pointer "
+      />
+      <MobileDrawer isOpen={isOpen} onClose={close} />
       <ul className={styles.container}>
         {TabData.map((Tab, index) => {
           return (

@@ -44,7 +44,7 @@ export default function useFetchNotifications() {
   useEffect(() => {
     async function fetch() {
       setLoading(true);
-      const result = await NotificationService.getNotifications(0, 10);
+      const result = await NotificationService.getNotifications(0, pageSize);
       if (result.success) {
         setNotifications(result.data);
       }

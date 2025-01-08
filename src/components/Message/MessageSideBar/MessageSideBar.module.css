@@ -78,3 +78,17 @@
   border-color: var(--primary-color);
   border-bottom-width: 5px;
 }
+
+@media (max-width: 768px) {
+  .container {
+    min-width: 50px;
+  }
+
+  .titleWrapper {
+    display: none;
+  }
+
+  .input {
+    display: none;
+  }
+}
