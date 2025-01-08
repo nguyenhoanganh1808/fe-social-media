@@ -79,6 +79,12 @@ export default function useFetchMessages() {
   }, [id]);
 
   useEffect(() => {
+    if (chatListRef.current) {
+      chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+    }
+  }, [messageData]);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (chatListRef.current) {
         const { scrollTop } = chatListRef.current;

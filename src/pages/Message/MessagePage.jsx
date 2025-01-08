@@ -3,12 +3,24 @@ import MessageDetail from "../../components/Message/MessageDetail/MessageDetail"
 import styles from "./MessagePage.module.css";
 import useFetchConversations from "../../hooks/useFetchConversations";
 import SpinningContainer from "../../components/common/SpinningContainer";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function MessagePage() {
+  const { id } = useParams();
   const { conversations, loading, isLoadingPending, pendingConversations } =
     useFetchConversations();
+  const navigate = useNavigate();
 
-  if (loading || conversations[0] == null) return <SpinningContainer />;
+  useEffect(() => {
+    if (!id && conversations && conversations.length > 0) {
+      navigate(`/message/${conversations[0].id}`);
+    }
+  }, [id, conversations, navigate]);
+
+  if (loading) {
+    return <SpinningContainer />;
+  }
 
   return (
     <div className={styles.container}>
@@ -18,7 +30,7 @@ export default function MessagePage() {
         pendingConversations={pendingConversations}
         isLoadingPending={isLoadingPending}
       />
-      <MessageDetail loding={loading} conversations={conversations} />
+      <MessageDetail conversations={conversations} />
     </div>
   );
 }

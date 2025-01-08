@@ -6,19 +6,19 @@ import useToggle from "../../../hooks/useToggle";
 
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import SpinningContainer from "../../common/SpinningContainer";
 
-export default function MessageDetail({ conversations, loading }) {
+export default function MessageDetail({ conversations }) {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
-
   const { id } = useParams();
-  const otherUser = conversations.find(
-    (conversation) => conversation.id == id
-  ).otherUser;
 
-  if (loading) {
-    return <SpinningContainer />;
-  }
+  if (!id) return;
+
+  const conversation = conversations?.find(
+    (conversation) => conversation.id == id
+  );
+  const otherUser = conversation
+    ? conversation.otherUser
+    : { avatarUrl: "", nickname: "" };
 
   return (
     <>

@@ -1,46 +1,39 @@
 import { useCallback, useEffect, useState } from "react";
 import { MessageService } from "../services/message.service";
-import { toast } from "react-toastify";
 
 export default function useFetchConversations() {
   const [conversations, setConversations] = useState([]);
   const [pendingConversations, setPendingConversations] = useState([]);
   const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isLoadingPending, setIsLoadingPending] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchConversations = useCallback(async () => {
-    if (loading || !hasMore) return;
+    if (!hasMore) return;
 
-    setLoading(true);
-    try {
-      const result = await MessageService.getMessages(page, 10);
+    const result = await MessageService.getMessages(page, 10);
+    setLoading(false);
 
-      if (result.success) {
-        setConversations((prevCon) => {
-          const conversationsMap = new Map(
-            prevCon.map((conversation) => [conversation.id, conversation])
-          );
-          result.data.forEach((newconversation) => {
-            if (!conversationsMap.has(newconversation.id)) {
-              conversationsMap.set(newconversation.id, newconversation);
-            }
-          });
-          return Array.from(conversationsMap.values());
+    if (result.success) {
+      setConversations((prevCon) => {
+        const conversationsMap = new Map(
+          prevCon.map((conversation) => [conversation.id, conversation])
+        );
+        result.data.forEach((newconversation) => {
+          if (!conversationsMap.has(newconversation.id)) {
+            conversationsMap.set(newconversation.id, newconversation);
+          }
         });
+        return Array.from(conversationsMap.values());
+      });
 
-        setPage((prevPage) => prevPage + 1);
-        if (result.data.length < 10) {
-          setHasMore(false);
-        }
+      setPage((prevPage) => prevPage + 1);
+      if (result.data.length < 10) {
+        setHasMore(false);
       }
-    } catch (e) {
-      toast.error(e.message || "An error occurred. Please try again later.");
-    } finally {
-      setLoading(false);
     }
-  }, [hasMore, loading, page]);
+  }, [hasMore, page]);
 
   useEffect(() => {
     if (page === 0 && hasMore) {

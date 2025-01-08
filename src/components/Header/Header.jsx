@@ -16,8 +16,6 @@ export default function Header() {
     setIsShowResult,
   } = useSearch(SearchService.search, { groups: [], users: [], posts: [] });
 
-  console.log("searchResult: ", searchResults);
-
   return (
     <header className={styles.header}>
       <div className={styles.leftContainer}>
