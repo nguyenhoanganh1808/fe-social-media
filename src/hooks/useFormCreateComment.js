@@ -31,6 +31,29 @@ export default function useFormCreateComment() {
     }
   };
 
+  function addReplyToNestedComment(comments, replyId, newReply) {
+    return comments.map((comment) => {
+      if (comment.id === replyId) {
+        return {
+          ...comment,
+          replies: [...(comment.replies?.flat() || []), ...newReply],
+        };
+      } else if (comment.replies && comment.replies.length > 0) {
+        return {
+          ...comment,
+          replies: [
+            ...addReplyToNestedComment(
+              comment.replies.flat(),
+              replyId,
+              newReply
+            ),
+          ],
+        };
+      }
+      return comment;
+    });
+  }
+
   return {
     loading,
     setLoading,
@@ -39,5 +62,6 @@ export default function useFormCreateComment() {
     errors,
     onSubmit,
     validationRules,
+    addReplyToNestedComment,
   };
 }

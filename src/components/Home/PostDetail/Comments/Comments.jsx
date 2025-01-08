@@ -18,7 +18,9 @@ export default function Comments({ comments, setComments }) {
     const cmts = await CommentService.getComments(id, page, limit, true);
 
     if (cmts.success) {
-      setComments([...comments, ...cmts.data._embedded.commentResponseList]);
+      if (cmts.data._embedded) {
+        setComments([...comments, ...cmts.data._embedded.commentResponseList]);
+      }
       setPage(page + 1);
       setHasMore(cmts.data.page.number + 1 < cmts.data.page.totalPages);
     }
@@ -36,14 +38,16 @@ export default function Comments({ comments, setComments }) {
       </h2>
       <hr />
 
-      {comments.map((comment, index) => (
-        <Comment
-          key={index}
-          comments={comments}
-          setComments={setComments}
-          {...comment}
-        />
-      ))}
+      {comments.length > 0
+        ? comments.map((comment, index) => (
+            <Comment
+              key={index}
+              comments={comments}
+              setComments={setComments}
+              {...comment}
+            />
+          ))
+        : "Be the first comment"}
       <div className="flex justify-center">{loading && <Spinner />}</div>
       {!loading && hasMore && (
         <button onClick={loadComments}>Load more comments</button>

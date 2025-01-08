@@ -28,7 +28,7 @@ export default function CommentInput({
           setLoading(true);
           await onSubmit(data, parentId, postId);
           const cmts = await CommentService.getComments(postId, 0, 100, true);
-          setComments(cmts._embedded.commentResponseList);
+          setComments(cmts.data._embedded.commentResponseList);
           setLoading(false);
           onClose();
         })}

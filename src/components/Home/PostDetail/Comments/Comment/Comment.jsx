@@ -56,6 +56,7 @@ export default function Comment({
     const result = await CommentService.getReply(id);
     if (result.success) {
       const newComments = addReplyToNestedComment(comments, id, result.data);
+
       console.log("newComments: ", newComments);
       setComments(newComments);
       setViewReplyButton(false);

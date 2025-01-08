@@ -5,6 +5,7 @@ import FlyOutMenu from "../FlyOutMenu/FlyOutMenu";
 import { SearchService } from "../../services/search.service";
 import useSearch from "../../hooks/useSearch";
 import SearchItem from "./SearchItem";
+import NotificationsList from "./NotificationsList";
 
 export default function Header() {
   const {
@@ -20,7 +21,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.leftContainer}>
-        <Link to={`/`}>
+        <Link className="w-12 h-12" to={`/`}>
           <img src="/images/logo-uit.svg" alt="UIT logo" />
         </Link>
         <div className="relative">
@@ -58,6 +59,7 @@ export default function Header() {
       <div className={styles.rightContainer}>
         <Tab />
         <hr className={styles.hr} />
+        <NotificationsList />
         <FlyOutMenu />
       </div>
     </header>

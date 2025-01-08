@@ -1,6 +1,7 @@
 .header {
   display: flex;
   padding: 12px var(--default-padding);
+  align-items: center;
 
   background-color: var(--secondary-color);
   background-color: white;

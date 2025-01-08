@@ -51,5 +51,5 @@ LoadingButton.propTypes = {
   type: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   className: PropTypes.string,
-  disabled: PropTypes.disabled,
+  disabled: PropTypes.bool,
 };
