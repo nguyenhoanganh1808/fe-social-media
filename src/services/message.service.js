@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/messages";
 
@@ -11,7 +12,7 @@ export const MessageService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -29,9 +30,12 @@ export const MessageService = {
 
       return { success: true, data: await response.json() };
     } catch (e) {
-      toast.error(e || "An error occurred while fetch conversation");
+      toast.error(
+        e || "An error occurred while AuthService.fetchWithAuth conversation"
+      );
       return {
-        error: e || "An error occurred while fetch conversation",
+        error:
+          e || "An error occurred while AuthService.fetchWithAuth conversation",
       };
     }
   },
@@ -43,7 +47,7 @@ export const MessageService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -61,9 +65,11 @@ export const MessageService = {
 
       return { success: true, data: await response.json() };
     } catch (e) {
-      toast.error(e || "An error occurred while fetch message");
+      toast.error(
+        e || "An error occurred while AuthService.fetchWithAuth message"
+      );
       return {
-        error: e || "An error occurred while fetch message",
+        error: e || "An error occurred while AuthService.fetchWithAuth message",
       };
     }
   },
@@ -73,7 +79,7 @@ export const MessageService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -91,9 +97,13 @@ export const MessageService = {
 
       return { success: true, data: await response.json() };
     } catch (e) {
-      toast.error(e || "An error occurred while fetch pending message");
+      toast.error(
+        e || "An error occurred while AuthService.fetchWithAuth pending message"
+      );
       return {
-        error: e || "An error occurred while fetch pending message",
+        error:
+          e ||
+          "An error occurred while AuthService.fetchWithAuth pending message",
       };
     }
   },
@@ -105,7 +115,7 @@ export const MessageService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -155,7 +165,7 @@ export const MessageService = {
     // }
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {

@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
 import createPost from "../models/post";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/posts";
 
@@ -13,7 +14,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -48,7 +49,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -99,7 +100,7 @@ export const PostService = {
     }
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -152,7 +153,7 @@ export const PostService = {
     }
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -184,7 +185,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -192,7 +193,7 @@ export const PostService = {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch posts");
+        throw new Error("Failed to AuthService.fetchWithAuth posts");
       }
 
       const data = await response.json();
@@ -211,7 +212,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -221,7 +222,7 @@ export const PostService = {
       if (!response.ok) {
         const errorText = await response.text();
         toast.error(errorText);
-        throw new Error("Failed to fetch posts");
+        throw new Error("Failed to AuthService.fetchWithAuth posts");
       }
 
       const data = await response.json();
@@ -239,7 +240,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -248,9 +249,9 @@ export const PostService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed to fetch posts");
+        toast.error(errorText || "Failed to AuthService.fetchWithAuth posts");
         return {
-          error: errorText || "Failed to fetch posts",
+          error: errorText || "Failed to AuthService.fetchWithAuth posts",
         };
       }
 
@@ -259,9 +260,9 @@ export const PostService = {
       const posts = data.map((post) => createPost(post));
       return posts;
     } catch (e) {
-      toast.error(e || "Failed to fetch posts");
+      toast.error(e || "Failed to AuthService.fetchWithAuth posts");
       return {
-        error: e || "Failed to fetch posts",
+        error: e || "Failed to AuthService.fetchWithAuth posts",
       };
     }
   },
@@ -272,7 +273,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -280,7 +281,7 @@ export const PostService = {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch posts");
+        throw new Error("Failed to AuthService.fetchWithAuth posts");
       }
 
       const data = await response.json();
@@ -298,7 +299,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "DELETE",
         headers: {
@@ -341,7 +342,7 @@ export const PostService = {
     }
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {
@@ -371,7 +372,7 @@ export const PostService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {

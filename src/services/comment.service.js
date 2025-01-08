@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = `${API_ENDPOINT}/comments`;
 
@@ -10,7 +11,7 @@ const CommentService = {
     const url = `${baseUrl}/${commentId}/getReplies?page=0&size=100&forceFirstAndLastRels=true`;
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -19,7 +20,7 @@ const CommentService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed to fetch reply");
+        toast.error(errorText || "Failed to AuthService.fetchWithAuth reply");
         return {
           error: errorText,
         };
@@ -32,9 +33,9 @@ const CommentService = {
         data: data._embedded.commentResponseList,
       };
     } catch (e) {
-      toast.error(e || "Failed to fetch reply");
+      toast.error(e || "Failed to AuthService.fetchWithAuth reply");
       return {
-        error: e || "Failed to fetch reply",
+        error: e || "Failed to AuthService.fetchWithAuth reply",
       };
     }
   },
@@ -57,7 +58,7 @@ const CommentService = {
     );
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -92,7 +93,7 @@ const CommentService = {
     );
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -115,7 +116,7 @@ const CommentService = {
     let url = `${baseUrl}/getComments?postId=${postId}&page=${page}&size=${size}&forceFirstAndLastRels=${forceFirstAndLastRels}`;
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -125,7 +126,9 @@ const CommentService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed to fetch comments");
+        toast.error(
+          errorText || "Failed to AuthService.fetchWithAuth comments"
+        );
         return {
           error: errorText,
         };
@@ -134,9 +137,9 @@ const CommentService = {
       const data = await response.json();
       return { success: true, data: data };
     } catch (e) {
-      toast.error(e || "Failed to fetch comments");
+      toast.error(e || "Failed to AuthService.fetchWithAuth comments");
       return {
-        errro: e || "Failed to fetch comments",
+        errro: e || "Failed to AuthService.fetchWithAuth comments",
       };
     }
   },

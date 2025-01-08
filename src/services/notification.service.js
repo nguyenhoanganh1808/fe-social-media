@@ -1,5 +1,6 @@
 import { API_ENDPOINT } from "../lib/constants";
 import { toast } from "react-toastify";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/posts";
 
@@ -8,7 +9,7 @@ export const NotificationService = {
     const url = `${baseUrl}/${notificationId}/read`;
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {
@@ -39,7 +40,7 @@ export const NotificationService = {
       new URLSearchParams({ page: page, size: size });
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -49,7 +50,9 @@ export const NotificationService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed when fetch notifications");
+        toast.error(
+          errorText || "Failed when AuthService.fetchWithAuth notifications"
+        );
         return {
           error: errorText,
         };
@@ -57,9 +60,13 @@ export const NotificationService = {
 
       return { success: true, data: await response.json() };
     } catch (e) {
-      toast.error(e || "An error occurred while fetch notifications");
+      toast.error(
+        e || "An error occurred while AuthService.fetchWithAuth notifications"
+      );
       return {
-        error: e || "An error occurred while fetch notifications",
+        error:
+          e ||
+          "An error occurred while AuthService.fetchWithAuth notifications",
       };
     }
   },

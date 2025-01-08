@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/groups";
 
@@ -9,7 +10,7 @@ export const GroupService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -39,7 +40,7 @@ export const GroupService = {
     for (const userId of userIds) {
       try {
         const params = new URLSearchParams({ userId: userId });
-        const response = await fetch(`${url}?${params}`, {
+        const response = await AuthService.fetchWithAuth(`${url}?${params}`, {
           mode: "cors",
           method: "POST",
           headers: {
@@ -72,7 +73,7 @@ export const GroupService = {
       new URLSearchParams({ page: page, size: size });
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -99,7 +100,7 @@ export const GroupService = {
     const url = `${baseUrl}/group/${groupId}`;
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -127,7 +128,7 @@ export const GroupService = {
     const url = baseUrl + "/create";
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {

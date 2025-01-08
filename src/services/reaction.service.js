@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/reactions";
 
@@ -9,7 +10,7 @@ const ReactionService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -44,7 +45,7 @@ const ReactionService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "DELETE",
         headers: {

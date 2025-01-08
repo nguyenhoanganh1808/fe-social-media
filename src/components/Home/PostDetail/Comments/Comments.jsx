@@ -4,6 +4,7 @@ import CommentService from "../../../../services/comment.service";
 import Comment from "./Comment/Comment";
 import Spinner from "../../../common/Spinner/Spinner";
 import PropTypes from "prop-types";
+import EmptyState from "../../../common/EmptyState";
 
 export default function Comments({ comments, setComments }) {
   const { id } = useParams();
@@ -38,16 +39,35 @@ export default function Comments({ comments, setComments }) {
       </h2>
       <hr />
 
-      {comments.length > 0
-        ? comments.map((comment, index) => (
-            <Comment
-              key={index}
-              comments={comments}
-              setComments={setComments}
-              {...comment}
-            />
-          ))
-        : "Be the first comment"}
+      {comments.length > 0 && !loading ? (
+        comments.map((comment, index) => (
+          <Comment
+            key={index}
+            comments={comments}
+            setComments={setComments}
+            {...comment}
+          />
+        ))
+      ) : (
+        <EmptyState
+          svg={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-6 w-6"
+            >
+              <path d="M21 15c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v9z"></path>
+              <path d="M7 10h10"></path>
+            </svg>
+          }
+          title="comment"
+        />
+      )}
       <div className="flex justify-center">{loading && <Spinner />}</div>
       {!loading && hasMore && (
         <button onClick={loadComments}>Load more comments</button>

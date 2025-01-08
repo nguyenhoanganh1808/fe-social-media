@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/profile";
 
@@ -11,7 +12,7 @@ const ProfileService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -38,7 +39,7 @@ const ProfileService = {
 
     try {
       const requests = skills.map((skill) =>
-        fetch(url, {
+        AuthService.fetchWithAuth(url, {
           mode: "cors",
           method: "POST",
           headers: {
@@ -78,7 +79,7 @@ const ProfileService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {
@@ -107,7 +108,7 @@ const ProfileService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {
@@ -136,7 +137,7 @@ const ProfileService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {
@@ -165,7 +166,7 @@ const ProfileService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {
@@ -198,7 +199,7 @@ const ProfileService = {
     formData.append("profileImage", file);
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "PUT",
         headers: {

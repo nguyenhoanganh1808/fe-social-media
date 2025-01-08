@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/search";
 
@@ -8,7 +9,7 @@ export const SearchService = {
     const url = baseUrl + "?" + new URLSearchParams({ keyword: query });
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {
@@ -35,7 +36,7 @@ export const SearchService = {
     const url = baseUrl + "/users?" + new URLSearchParams({ keyword: query });
     const token = localStorage.getItem("jwt-token");
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "GET",
         headers: {

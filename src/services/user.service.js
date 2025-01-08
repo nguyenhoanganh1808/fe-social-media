@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { API_ENDPOINT } from "../lib/constants";
+import { AuthService } from "./auth.service";
 
 const baseUrl = API_ENDPOINT + "/profile";
 
@@ -9,7 +10,7 @@ export const UserService = {
     const token = localStorage.getItem("jwt-token");
     console.log("token: ", token);
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -39,7 +40,7 @@ export const UserService = {
     const token = localStorage.getItem("jwt-token");
 
     try {
-      const response = await fetch(url, {
+      const response = await AuthService.fetchWithAuth(url, {
         mode: "cors",
         headers: {
           Authorization: "Bearer " + token,
@@ -52,7 +53,9 @@ export const UserService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || "Failed to fetch profile");
+        throw new Error(
+          errorText || "Failed to AuthService.fetchWithAuth profile"
+        );
       }
 
       const text = await response.text();
@@ -64,7 +67,8 @@ export const UserService = {
       return JSON.parse(text);
     } catch (e) {
       throw new Error(
-        e.message || "An error occurred while fetching the profile"
+        e.message ||
+          "An error occurred while AuthService.fetchWithAuthing the profile"
       );
     }
   },
