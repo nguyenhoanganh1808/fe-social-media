@@ -1,7 +1,7 @@
 import styles from "./PostsList.module.css";
 import Post from "./Post/Post";
 import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner/Spinner";
+import SpinningContainer from "../../common/SpinningContainer";
 
 export default function PostsList({
   posts,
@@ -23,7 +23,7 @@ export default function PostsList({
           </div>
         ))}
       </ul>
-      {loading && <Spinner />}
+      {loading && <SpinningContainer />}
     </div>
   );
 }

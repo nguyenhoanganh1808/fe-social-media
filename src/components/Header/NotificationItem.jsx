@@ -8,8 +8,8 @@ export default function NotificationItem({ notificationData, onClose }) {
   const formatTime = formatDistanceToNow(notificationData.createdAt);
 
   const handleReadNotification = async () => {
-    await NotificationService.markNotificationAsRead(notificationData.id);
     onClose();
+    await NotificationService.markNotificationAsRead(notificationData.id);
   };
 
   return (
@@ -59,10 +59,10 @@ export default function NotificationItem({ notificationData, onClose }) {
 
 NotificationItem.propTypes = {
   notificationData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     isRead: PropTypes.bool.isRequired,
     actionUrl: PropTypes.string.isRequired,
-    createdAt: PropTypes.instanceOf(Date).isRequired,
+    createdAt: PropTypes.string.isRequired,
     sender: PropTypes.shape({
       nickname: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,

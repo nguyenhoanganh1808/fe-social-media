@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     const fetchProfile = async () => {
       try {
         const profile = await UserService.getProfile();
-
         setUser(profile);
       } catch (error) {
         console.error("Failed to fetch user profile:", error);

@@ -13,7 +13,7 @@ import {
 
 export default function useFetchMessages() {
   const [messageData, setMessageData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,30 +22,52 @@ export default function useFetchMessages() {
 
   const { id } = useParams();
 
+  const scrollToBottom = () => {
+    if (chatListRef.current) {
+      chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+    }
+  };
+
   useEffect(() => {
     async function fetch() {
-      setLoading(true);
-      const result = await MessageService.getMessage(id, 0, 10);
+      const result = await MessageService.getMessage(id, 0, pageSize);
       if (result.success) {
         setMessageData(result.data);
-        setHasMore(result.data.length === pageSize);
       }
       setLoading(false);
     }
     fetch();
   }, [id]);
 
+  useEffect(() => {
+    if (!loading && messageData.length > 0 && currentPage === 0) {
+      scrollToBottom();
+    }
+  }, [loading, messageData, currentPage]);
+
   const fetchMoreMessages = useCallback(async () => {
     if (!hasMore || isFetchingMore) return;
 
-    setIsFetchingMore(true);
+    if (!chatListRef.current) return;
+
+    // Store the current scroll position and height
+    const chatList = chatListRef.current;
+    const previousScrollHeight = chatList.scrollHeight;
+    const previousScrollTop = chatList.scrollTop;
+
     const nextPage = currentPage + 1;
+    setIsFetchingMore(true);
     const result = await MessageService.getMessage(id, nextPage, pageSize);
 
     if (result.success) {
       setMessageData((prevData) => [...prevData, ...result.data]);
       setCurrentPage(nextPage);
       setHasMore(result.data.length === pageSize);
+
+      requestAnimationFrame(() => {
+        chatList.scrollTop =
+          chatList.scrollHeight - previousScrollHeight + previousScrollTop;
+      });
     }
     setIsFetchingMore(false);
   }, [hasMore, id, isFetchingMore, currentPage]);
@@ -65,8 +87,8 @@ export default function useFetchMessages() {
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
             const newMessage = { id: change.doc.id, ...change.doc.data() };
-            console.log("New message added:", newMessage);
             setMessageData((prevData) => [newMessage, ...prevData]);
+            scrollToBottom();
           }
         });
       },
@@ -77,12 +99,6 @@ export default function useFetchMessages() {
 
     return () => unsubscribe();
   }, [id]);
-
-  useEffect(() => {
-    if (chatListRef.current) {
-      chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
-    }
-  }, [messageData]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,7 +119,6 @@ export default function useFetchMessages() {
       if (chatListElement) {
         chatListElement.removeEventListener("scroll", handleScroll);
       }
-      setCurrentPage(0);
     };
   }, [messageData, fetchMoreMessages]);
   return {

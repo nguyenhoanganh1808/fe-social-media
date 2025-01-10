@@ -35,19 +35,19 @@ export default function useSignInForm() {
     },
     password: {
       required: "Password is required",
-      minLength: {
-        message: "Password must be at least 8 characters long",
-        value: 8,
-      },
-      maxLength: {
-        message: "Password must be no more than 20 characters long",
-        value: 20,
-      },
-      pattern: {
-        value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,20}$/,
-        message:
-          "Password must contain at least one letter and one special character",
-      },
+      // minLength: {
+      //   message: "Password must be at least 8 characters long",
+      //   value: 8,
+      // },
+      // maxLength: {
+      //   message: "Password must be no more than 20 characters long",
+      //   value: 20,
+      // },
+      // pattern: {
+      //   value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,20}$/,
+      //   message:
+      //     "Password must contain at least one letter and one special character",
+      // },
     },
   };
 

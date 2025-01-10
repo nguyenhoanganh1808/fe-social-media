@@ -15,17 +15,17 @@ export const AuthService = {
       },
     });
 
-    if (response.status === 403) {
-      const newAccessToken = await this.refreshAccessToken();
+    // if (response.status === 403) {
+    //   const newAccessToken = await this.refreshAccessToken();
 
-      return fetch(url, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${newAccessToken}`,
-        },
-      });
-    }
+    //   return fetch(url, {
+    //     ...options,
+    //     headers: {
+    //       ...options.headers,
+    //       Authorization: `Bearer ${newAccessToken.data}`,
+    //     },
+    //   });
+    // }
 
     return response;
   },

@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "./useAuthContext";
 import { toast } from "react-toastify";
-import ToastNotification from "../components/common/ToastNotification";
+import { createToastContent } from "../components/common/ToastNotification";
 
 export default function useFetchNotifications() {
   const [notifications, setNotifications] = useState([]);
@@ -102,7 +102,13 @@ export default function useFetchNotifications() {
           if (change.type === "added") {
             console.log("New message added:", newNotification);
             setNotifications((prevData) => [newNotification, ...prevData]);
-            toast(ToastNotification, { position: "bottom-right" });
+            // toast(ToastNotification, { position: "bottom-right" });
+            toast(
+              createToastContent({ user: newNotification.sender }).render(),
+              {
+                position: "bottom-right",
+              }
+            );
           }
         });
       },
@@ -119,10 +125,24 @@ export default function useFetchNotifications() {
 
   useEffect(() => {
     const handleScroll = () => {
+      console.log("trigger");
       if (notificationListRef.current) {
         const { scrollTop, scrollHeight, clientHeight } =
           notificationListRef.current;
-        if (scrollHeight - scrollTop <= clientHeight + 25) {
+        const scrollPosition = Math.ceil(scrollTop + clientHeight);
+
+        // Debug information
+        console.log({
+          scrollTop,
+          scrollHeight,
+          clientHeight,
+          scrollPosition,
+          threshold: scrollHeight - 50,
+          isNearBottom: scrollPosition >= scrollHeight - 50,
+        });
+
+        if (scrollPosition >= scrollHeight - 50) {
+          console.log("fetch more notifications");
           fetchMoreNotifications();
         }
       }
@@ -137,9 +157,8 @@ export default function useFetchNotifications() {
       if (chatListElement) {
         chatListElement.removeEventListener("scroll", handleScroll);
       }
-      setCurrentPage(0);
     };
-  }, [fetchMoreNotifications]);
+  }, [fetchMoreNotifications, notificationListRef]);
 
   return {
     notifications,

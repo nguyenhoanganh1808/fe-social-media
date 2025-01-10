@@ -5,42 +5,38 @@ import { PostService } from "../services/post.service";
 export default function useFetchPost(fetchFunction, groupId = 0) {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const fetchPosts = useCallback(async () => {
+  const [hasMore, setHasMore] = useState(true);
+  const pageSize = 10;
+
+  const fetchMorePosts = useCallback(async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
+    const nextPage = page + 1;
     try {
-      const postData = await fetchFunction(page, 10, groupId);
+      const postData = await fetchFunction(nextPage, pageSize, groupId);
 
-      setPosts((prevPosts) => {
-        const postMap = new Map(prevPosts.map((post) => [post.id, post]));
-        postData.forEach((newPost) => {
-          if (!postMap.has(newPost.id)) {
-            postMap.set(newPost.id, newPost);
-          }
-        });
-        return Array.from(postMap.values());
-      });
+      setPosts((prevPosts) => [...prevPosts, ...postData]);
 
-      setPage((prevPage) => prevPage + 1);
-      if (postData.length < 10) {
-        setHasMore(false);
-      }
+      setPage(nextPage);
+      setHasMore(postData.length === pageSize);
     } catch (e) {
       toast.error(e.message || "An error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
-  }, [page, loading, hasMore, fetchFunction, groupId]);
+  }, [fetchFunction, groupId, hasMore, loading, page]);
 
   useEffect(() => {
-    if (page === 0 && hasMore) {
-      fetchPosts();
+    async function fetch() {
+      const postData = await fetchFunction(0, pageSize, groupId);
+      setPosts(postData);
+      setLoading(false);
     }
-  }, [page, hasMore, fetchPosts]);
+    fetch();
+  }, [fetchFunction, groupId]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,13 +44,13 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
         window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 1
       ) {
-        fetchPosts();
+        fetchMorePosts();
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [fetchPosts]);
+  }, [fetchMorePosts]);
 
   const handlePostDeleted = async (postId) => {
     try {
@@ -67,9 +63,9 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
   };
 
   const handlePostCreated = async () => {
-    setPosts([]);
-    setPage(0);
-    setHasMore(true);
+    // setPosts([]);
+    // setPage(0);
+    // setHasMore(true);
   };
 
   const handlePostUpdated = async (postId, newContent) => {
