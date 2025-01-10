@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PostService } from "../services/post.service";
+import createPost from "../models/post";
 
 export default function useFetchPost(fetchFunction, groupId = 0) {
   const [posts, setPosts] = useState([]);
@@ -62,10 +63,10 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     }
   };
 
-  const handlePostCreated = async () => {
-    // setPosts([]);
-    // setPage(0);
-    // setHasMore(true);
+  const handlePostCreated = async (data) => {
+    const newPost = createPost(data);
+    console.log("newPost: ", newPost);
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
   };
 
   const handlePostUpdated = async (postId, newContent) => {

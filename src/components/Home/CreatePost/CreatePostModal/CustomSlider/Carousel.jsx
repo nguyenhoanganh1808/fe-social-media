@@ -3,8 +3,17 @@ import PropTypes from "prop-types";
 
 export function CustomCarousel({ medias }) {
   return (
-    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-      <Carousel slide={false}>
+    <div
+      onClick={(e) => e.preventDefault()}
+      className="h-56 sm:h-64 xl:h-80 2xl:h-96"
+    >
+      <Carousel
+        slide={false}
+        className="h-full w-full"
+        leftControl={medias.length === 1 && " "}
+        rightControl={medias.length === 1 && " "}
+        indicators={medias.length === 1 && false}
+      >
         {medias.map((media) => {
           if (media.type === "IMAGE") {
             return <img key={media.url} src={media.url} alt="" />;

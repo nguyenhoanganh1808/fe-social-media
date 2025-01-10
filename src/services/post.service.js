@@ -170,7 +170,7 @@ export const PostService = {
         };
       }
       toast.success("Post created successfully");
-      return { success: true };
+      return { success: true, data: await response.json() };
     } catch (e) {
       toast.error(e || "An error occurred while creating the post");
       return {

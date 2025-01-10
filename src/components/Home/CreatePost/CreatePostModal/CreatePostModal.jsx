@@ -32,6 +32,8 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     loading,
     handleRemoveFile,
     setLoading,
+    resetMediaArray,
+    resetFileArray,
   } = useFormCreatePost();
   const { register, handleSubmit, setValue, getValues, reset } = methods;
 
@@ -83,8 +85,13 @@ const CreatePostModal = forwardRef(function CreatePostModal(
           onSubmit={handleSubmit(async (data) => {
             const result = await onSubmit(data);
             if (result.success) {
-              await handlePostCreated();
+              // await handlePostCreated();
+              handlePostCreated(result.data);
               setLoading(false);
+              reset();
+              closeDialog();
+              resetMediaArray();
+              resetFileArray();
             }
             // toggleValidation();
             reset();

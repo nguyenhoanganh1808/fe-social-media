@@ -20,6 +20,19 @@ export function nFormatter(num, digits) {
     : "0";
 }
 
+export function getFileType(fileName) {
+  // Get the part after the last dot
+  return fileName.substring(fileName.lastIndexOf(".") + 1);
+}
+
+export function formatSize(sizeInKb) {
+  if (sizeInKb >= 1024) {
+    const sizeInMb = sizeInKb / 1024;
+    return `${sizeInMb.toFixed(2)} MB`;
+  }
+  return `${sizeInKb.toFixed(2)} KB`;
+}
+
 export function convertBytesToMegaBytes(bytes) {
   return (bytes / (1024 * 1024)).toFixed(2);
 }

@@ -113,7 +113,9 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
             post.mediaFiles[0].type !== "DOCUMENT" ? (
               <CustomCarousel medias={post.mediaFiles} />
             ) : (
-              post.mediaFiles.map((file) => <FileView key={file.url} />)
+              post.mediaFiles.map((file) => (
+                <FileView key={file.url} file={file} />
+              ))
             )}
           </ul>
         </Link>
