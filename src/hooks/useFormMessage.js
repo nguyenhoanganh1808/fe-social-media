@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import useHover from "./useHover";
 import { formatTime } from "../lib/utils";
 import { useAuth } from "./useAuthContext";
+import { MessageService } from "../services/message.service";
 
 export default function useFormMessage(setMessageData, receiverId) {
   const [messageInput, setMessageInput] = useState("");
@@ -83,7 +84,7 @@ export default function useFormMessage(setMessageData, receiverId) {
       state: "pending",
     };
     setMessageData((prevMessages) => [pendingMessage, ...prevMessages]);
-    // await MessageService.sendMessageToUser(receiverId, data);
+    await MessageService.sendMessageToUser(receiverId, data);
 
     setMessageData((prevMessages) =>
       prevMessages.filter((msg) => msg.id !== pendingMessage.id)

@@ -20,7 +20,7 @@ export default function MessageSideBar({
 
   if (activeTab === "Primary") {
     sidebarItems = conversations;
-  } else if (activeTab === "General") {
+  } else if (activeTab === "Group") {
     sidebarItems = [];
   } else {
     sidebarItems = pendingConversations;

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import AuthContext from "../hooks/useAuthContext";
 import { UserService } from "../services/user.service";
 import { AuthService } from "../services/auth.service";
+import LoadingPage from "../pages/LoadingPage";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
   return (

@@ -72,11 +72,12 @@
   border-radius: 12px;
 }
 
-.icons svg:not(:last-child) {
+.icons svg {
   fill: #0ea5e9;
 }
 
-.icons svg:last-child {
+.icons svg:last-child,
+svg:nth-child(3) {
   fill: none;
 }
 

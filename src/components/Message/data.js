@@ -21,7 +21,7 @@ const data = [
     ],
   },
   {
-    title: "General",
+    title: "Group",
     chats: [
       {
         user: {

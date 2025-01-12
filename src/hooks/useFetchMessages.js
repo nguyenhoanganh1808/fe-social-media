@@ -31,24 +31,45 @@ export default function useFetchMessages() {
         setHasMore(result.data.length === pageSize);
       }
       setLoading(false);
+      requestAnimationFrame(() => {
+        chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+      });
     }
     fetch();
   }, [id]);
 
   const fetchMoreMessages = useCallback(async () => {
-    if (!hasMore || isFetchingMore) return;
+    if (!hasMore || isFetchingMore || !chatListRef.current) return;
+
+    const chatList = chatListRef.current;
+    const previousScrollHeight = chatList.scrollHeight;
+    const previousScrollTop = chatList.scrollTop;
 
     setIsFetchingMore(true);
-    const nextPage = currentPage + 1;
-    const result = await MessageService.getMessage(id, nextPage, pageSize);
 
-    if (result.success) {
-      setMessageData((prevData) => [...prevData, ...result.data]);
-      setCurrentPage(nextPage);
-      setHasMore(result.data.length === pageSize);
+    try {
+      const result = await MessageService.getMessage(
+        id,
+        currentPage + 1,
+        pageSize
+      );
+      if (result.success) {
+        setMessageData((prevData) => [...prevData, ...result.data]);
+        setHasMore(result.data.length === pageSize);
+        setCurrentPage((prevPage) => prevPage + 1);
+
+        // Adjust scroll position after fetching
+        requestAnimationFrame(() => {
+          chatList.scrollTop =
+            chatList.scrollHeight - previousScrollHeight + previousScrollTop;
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    } finally {
+      setIsFetchingMore(false);
     }
-    setIsFetchingMore(false);
-  }, [currentPage, hasMore, id, isFetchingMore]);
+  }, [hasMore, id, isFetchingMore, currentPage, pageSize]);
 
   useEffect(() => {
     const conversationRef = doc(db, "conversations", id);
@@ -79,16 +100,10 @@ export default function useFetchMessages() {
   }, [id]);
 
   useEffect(() => {
-    if (chatListRef.current) {
-      chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
-    }
-  }, [messageData]);
-
-  useEffect(() => {
     const handleScroll = () => {
       if (chatListRef.current) {
         const { scrollTop } = chatListRef.current;
-        if (scrollTop <= 5) {
+        if (scrollTop <= 0) {
           fetchMoreMessages();
         }
       }
@@ -103,9 +118,9 @@ export default function useFetchMessages() {
       if (chatListElement) {
         chatListElement.removeEventListener("scroll", handleScroll);
       }
-      setCurrentPage(0);
     };
-  }, [messageData, fetchMoreMessages]);
+  }, [fetchMoreMessages]);
+
   return {
     messageData,
     loading,

@@ -9,26 +9,28 @@ export default function Chats({ otherUser }) {
   const { loading, isFetchingMore, chatListRef, messageData, setMessageData } =
     useFetchMessages();
 
-  if (loading) {
-    return (
-      <div className="flex items-end">
-        <SpinningContainer />
-      </div>
-    );
-  }
-
   return (
-    <div className={`${styles.wrapper}`}>
-      <ul className="w-full overflow-y-scroll mt-3" ref={chatListRef}>
-        {isFetchingMore && <SpinningContainer />}
-        {messageData
-          ?.map((chat) => {
-            return <MessageItem key={chat.id} messageData={chat} />;
-          })
-          .reverse()}
-      </ul>
-      <MessageInput receiverId={otherUser.id} setMessageData={setMessageData} />
-    </div>
+    <>
+      {loading && (
+        <div className="flex items-end">
+          <SpinningContainer />
+        </div>
+      )}
+      <div className={`${styles.wrapper} ${loading ? "hidden" : ""}`}>
+        <ul className={"w-full overflow-y-scroll mt-3"} ref={chatListRef}>
+          {isFetchingMore && <SpinningContainer />}
+          {messageData
+            ?.map((chat) => {
+              return <MessageItem key={chat.id} messageData={chat} />;
+            })
+            .reverse()}
+        </ul>
+        <MessageInput
+          receiverId={otherUser.id}
+          setMessageData={setMessageData}
+        />
+      </div>
+    </>
   );
 }
 

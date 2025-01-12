@@ -19,6 +19,7 @@ export default function useFetchNotifications() {
   const [loading, setLoading] = useState(false);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+
   const [currentPage, setCurrentPage] = useState(0);
   const notificationListRef = useRef(null);
   const pageSize = 10;
@@ -54,6 +55,8 @@ export default function useFetchNotifications() {
   }, []);
 
   useEffect(() => {
+    let isFirstExecution = true;
+
     const notificationsRef = doc(db, "notifications", user.userId);
     const notificationRef = collection(notificationsRef, "user_notifications");
     const notificationQuery = query(
@@ -99,7 +102,7 @@ export default function useFetchNotifications() {
       (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           const newNotification = { id: change.doc.id, ...change.doc.data() };
-          if (change.type === "added") {
+          if (change.type === "added" && !isFirstExecution) {
             console.log("New message added:", newNotification);
             setNotifications((prevData) => [newNotification, ...prevData]);
             // toast(ToastNotification, { position: "bottom-right" });
@@ -111,6 +114,7 @@ export default function useFetchNotifications() {
             );
           }
         });
+        isFirstExecution = false;
       },
       (error) => {
         console.error("Error with Firestore listener:", error);
