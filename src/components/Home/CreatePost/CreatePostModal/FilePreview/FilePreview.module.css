@@ -20,16 +20,16 @@
 
 .file {
   display: flex;
-  /* gap: 12px; */
+  gap: 12px;
 }
 
 .fileName {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .XIcon {
   position: absolute;
-  right: 25px;
+  right: 0px;
 }
 
 .XIcon {

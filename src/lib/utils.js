@@ -93,6 +93,33 @@ export function formatRelativeTime(timestamp) {
   }
 }
 
+export function extractFileFromUrlType(file) {
+  if (!file || typeof file.fileName !== "string") {
+    throw new Error("Invalid file object");
+  }
+
+  const extension = file.fileName.split(".").pop().toLowerCase();
+
+  switch (extension) {
+    case "pdf":
+      return "pdf";
+    case "docx":
+      return "docx";
+    case "pptx":
+      return "pptx";
+    case "zip":
+      return "zip";
+    case "doc":
+      return "doc";
+    case "rar":
+      return "rar";
+    case "txt":
+      return "txt";
+    default:
+      return "unknown";
+  }
+}
+
 export function extractFileType(file) {
   if (!file || typeof file.name !== "string") {
     throw new Error("Invalid file object");

@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
-import { formatSize, getFileType } from "../../../../lib/utils";
-import PDFView from "./PDFView";
-import DocView from "./DocView";
-import FileTypeView from "./FileTypeView";
+import {
+  extractFileFromUrlType,
+  extractFileType,
+  formatSize,
+  getFileIcon,
+  getFileType,
+} from "../../../../lib/utils";
 
 export default function FileView({ file }) {
   const fileSize = formatSize(file.size);
@@ -13,16 +16,9 @@ export default function FileView({ file }) {
     window.open(file.url, "_blank");
   };
 
-  const fileTypeIcon =
-    fileType === "pdf" ? (
-      <PDFView />
-    ) : fileType === "doc" ? (
-      <DocView />
-    ) : fileType === "docx" ? (
-      <DocView />
-    ) : (
-      <FileTypeView />
-    );
+  const type = extractFileFromUrlType(file);
+  const fileIconSrc = getFileIcon(type);
+
   return (
     <div
       onClick={(e) => e.preventDefault()}
@@ -30,21 +26,11 @@ export default function FileView({ file }) {
     >
       <div className="me-2">
         <span className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white pb-2">
-          {fileTypeIcon}
+          <img className="h-12 w-12" src={fileIconSrc} alt={type} />
+
           {file.fileName}
         </span>
         <span className="flex text-xs font-normal text-gray-500 dark:text-gray-400 gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            className="self-center"
-            width="3"
-            height="4"
-            viewBox="0 0 3 4"
-            fill="none"
-          >
-            <circle cx="1.5" cy="2" r="1.5" fill="#6B7280" />
-          </svg>
           {fileSize}
           <svg
             xmlns="http://www.w3.org/2000/svg"

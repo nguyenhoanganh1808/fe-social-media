@@ -136,6 +136,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 {gifPreviewVisible && (
                   <GifPreview gifUrl={gif} onClose={closeGifPreview} />
                 )}
+
                 {<FilePreview files={fileArray} onRemove={handleRemoveFile} />}
 
                 {addImageFormVisible && (

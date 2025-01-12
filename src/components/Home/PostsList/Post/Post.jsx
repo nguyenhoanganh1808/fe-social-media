@@ -18,6 +18,7 @@ import { useAuth } from "../../../../hooks/useAuthContext";
 import Private from "./Private";
 import Public from "./Public";
 import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
+import { UserPopOver } from "../../../common/UserPopOver";
 
 const actionsButton = [
   {
@@ -74,7 +75,11 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
         <Link className={styles.link} to={`/posts/${post.id}`}>
           <div className={styles.authorAndTime}>
             <div>
-              <p className={styles.author}>{post.user.username}</p>
+              <UserPopOver user={post.user}>
+                <p className={`${styles.author} hover:text-indigo-500`}>
+                  {post.user.username}
+                </p>
+              </UserPopOver>
               <p className={styles.time}>{distanceFromNow} ago</p>
               {post.isPrivate ? <Private /> : <Public />}
             </div>
