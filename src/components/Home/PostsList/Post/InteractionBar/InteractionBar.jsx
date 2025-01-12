@@ -5,7 +5,7 @@ import { Share, MessageCircle } from "lucide-react";
 import HeartButton from "../../../../Button/HeartButton/HeartButton";
 import { useState } from "react";
 
-function InteractionBar({ post }) {
+function InteractionBar({ post, onClickShare }) {
   const [likeCount, setLikeCount] = useState(post.reactionCount);
 
   return (
@@ -24,7 +24,11 @@ function InteractionBar({ post }) {
         icon={<MessageCircle size={20} color="gray" />}
         count={post.commentCount}
       />
-      <InteractionButton count={null} icon={<Share size={20} color="gray" />} />
+      <InteractionButton
+        onClick={onClickShare}
+        count={null}
+        icon={<Share size={20} color="gray" />}
+      />
     </div>
   );
 }
@@ -36,6 +40,7 @@ InteractionBar.propTypes = {
     reactionCount: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
   }),
+  onClickShare: PropTypes.func.isRequired,
 };
 
 export default InteractionBar;

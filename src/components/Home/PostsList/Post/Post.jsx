@@ -15,6 +15,9 @@ import { PostService } from "../../../../services/post.service";
 import { CustomCarousel } from "../../CreatePost/CreatePostModal/CustomSlider/Carousel";
 import FileView from "./FileView";
 import { useAuth } from "../../../../hooks/useAuthContext";
+import Private from "./Private";
+import Public from "./Public";
+import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
 
 const actionsButton = [
   {
@@ -32,6 +35,11 @@ const actionsButton = [
 function Post({ post, handlePostDeleted, handlePostUpdated }) {
   const { isOpen, toggle } = useToggle();
   const { closeDialog, dialogRef, showDialog } = useDialog();
+  const {
+    closeDialog: closeShare,
+    dialogRef: shareRef,
+    showDialog: showShare,
+  } = useDialog();
   const [isSaved, setIsSaved] = useState(post.isSaved);
   const { user } = useAuth();
   const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
@@ -52,6 +60,7 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
 
   return (
     <div className={styles.wrapper}>
+      <SharePostModal ref={shareRef} closeDialog={closeShare} postData={post} />
       <UpdatePostModal
         ref={dialogRef}
         closeDialog={closeDialog}
@@ -67,6 +76,7 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
             <div>
               <p className={styles.author}>{post.user.username}</p>
               <p className={styles.time}>{distanceFromNow} ago</p>
+              {post.isPrivate ? <Private /> : <Public />}
             </div>
 
             <div
@@ -120,7 +130,7 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
           </ul>
         </Link>
         <div className={styles.interactionContainer}>
-          <InteractionBar post={post} />
+          <InteractionBar post={post} onClickShare={showShare} />
           <InteractionButton
             onClick={toggleSaved}
             count={null}
@@ -147,6 +157,7 @@ Post.propTypes = {
     isSaved: PropTypes.bool,
     reactionCount: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
+    isPrivate: PropTypes.bool.isRequired,
   }),
   handlePostDeleted: PropTypes.func,
   handlePostUpdated: PropTypes.func,

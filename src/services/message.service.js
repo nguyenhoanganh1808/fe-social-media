@@ -152,17 +152,56 @@ export const MessageService = {
     });
     formData.append("sendMessageString ", sendMessageString);
 
-    // if (file && file.length > 0) {
-    //   for (let i = 0; i < file.length; i++) {
-    //     formData.append("mediaFiles", file[i]);
-    //   }
-    // }
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-    // if (mediaFiles && mediaFiles.length > 0) {
-    //   mediaFiles.forEach((file) => {
-    //     formData.append("mediaFiles", file);
-    //   });
-    // }
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
+      }
+
+      return { success: true };
+    } catch (e) {
+      toast.error(e || "An error occurred while sending message");
+      return {
+        error: e || "An error occurred while sending message",
+      };
+    }
+  },
+
+  async sendMessageWithMediaFileToUser(userId, data) {
+    const url = `${baseUrl}/oneToOne/send`;
+    const token = localStorage.getItem("jwt-token");
+
+    const { caption, document, photoOrVideo } = data;
+    const formData = new FormData();
+    const sendMessageString = JSON.stringify({
+      receiverId: userId,
+      content: caption,
+    });
+    formData.append("sendMessageString ", sendMessageString);
+
+    if (document.length > 0) {
+      for (let i = 0; i < document.length; i++) {
+        formData.append("mediaFiles", document[i]);
+      }
+    }
+
+    if (photoOrVideo.length > 0) {
+      photoOrVideo.forEach((file) => {
+        formData.append("mediaFiles", file);
+      });
+    }
 
     try {
       const response = await AuthService.fetchWithAuth(url, {

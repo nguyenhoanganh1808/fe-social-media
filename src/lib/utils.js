@@ -54,13 +54,9 @@ export async function convertToFiles(defaultFiles) {
   const filePromises = defaultFiles.map(async (file) => {
     const response = await fetch(file.url);
     const blob = await response.blob();
-    return new File(
-      [blob],
-      `default_${file.type.toLowerCase()}.${blob.type.split("/")[1]}`,
-      {
-        type: blob.type,
-      }
-    );
+    return new File([blob], `${file.fileName}`, {
+      type: blob.type,
+    });
   });
 
   return Promise.all(filePromises);
@@ -94,5 +90,53 @@ export function formatRelativeTime(timestamp) {
     return `${days}d`; // Less than a week
   } else {
     return `${weeks}w`; // More than a week
+  }
+}
+
+export function extractFileType(file) {
+  if (!file || typeof file.name !== "string") {
+    throw new Error("Invalid file object");
+  }
+
+  const extension = file.name.split(".").pop().toLowerCase();
+
+  switch (extension) {
+    case "pdf":
+      return "pdf";
+    case "docx":
+      return "docx";
+    case "pptx":
+      return "pptx";
+    case "zip":
+      return "zip";
+    case "doc":
+      return "doc";
+    case "rar":
+      return "rar";
+    case "txt":
+      return "txt";
+    default:
+      return "unknown";
+  }
+}
+
+export function getFileIcon(type) {
+  switch (type) {
+    case "pdf":
+      return "/icons/file/pdf.png";
+    case "docx":
+      return "/icons/file/docx.png";
+    case "pptx":
+      return "/icons/file/pptx.png";
+    case "zip":
+      return "/icons/file/zip.png";
+    case "doc":
+      return "/icons/file/doc.png";
+    case "rar":
+      return "/icons/file/rar.png";
+    case "txt":
+      return "/icons/file/txt.png";
+    default:
+      return "/icons/file/document.png";
   }
 }

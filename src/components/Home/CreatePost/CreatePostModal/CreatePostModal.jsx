@@ -13,11 +13,11 @@ import Header from "../Header/Header";
 import useFormCreatePost from "../../../../hooks/useFormCreatePost";
 import { FormProvider } from "react-hook-form";
 import FilePreview from "./FilePreview/FilePreview";
-import Spinner from "../../../common/Spinner/Spinner";
 
 import GifPreview from "../CreatePostModal/GifPreview/GifPreview";
 import GifPicker from "gif-picker-react";
 import SelectPrivacy from "./SelectPrivacy";
+import LoadingButton from "../../../common/Spinner/LoadingButton";
 
 const CreatePostModal = forwardRef(function CreatePostModal(
   { closeDialog, handlePostCreated },
@@ -27,9 +27,9 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     methods,
     onSubmit,
     fileArray,
-    imagesArray,
-    postContent,
+    images,
     loading,
+    isButtonNotDisabled,
     handleRemoveFile,
     setLoading,
     resetMediaArray,
@@ -68,6 +68,8 @@ const CreatePostModal = forwardRef(function CreatePostModal(
       closeGifPicker();
     }
   };
+
+  console.log("imagesarray: ", images);
 
   return (
     <dialog className={styles.wrapper} ref={ref}>
@@ -134,7 +136,7 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 {gifPreviewVisible && (
                   <GifPreview gifUrl={gif} onClose={closeGifPreview} />
                 )}
-                <FilePreview files={fileArray} onRemove={handleRemoveFile} />
+                {<FilePreview files={fileArray} onRemove={handleRemoveFile} />}
 
                 {addImageFormVisible && (
                   <AddImageOrVideoInput onClose={closeAddImageForm} />
@@ -147,21 +149,35 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                 <div className={styles.buttons}>
                   <div>
                     <img
-                      className={styles.addImage}
+                      className={`${styles.addImage} ${
+                        fileArray.length > 0
+                          ? "opacity-40 cursor-not-allowed"
+                          : ""
+                      }`}
                       onClick={() => {
-                        openAddImageForm();
+                        if (fileArray.length <= 0) {
+                          openAddImageForm();
+                        }
                       }}
                       src="https://static.xx.fbcdn.net/rsrc.php/v4/y7/r/Ivw7nhRtXyo.png"
                       alt="Add image"
                     />
                   </div>
                   <label
-                    onClick={() => {
-                      closeAddImageForm();
+                    className={
+                      images && images.length > 0 ? "cursor-not-allowed" : ""
+                    }
+                    onClick={(e) => {
+                      if (images && images.length > 0) {
+                        e.preventDefault();
+                      }
                     }}
                     htmlFor="file"
                   >
-                    <FilesIcon color="blue" size={30} />
+                    <FilesIcon
+                      color={images && images.length > 0 ? "gray" : "blue"}
+                      size={30}
+                    />
                   </label>
                   <input
                     {...register("file")}
@@ -184,20 +200,13 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                   </div>
                 </div>
               </div>
-              <button
+              <LoadingButton
                 type="submit"
-                disabled={loading}
-                className={`${
-                  postContent !== "" ||
-                  fileArray.length > 0 ||
-                  imagesArray.length > 0
-                    ? styles.submitBtn
-                    : styles.btnDeactive
-                } rounded-md`}
-                // onClick={handlePostSubmit}
+                disabled={!isButtonNotDisabled || loading}
+                isLoading={loading}
               >
-                {loading ? <Spinner borderWidth={3} size={30} /> : "Post"}
-              </button>
+                Post
+              </LoadingButton>
             </div>
           ) : (
             <div className={styles.gifPickerContainer}>

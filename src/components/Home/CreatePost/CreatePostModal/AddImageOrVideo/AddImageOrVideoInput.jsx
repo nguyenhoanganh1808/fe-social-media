@@ -7,8 +7,6 @@ import { CustomCarousel } from "../CustomSlider/Carousel";
 import { convertToFiles } from "../../../../../lib/utils";
 
 export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
-  console.log("default file: ", defaultFiles);
-
   const { register, setValue, getValues } = useFormContext();
   const [fileArray, setFileArray] = useState([]);
 
@@ -30,7 +28,6 @@ export default function AddImageOrVideoInput({ onClose, defaultFiles = [] }) {
       ...(getValues("mediaFiles") || []),
       ...Array.from(e.target.files),
     ]);
-    console.log("mediaFiles: ", getValues("mediaFiles"));
   };
 
   const label =

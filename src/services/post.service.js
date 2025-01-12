@@ -6,6 +6,36 @@ import { AuthService } from "./auth.service";
 const baseUrl = API_ENDPOINT + "/posts";
 
 export const PostService = {
+  async sharePost(data) {
+    const url = baseUrl + "/sharePost";
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to share post");
+        return { error: errorText || "Failed to share post", success: true };
+      }
+
+      return { success: true };
+    } catch (e) {
+      console.log(e);
+      toast.error(e || "An error occurred while share post");
+      return {
+        error: e || "An error occurred while share post",
+      };
+    }
+  },
   async unSavePost(postId) {
     const url =
       baseUrl +
@@ -328,6 +358,7 @@ export const PostService = {
       privacyId: 1,
     });
     formData.append("postRequestString", postRequestString);
+    formData.append("mediaFiles", []);
 
     if (file && file.length > 0) {
       for (let i = 0; i < file.length; i++) {

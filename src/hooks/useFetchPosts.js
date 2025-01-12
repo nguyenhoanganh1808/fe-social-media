@@ -81,7 +81,11 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
             ? {
                 ...post,
                 textContent: newContent.content,
-                mediaFiles: newContent.mediaFiles ? newContent.mediaFiles : [],
+                mediaFiles: newContent.mediaFiles
+                  ? newContent.mediaFiles
+                  : newContent.file
+                  ? newContent.file
+                  : [],
               }
             : post
         )

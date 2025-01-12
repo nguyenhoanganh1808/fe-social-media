@@ -64,7 +64,7 @@ export default function MessageItem({ messageData }) {
 
 MessageItem.propTypes = {
   messageData: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     state: PropTypes.string,
     senderId: PropTypes.shape({
       id: PropTypes.string.isRequired,

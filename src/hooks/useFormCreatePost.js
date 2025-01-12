@@ -13,6 +13,9 @@ const useFormCreatePost = () => {
   const fileArray = files instanceof FileList ? Array.from(files) : [];
   const imagesArray = images instanceof FileList ? Array.from(images) : [];
 
+  const isButtonNotDisabled =
+    postContent !== "" || fileArray.length > 0 || imagesArray.length > 0;
+
   const handleRemoveFile = (index) => {
     const updatedFiles = fileArray.filter((_, i) => i !== index);
 
@@ -48,6 +51,7 @@ const useFormCreatePost = () => {
   return {
     loading,
     methods,
+    isButtonNotDisabled,
     onSubmit,
     fileArray,
     imagesArray,
@@ -56,6 +60,7 @@ const useFormCreatePost = () => {
     resetFileArray,
     postContent,
     setLoading,
+    images,
   };
 };
 

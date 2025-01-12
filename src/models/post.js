@@ -14,5 +14,6 @@ export default function createPost(jsonData) {
     reactionType: jsonData.reactionType,
     reactionCount: jsonData.reactionCount,
     commentCount: jsonData.commentCount,
+    isPrivate: jsonData.privacy.id === 2,
   };
 }
