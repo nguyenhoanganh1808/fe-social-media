@@ -1,7 +1,12 @@
+import ChatGroupList from "./ChatGroupList";
 import ChatItem from "./ChatItem/ChatItem";
 import PropTypes from "prop-types";
 
 export default function ChatList({ data, activeTab }) {
+  if (activeTab === "Group") {
+    return <ChatGroupList />;
+  }
+
   return (
     <div>
       <ul>

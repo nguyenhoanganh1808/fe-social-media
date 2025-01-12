@@ -16,7 +16,7 @@ export default function Chats({ otherUser }) {
           <SpinningContainer />
         </div>
       )}
-      <div className={`${styles.wrapper} ${loading ? "hidden" : ""}`}>
+      <div className={`${styles.wrapper} ${loading ? "opacity-0" : ""}`}>
         <ul className={"w-full overflow-y-scroll mt-3"} ref={chatListRef}>
           {isFetchingMore && <SpinningContainer />}
           {messageData

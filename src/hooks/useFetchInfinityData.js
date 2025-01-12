@@ -44,16 +44,6 @@ export default function useFethcInfinityData(fetchApi) {
         const { scrollTop, scrollHeight, clientHeight } = container.current;
         const scrollPosition = Math.ceil(scrollTop + clientHeight);
 
-        // Debug information
-        console.log({
-          scrollTop,
-          scrollHeight,
-          clientHeight,
-          scrollPosition,
-          threshold: scrollHeight - 50,
-          isNearBottom: scrollPosition >= scrollHeight - 50,
-        });
-
         if (scrollPosition >= scrollHeight - 50) {
           console.log("fetch more notifications");
           fetchMoreData();
