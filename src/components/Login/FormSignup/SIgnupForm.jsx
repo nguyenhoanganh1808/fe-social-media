@@ -3,6 +3,7 @@ import Input from "../Input/Input";
 import styles from "../FormSignin/SignInForm.module.css";
 import useSignUpForm from "../../../hooks/useSignupForm";
 import LoadingButton from "../../common/Spinner/LoadingButton";
+import { roleData } from "./RolesData";
 
 export default function SignupForm() {
   const { register, errors, handleSubmit, onSubmit, validationRules, loading } =
@@ -84,6 +85,24 @@ export default function SignupForm() {
             {errors.confirmpassword.message}
           </p>
         )}
+
+        <label
+          htmlFor="roleId"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Select type
+        </label>
+        <select
+          {...register("roleId")}
+          id="roleId"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          {Object.entries(roleData).map(([key, value]) => (
+            <option key={key} value={value}>
+              {key}
+            </option>
+          ))}
+        </select>
 
         <LoadingButton type="submit" isLoading={loading}>
           SIGN UP

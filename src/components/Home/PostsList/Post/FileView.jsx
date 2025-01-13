@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import {
   extractFileFromUrlType,
-  extractFileType,
   formatSize,
   getFileIcon,
   getFileType,

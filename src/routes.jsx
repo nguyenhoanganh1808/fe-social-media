@@ -25,6 +25,7 @@ import Group from "./pages/Group/Group";
 import Disussion from "./components/Group/Discussion";
 import Members from "./components/Group/Members";
 import SignInForm from "./components/Login/FormSignIn/SignInForm";
+import OTPForm from "./components/Login/OTPForm/OTPForm";
 
 const routes = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const routes = createBrowserRouter([
       {
         path: "create-profile",
         element: <FormCreateProfile />,
+      },
+      {
+        path: "otp-confirmation",
+        element: <OTPForm />,
       },
     ],
   },

@@ -11,15 +11,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const profile = await UserService.getProfile();
-        setUser(profile);
-      } catch (error) {
-        console.error("Failed to fetch user profile:", error);
-        setUser(null);
-      } finally {
-        setLoading(false);
+      const result = await UserService.getProfile();
+      if (result.success) {
+        setUser(result.data);
       }
+
+      setLoading(false);
     };
 
     fetchProfile();

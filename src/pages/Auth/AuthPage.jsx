@@ -11,7 +11,7 @@ export default function AuthPage() {
   const isCreateProfileRoute = location.pathname === "/auth/create-profile";
   const { user } = useAuth();
 
-  if (user) {
+  if (user !== false) {
     return <Navigate to="/" replace />;
   }
 

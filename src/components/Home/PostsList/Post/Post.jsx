@@ -75,8 +75,15 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
         <Link className={styles.link} to={`/posts/${post.id}`}>
           <div className={styles.authorAndTime}>
             <div>
-              <UserPopOver user={post.user}>
-                <p className={`${styles.author} hover:text-indigo-500`}>
+              <UserPopOver
+                user={{
+                  avatarUrl: post.user.avatarUrl,
+                  nickname: post.user.username,
+                  tagName: user.tagName,
+                  userId: post.user.id,
+                }}
+              >
+                <p className={`${styles.author} hover:text-indigo-500 z-10`}>
                   {post.user.username}
                 </p>
               </UserPopOver>

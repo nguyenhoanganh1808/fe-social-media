@@ -26,6 +26,7 @@ export function getFileType(fileName) {
 }
 
 export function formatSize(sizeInKb) {
+  if (!sizeInKb) return "";
   if (sizeInKb >= 1024) {
     const sizeInMb = sizeInKb / 1024;
     return `${sizeInMb.toFixed(2)} MB`;
@@ -33,8 +34,15 @@ export function formatSize(sizeInKb) {
   return `${sizeInKb.toFixed(2)} KB`;
 }
 
-export function convertBytesToMegaBytes(bytes) {
-  return (bytes / (1024 * 1024)).toFixed(2);
+export function formatFileSize(bytes) {
+  if (bytes === 0) return "0 Bytes";
+
+  const units = ["Bytes", "KB", "MB", "GB", "TB"];
+  const k = 1024;
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const size = (bytes / Math.pow(k, i)).toFixed(2);
+
+  return `${size} ${units[i]}`;
 }
 
 export function formatTime(elapsedTime) {

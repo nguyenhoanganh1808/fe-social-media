@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import styles from "./FilePreview.module.css";
 import { X } from "lucide-react";
 import {
-  convertBytesToMegaBytes,
   extractFileType,
+  formatFileSize,
   getFileIcon,
 } from "../../../../../lib/utils";
 
@@ -23,10 +23,12 @@ const FilePreview = ({ files, onRemove }) => {
               <div className={`${styles.file} relative`}>
                 <img className="w-12 h-12" src={fileIconSrc} alt="" />
                 <div>
-                  <p className={`${styles.fileName} max-w-[90%] overflow-clip`}>
+                  <p
+                    className={`${styles.fileName} max-w-[100%] overflow-clip`}
+                  >
                     {file.name}
                   </p>
-                  <p>{convertBytesToMegaBytes(file.size)} MB</p>
+                  <p>{formatFileSize(file.size)}</p>
                 </div>
                 <X
                   onClick={() => onRemove(index)}

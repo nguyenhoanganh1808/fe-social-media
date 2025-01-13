@@ -1,9 +1,17 @@
 import { Popover } from "flowbite-react";
 import PropTypes from "prop-types";
+import { useAuth } from "../../hooks/useAuthContext";
+import { FollowService } from "../../services/follow.service";
 
 export function UserPopOver({ children, user }) {
+  const { user: loginUser } = useAuth();
+
+  const onFollow = async () => {
+    await FollowService.follow(user.userId);
+  };
   return (
     <Popover
+      onClick={(e) => e.preventDefault()}
       trigger="hover"
       aria-labelledby="profile-popover"
       content={
@@ -16,14 +24,24 @@ export function UserPopOver({ children, user }) {
                 alt={user.nickname}
               />
             </a>
-            <div>
-              <button
-                type="button"
-                className="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Follow
-              </button>
-            </div>
+            {loginUser.userId !== user.userId && (
+              <div className="space-x-1">
+                <button
+                  type="button"
+                  onClick={onFollow}
+                  className="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Follow
+                </button>
+
+                <button
+                  type="button"
+                  className="rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Message
+                </button>
+              </div>
+            )}
           </div>
           <p
             id="profile-popover"
@@ -34,16 +52,7 @@ export function UserPopOver({ children, user }) {
           <p className="mb-3 text-sm font-normal">
             <span className="hover:underline">@j{user.tagName}</span>
           </p>
-          {/* <p className="mb-4 text-sm">
-            Open-source contributor. Building{" "}
-            <a
-              href="#"
-              className="text-blue-600 hover:underline dark:text-blue-500"
-            >
-              flowbite.com
-            </a>
-            .
-          </p> */}
+          {/* <p className="mb-4 text-sm">{user.bio}</p> */}
           <ul className="flex text-sm">
             <li className="me-2">
               <span className="hover:underline">
@@ -73,6 +82,7 @@ export function UserPopOver({ children, user }) {
 UserPopOver.propTypes = {
   children: PropTypes.node.isRequired,
   user: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     tagName: PropTypes.string.isRequired,

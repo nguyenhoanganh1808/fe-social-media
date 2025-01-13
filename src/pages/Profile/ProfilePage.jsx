@@ -30,7 +30,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="w-screen flex justify-center">
-        <Spinner borderWidth={3} />;
+        <Spinner borderWidth={3} />
       </div>
     );
   }

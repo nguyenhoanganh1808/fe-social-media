@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { AuthService } from "../services/auth.service";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../services/user.service";
 import { useState } from "react";
@@ -35,40 +34,39 @@ export default function useSignInForm() {
     },
     password: {
       required: "Password is required",
-      // minLength: {
-      //   message: "Password must be at least 8 characters long",
-      //   value: 8,
-      // },
-      // maxLength: {
-      //   message: "Password must be no more than 20 characters long",
-      //   value: 20,
-      // },
-      // pattern: {
-      //   value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,20}$/,
-      //   message:
-      //     "Password must contain at least one letter and one special character",
-      // },
+      minLength: {
+        message: "Password must be at least 8 characters long",
+        value: 8,
+      },
+      maxLength: {
+        message: "Password must be no more than 20 characters long",
+        value: 20,
+      },
+      pattern: {
+        value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,20}$/,
+        message:
+          "Password must contain at least one letter and one special character",
+      },
     },
   };
 
   const onSubmit = async (data) => {
     console.log(data);
     setLoading(true);
-    try {
-      await AuthService.login(data);
 
-      toast.success("Login successful!");
-
-      const user = await UserService.getProfile();
-      login(user);
-      if (user) {
-        navigate("/");
-      } else {
-        navigate("/auth/create-profile");
+    const result = await AuthService.login(data);
+    if (result.success) {
+      const getProfileResponse = await UserService.getProfile();
+      if (getProfileResponse.success) {
+        if (getProfileResponse.data) {
+          login(getProfileResponse.data);
+          navigate("/");
+        } else {
+          navigate("/auth/create-profile");
+        }
       }
-    } catch (error) {
-      toast.error(error.message || "Login error");
     }
+
     setLoading(false);
   };
 

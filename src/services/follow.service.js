@@ -74,4 +74,37 @@ export const FollowService = {
       };
     }
   },
+
+  async follow(followedId) {
+    const token = localStorage.getItem("jwt-token");
+    const url =
+      `${baseUrl}/follow?` + new URLSearchParams({ followedId: followedId });
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to follow");
+        return {
+          error: errorText,
+        };
+      }
+
+      return {
+        success: true,
+      };
+    } catch (e) {
+      toast.error(e || "Failed to follow");
+      return {
+        error: e || "Failed to follow",
+      };
+    }
+  },
 };

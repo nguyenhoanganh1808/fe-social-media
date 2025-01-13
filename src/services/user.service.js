@@ -47,29 +47,35 @@ export const UserService = {
         },
       });
 
-      if (!response) {
-        throw new Error("No response from the server");
+      if (response.status === 400) {
+        return {
+          success: true,
+          data: false,
+        };
       }
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(
-          errorText || "Failed to AuthService.fetchWithAuth profile"
-        );
+        // toast.error(errorText);
+        return {
+          error: errorText,
+        };
       }
-
-      const text = await response.text();
-      if (!text) {
-        return null;
-      }
-
-      // Parse the JSON safely
-      return JSON.parse(text);
+      const responseData = await response.json();
+      return {
+        success: true,
+        data: responseData,
+      };
     } catch (e) {
-      throw new Error(
+      toast.error(
         e.message ||
           "An error occurred while AuthService.fetchWithAuthing the profile"
       );
+      return {
+        error:
+          e.message ||
+          "An error occurred while AuthService.fetchWithAuthing the profile",
+      };
     }
   },
 };

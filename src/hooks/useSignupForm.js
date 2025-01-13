@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { AuthService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useState } from "react";
 
 export default function useSignUpForm() {
@@ -10,7 +9,11 @@ export default function useSignUpForm() {
     formState: { errors },
     handleSubmit,
     getValues,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      roleId: 2,
+    },
+  });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -62,16 +65,15 @@ export default function useSignUpForm() {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
     delete data["confirmpassword"];
     setLoading(true);
-    try {
-      await AuthService.register({ ...data, roleId: 2 });
-      toast.success("Registration successful!");
-
-      navigate("/auth/create-profile");
-    } catch (error) {
-      toast.error(error || "Registration error");
+    const registerData = { ...data, roleId: parseInt(data.roleId) };
+    const result = await AuthService.register(registerData);
+    if (result.success) {
+      navigate("/auth/otp-confirmation", { state: registerData });
     }
+
     setLoading(false);
   };
 

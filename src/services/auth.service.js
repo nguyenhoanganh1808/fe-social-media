@@ -70,12 +70,87 @@ export const AuthService = {
         },
         body: JSON.stringify(data),
       });
-      const responseData = await response.json();
-      localStorage.setItem("jwt-token", responseData.token);
-
-      return responseData;
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when register");
+        return {
+          error: errorText,
+        };
+      }
+      return {
+        success: true,
+      };
     } catch (e) {
-      throw new Error(e);
+      toast.error(e || "Failed when register");
+      return {
+        error: e || "Failed when register",
+      };
+    }
+  },
+
+  async verifyAndRegister(otp, data) {
+    const url =
+      `${baseUrl}/verify-and-register?` + new URLSearchParams({ otp: otp });
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "OTP is not correct");
+        return {
+          error: errorText,
+        };
+      }
+      const responseData = await response.json();
+      const { accessToken, refreshToken } = responseData;
+      localStorage.setItem("jwt-token", accessToken);
+      localStorage.setItem("refresh-token", refreshToken);
+      return {
+        success: true,
+      };
+    } catch (e) {
+      toast.error(e || "OTP is not correct");
+      return {
+        error: e || "OTP is not correct",
+      };
+    }
+  },
+
+  async resendOTP(email) {
+    const url =
+      `${baseUrl}/resend-otp?` + new URLSearchParams({ email: email });
+
+    try {
+      const response = await fetch(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when resend OTP");
+        return {
+          error: errorText,
+        };
+      }
+
+      return {
+        success: true,
+      };
+    } catch (e) {
+      toast.error(e || "Failed when register");
+      return {
+        error: e || "Failed when register",
+      };
     }
   },
 
@@ -94,7 +169,8 @@ export const AuthService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || "Unknown error occurred");
+        toast.error(errorText);
+        return { error: errorText };
       }
 
       const responseData = await response.json();
@@ -103,9 +179,16 @@ export const AuthService = {
 
       localStorage.setItem("jwt-token", accessToken);
       localStorage.setItem("refresh-token", refreshToken);
-      return responseData;
+
+      return {
+        success: true,
+        data: responseData,
+      };
     } catch (e) {
-      throw new Error(e);
+      toast.error(e);
+      return {
+        errror: e,
+      };
     }
   },
 
