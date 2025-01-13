@@ -56,7 +56,7 @@ export const UserService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        // toast.error(errorText);
+        toast.error(errorText);
         return {
           error: errorText,
         };

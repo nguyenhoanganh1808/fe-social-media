@@ -2,18 +2,23 @@ import { useForm } from "react-hook-form";
 import { UserService } from "../services/user.service";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { roleData } from "../components/Login/FormSignup/RolesData";
 
-export default function useFormCreateProfile() {
+export default function useFormCreateProfile(role) {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      major: "Information Technology",
+    },
+  });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const validationRules = {
-    code: {
+    studentCode: {
       required: "Student code is required",
       minLength: {
         value: 8,
@@ -22,6 +27,17 @@ export default function useFormCreateProfile() {
       maxLength: {
         value: 8,
         message: "Student code must be no more than 8 characters long",
+      },
+    },
+    lectureCode: {
+      required: "Lecture code is required",
+      minLength: {
+        value: 8,
+        message: "Lecture code must be at least 8 characters long",
+      },
+      maxLength: {
+        value: 8,
+        message: "Lecture code must be no more than 8 characters long",
       },
     },
     nickName: {
@@ -52,26 +68,51 @@ export default function useFormCreateProfile() {
     major: {
       required: "Major is required",
     },
-    schoolYear: {
-      required: "School year is required",
+    department: {
+      required: "Department is required",
+    },
+    yearOfAdmission: {
+      required: "Year of admission is required",
       min: {
-        value: 1,
-        message: "School year must be at least 1",
+        value: 2000,
+        message: "School year must be at least 2000",
       },
       max: {
-        value: 8,
-        message: "School year must not exceed 8",
+        value: new Date().getFullYear(),
+        message: "School year must not exceed current date",
       },
     },
-    activityClass: {
-      required: "Activity class is required",
+    className: {
+      required: "Class name is required",
       minLength: {
         value: 5,
-        message: "Activity class must be at least 5 characters long",
+        message: "Class name must be at least 5 characters long",
       },
       maxLength: {
         value: 100,
-        message: "Activity class must be no more than 100 characters long",
+        message: "Class name must be no more than 100 characters long",
+      },
+    },
+    officeLocation: {
+      required: "Office location is required",
+      minLength: {
+        value: 5,
+        message: "Office location must be at least 5 characters long",
+      },
+      maxLength: {
+        value: 100,
+        message: "Office location must be no more than 100 characters long",
+      },
+    },
+    yearsOfExperience: {
+      required: "Year of Experience is required",
+      min: {
+        value: 1,
+        message: "Year of Experience must be at least 1",
+      },
+      max: {
+        value: 90,
+        message: "Year of Experience must not exceed 90",
       },
     },
     birthday: {},
@@ -95,9 +136,39 @@ export default function useFormCreateProfile() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const result = await UserService.createProfile(data);
+    let profileData = {
+      nickName: data.nickName,
+      tagName: data.tagName,
+      gender: data.gender,
+      birthday: data.birthday,
+      phoneNumber: data.phoneNumber,
+      address: data.address,
+    };
+    if (role === roleData.Lecture.key) {
+      profileData = {
+        ...profileData,
+        lecture: {
+          lectureCode: data.lectureCode,
+          department: data.department,
+          officeLocation: data.officeLocation,
+          yearsOfExperience: parseInt(data.yearsOfExperience),
+        },
+      };
+    } else if (role === roleData.Student.key) {
+      profileData = {
+        ...profileData,
+        student: {
+          studentCode: data.studentCode,
+          major: data.major,
+          className: data.className,
+          yearOfAdmission: parseInt(data.yearOfAdmission),
+        },
+      };
+    }
+    console.log(profileData);
+    const result = await UserService.createProfile(profileData);
     if (result.success) {
-      navigate("/posts");
+      navigate("/");
     }
     setLoading(false);
   };

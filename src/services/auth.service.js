@@ -114,6 +114,7 @@ export const AuthService = {
       localStorage.setItem("refresh-token", refreshToken);
       return {
         success: true,
+        data: responseData,
       };
     } catch (e) {
       toast.error(e || "OTP is not correct");

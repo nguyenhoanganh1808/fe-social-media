@@ -1,12 +1,13 @@
 import Input from "../Input/Input";
 import styles from "./FormCreateProfile.module.css";
-import useFormCreateProfile from "../../../hooks/useFormCreateProfile";
+import useFormCreateStudentProfile from "../../../hooks/useFormCreateProfile";
 import { majors } from "../../../lib/constants";
 import LoadingButton from "../../common/Spinner/LoadingButton";
+import { roleData } from "../FormSignup/RolesData";
 
-export default function FormCreateProfile() {
+export default function FormCreateStudentProfile() {
   const { register, handleSubmit, errors, onSubmit, validationRules, loading } =
-    useFormCreateProfile();
+    useFormCreateStudentProfile(roleData.Student.key);
 
   return (
     <div className={styles.wrapper}>
@@ -18,18 +19,18 @@ export default function FormCreateProfile() {
       >
         {/* Student Code */}
         <Input
-          id="code"
+          id="studentCode"
           label="Student Code"
           placeHolder="Enter your student code"
           type="text"
-          isError={!!errors.code}
-          register={register("code", validationRules.code)}
+          isError={!!errors.studentCode}
+          register={register("studentCode", validationRules.studentCode)}
           required
           isRow={true}
         />
-        {errors.code && (
+        {errors.studentCode && (
           <p role="alert" className={styles.error}>
-            {errors.code.message}
+            {errors.studentCode.message}
           </p>
         )}
 
@@ -69,7 +70,7 @@ export default function FormCreateProfile() {
 
         {/* Gender */}
         <div className={styles.radioGroup}>
-          <label>Gender:</label>
+          <label>Gender: (*)</label>
           <div>
             <div>
               <input
@@ -97,19 +98,18 @@ export default function FormCreateProfile() {
           </p>
         )}
 
-        <div className="ml-2 flex gap-12">
+        <div className="flex justify-between mx-3">
           <label
             htmlFor="majors"
             className="font-bold block mb-2 text-base text-gray-900 dark:text-white"
           >
-            Select an major
+            Major (*)
           </label>
           <select
             {...register("major")}
             id="majors"
             className="max-w-[378px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected>Choose a major</option>
             {majors.map((major) => {
               return (
                 <option key={major} value={major}>
@@ -122,35 +122,38 @@ export default function FormCreateProfile() {
 
         {/* School Year */}
         <Input
-          id="schoolYear"
-          label="School Year"
-          placeHolder="Enter your school year"
-          type="number"
-          isError={!!errors.schoolYear}
-          register={register("schoolYear", validationRules.schoolYear)}
+          id="yearOfAdmission"
+          label="Year Of Admission"
+          placeHolder="Enter your Year Of Admission"
+          type="tel"
+          isError={!!errors.yearOfAdmission}
+          register={register(
+            "yearOfAdmission",
+            validationRules.yearOfAdmission
+          )}
           required
           isRow={true}
         />
-        {errors.schoolYear && (
+        {errors.yearOfAdmission && (
           <p role="alert" className={styles.error}>
-            {errors.schoolYear.message}
+            {errors.yearOfAdmission.message}
           </p>
         )}
 
-        {/* Activity Class */}
+        {/* Class Name */}
         <Input
-          id="activityClass"
-          label="Activity Class"
-          placeHolder="Enter your activity class"
+          id="className"
+          label="Class Name"
+          placeHolder="Enter your class name"
           type="text"
-          isError={!!errors.activityClass}
-          register={register("activityClass", validationRules.activityClass)}
+          isError={!!errors.className}
+          register={register("className", validationRules.className)}
           required
           isRow={true}
         />
-        {errors.activityClass && (
+        {errors.className && (
           <p role="alert" className={styles.error}>
-            {errors.activityClass.message}
+            {errors.className.message}
           </p>
         )}
 
@@ -161,7 +164,7 @@ export default function FormCreateProfile() {
           type="date"
           isError={!!errors.birthday}
           register={register("birthday", validationRules.birthday)}
-          required
+          // required
           isRow={true}
         />
         {errors.birthday && (
@@ -178,7 +181,7 @@ export default function FormCreateProfile() {
           type="tel"
           isError={!!errors.phoneNumber}
           register={register("phoneNumber", validationRules.phoneNumber)}
-          required
+          // required
           isRow={true}
         />
         {errors.phoneNumber && (
@@ -195,7 +198,7 @@ export default function FormCreateProfile() {
           type="text"
           isError={!!errors.address}
           register={register("address", validationRules.address)}
-          required
+          // required
           isRow={true}
         />
         {errors.address && (

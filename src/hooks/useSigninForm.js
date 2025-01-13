@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserService } from "../services/user.service";
 import { useState } from "react";
 import { useAuth } from "./useAuthContext";
+import { roleData } from "../components/Login/FormSignup/RolesData";
 
 export default function useSignInForm() {
   const {
@@ -58,11 +59,16 @@ export default function useSignInForm() {
     if (result.success) {
       const getProfileResponse = await UserService.getProfile();
       if (getProfileResponse.success) {
-        if (getProfileResponse.data) {
+        if (getProfileResponse.data !== false) {
           login(getProfileResponse.data);
           navigate("/");
         } else {
-          navigate("/auth/create-profile");
+          console.log(getProfileResponse.data);
+          if (result.data.role === roleData.Lecture.value) {
+            navigate("/auth/create-lecture-profile");
+          } else if (result.data.role === roleData.Student.value) {
+            navigate("/auth/create-student-profile");
+          }
         }
       }
     }

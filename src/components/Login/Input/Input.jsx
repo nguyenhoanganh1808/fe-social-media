@@ -22,6 +22,7 @@ function Input({
         htmlFor={id}
       >
         {label}
+        {required === true && " (*)"}
         <input
           id={id}
           name={id}
