@@ -24,9 +24,8 @@ export default function FileView({ file }) {
       className="flex items-start my-2.5 bg-gray-50 dark:bg-gray-600 rounded-xl p-2 w-fit z-10"
     >
       <div className="me-2">
-        <span className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white pb-2">
+        <span className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white pb-2 truncate">
           <img className="h-12 w-12" src={fileIconSrc} alt={type} />
-
           {file.fileName}
         </span>
         <span className="flex text-xs font-normal text-gray-500 dark:text-gray-400 gap-2">

@@ -31,7 +31,8 @@
 
 .downContainer {
   display: flex;
-  /* justify-content: center; */
+  width: 100%;
+  justify-content: center;
   margin: 8px;
   /* gap: 16px; */
 }

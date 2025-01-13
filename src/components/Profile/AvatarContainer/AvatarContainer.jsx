@@ -40,7 +40,7 @@ export default function AvatarContainer({ userInfo }) {
   return (
     <div className={styles.avatarContainer}>
       <div className={styles.followContainer}>
-        <p>{formatNumber(1000)}</p>
+        <p>{formatNumber(user.followerCount)}</p>
         <p>Followers</p>
       </div>
       <div className={styles.avatar}>
@@ -61,7 +61,7 @@ export default function AvatarContainer({ userInfo }) {
         />
       </div>
       <div className={styles.followContainer}>
-        <p>{formatNumber(2000)}</p>
+        <p>{formatNumber(user.followingCount)}</p>
         <p>Following</p>
       </div>
     </div>

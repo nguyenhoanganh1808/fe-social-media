@@ -9,6 +9,8 @@ const AuthContext = createContext({
     tagName: null,
     gender: null,
     bio: null,
+    followerCount: null,
+    followingCount: null,
     avatarUrl: null,
     skills: [],
     coverImageUrl: null,

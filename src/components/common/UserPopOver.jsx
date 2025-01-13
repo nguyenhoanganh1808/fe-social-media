@@ -2,6 +2,7 @@ import { Popover } from "flowbite-react";
 import PropTypes from "prop-types";
 import { useAuth } from "../../hooks/useAuthContext";
 import { FollowService } from "../../services/follow.service";
+import { formatNumber } from "../../lib/utils";
 
 export function UserPopOver({ children, user }) {
   const { user: loginUser } = useAuth();
@@ -57,7 +58,7 @@ export function UserPopOver({ children, user }) {
             <li className="me-2">
               <span className="hover:underline">
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  799
+                  {formatNumber(user.followingCount)}
                 </span>
                 <span> Following</span>
               </span>
@@ -65,7 +66,7 @@ export function UserPopOver({ children, user }) {
             <li>
               <span className="hover:underline">
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  3,758
+                  {formatNumber(user.followerCount)}
                 </span>
                 <span> Followers</span>
               </span>
@@ -86,5 +87,7 @@ UserPopOver.propTypes = {
     avatarUrl: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     tagName: PropTypes.string.isRequired,
+    followerCount: PropTypes.number.isRequired,
+    followingCount: PropTypes.number.isRequired,
   }),
 };

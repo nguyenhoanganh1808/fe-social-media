@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ResendCode from "./ResendCode";
 import { AuthService } from "../../../services/auth.service";
 import { roleData } from "../FormSignup/RolesData";
+import { useState } from "react";
 
 export default function OTPForm() {
   const { control, handleSubmit, setValue, watch } = useForm({
@@ -16,6 +17,7 @@ export default function OTPForm() {
       otp6: "",
     },
   });
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,13 +28,15 @@ export default function OTPForm() {
   const onSubmit = async (data) => {
     console.log(data);
     const otp = otpFields.map((field) => data[field]).join("");
+    setLoading(true);
     const result = await AuthService.verifyAndRegister(otp, registerData);
     if (result.success) {
-      if (result.data.roles === roleData.Lecture.value) {
+      if (result.data.role === roleData.Lecture.value) {
         navigate("/auth/create-lecture-profile");
-      } else if (result.data.roles === roleData.Student.value)
+      } else if (result.data.role === roleData.Student.value)
         navigate("/auth/create-student-profile");
     }
+    setLoading(false);
   };
 
   const handleInput = (e, index) => {
@@ -108,7 +112,12 @@ export default function OTPForm() {
               ))}
             </div>
             <div className="max-w-[260px] mx-auto mt-4">
-              <LoadingButton type="submit" className="w-full">
+              <LoadingButton
+                disabled={loading}
+                loading={loading}
+                type="submit"
+                className="w-full"
+              >
                 Verify Account
               </LoadingButton>
             </div>

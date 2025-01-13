@@ -175,3 +175,43 @@ export function getFileIcon(type) {
       return "/icons/file/document.png";
   }
 }
+
+export async function cropImage(file, width, height) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+
+        // Crop from the center of the image
+        const cropX = (img.width - width) / 2;
+        const cropY = (img.height - height) / 2;
+
+        ctx.drawImage(img, cropX, cropY, width, height, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(new File([blob], file.name, { type: file.type }));
+            } else {
+              reject(new Error("Failed to crop image"));
+            }
+          },
+          file.type,
+          1.0
+        );
+      };
+
+      img.onerror = reject;
+      img.src = event.target.result;
+    };
+
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}

@@ -19,6 +19,7 @@ import Private from "./Private";
 import Public from "./Public";
 import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
 import { UserPopOver } from "../../../common/UserPopOver";
+import { roleData } from "../../../Login/FormSignup/RolesData";
 
 const actionsButton = [
   {
@@ -34,6 +35,7 @@ const actionsButton = [
 ];
 
 function Post({ post, handlePostDeleted, handlePostUpdated }) {
+  console.log("post: ", post);
   const { isOpen, toggle } = useToggle();
   const { closeDialog, dialogRef, showDialog } = useDialog();
   const {
@@ -45,6 +47,10 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
   const { user } = useAuth();
   const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
   const isAuthor = user.userId === post.user.id;
+  const author =
+    post.user.role === roleData.Student.value
+      ? post.user.student
+      : post.user.lecturer;
 
   const toggleSaved = async () => {
     setIsSaved((prevIsSaved) => !prevIsSaved);
@@ -69,25 +75,23 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
         postData={post}
       />
       <div className="mt-3">
-        <Avatar src={post.user.avatarUrl} size={40} />
+        <Avatar src={author.profile.avatarUrl} size={40} />
       </div>
       <div className={styles.container}>
         <Link className={styles.link} to={`/posts/${post.id}`}>
-          <div className={styles.authorAndTime}>
-            <div>
+          <div className={`${styles.authorAndTime} `}>
+            <div className="flex md:flex-row flex-col">
               <UserPopOver
                 user={{
-                  avatarUrl: post.user.avatarUrl,
-                  nickname: post.user.username,
-                  tagName: user.tagName,
-                  userId: post.user.id,
+                  ...author.profile,
+                  nickname: author.profile.nickName,
                 }}
               >
                 <p className={`${styles.author} hover:text-indigo-500 z-10`}>
-                  {post.user.username}
+                  {author.profile.nickName}
                 </p>
               </UserPopOver>
-              <p className={styles.time}>{distanceFromNow} ago</p>
+              <p className={`${styles.time}`}>{distanceFromNow} ago</p>
               {post.isPrivate ? <Private /> : <Public />}
             </div>
 
@@ -163,6 +167,9 @@ Post.propTypes = {
       id: PropTypes.string.isRequired,
       username: PropTypes.string,
       avatarUrl: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      lecturer: PropTypes.object,
+      student: PropTypes.object,
     }),
     mediaFiles: PropTypes.array,
     createdAt: PropTypes.string,

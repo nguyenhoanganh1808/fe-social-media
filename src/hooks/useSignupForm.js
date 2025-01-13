@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { AuthService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { roleData } from "../components/Login/FormSignup/RolesData";
 
 export default function useSignUpForm() {
   const {
@@ -11,7 +12,7 @@ export default function useSignUpForm() {
     getValues,
   } = useForm({
     defaultValues: {
-      roleId: 2,
+      roleId: roleData.Lecture.key,
     },
   });
   const navigate = useNavigate();

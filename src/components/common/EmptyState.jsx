@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export default function EmptyState({ title, svg }) {
   return (
-    <div className="flex flex-col items-center justify-center h-64 bg-gray-50 border border-gray-200 rounded-lg p-8">
+    <div className="flex flex-col items-center justify-center h-64 bg-transparent  border-gray-200 rounded-lg p-8">
       {svg}
       <h2 className="text-lg font-semibold text-gray-700 mb-2">
         No {title} Found

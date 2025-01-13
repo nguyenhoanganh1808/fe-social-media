@@ -5,6 +5,8 @@ export default function Avatar({ size = 50, src, alt }) {
   const style = {
     width: size,
     height: size,
+    minWidth: size,
+    minHeight: size,
   };
   return <img className={styles.avatar} style={style} src={src} alt={alt} />;
 }

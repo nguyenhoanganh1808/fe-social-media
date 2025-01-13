@@ -2,7 +2,7 @@ export const roleData = {
   // Admin: 1,
   Lecture: {
     key: 2,
-    value: "LECTURE",
+    value: "LECTURER",
   },
   Student: {
     key: 3,

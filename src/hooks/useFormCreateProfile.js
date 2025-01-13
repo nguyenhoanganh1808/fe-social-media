@@ -147,8 +147,8 @@ export default function useFormCreateProfile(role) {
     if (role === roleData.Lecture.key) {
       profileData = {
         ...profileData,
-        lecture: {
-          lectureCode: data.lectureCode,
+        lecturer: {
+          lecturerCode: data.lectureCode,
           department: data.department,
           officeLocation: data.officeLocation,
           yearsOfExperience: parseInt(data.yearsOfExperience),

@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
 import styles from "./UserCard.module.css";
 import { formatNumber } from "../../../lib/utils";
 import { useAuth } from "../../../hooks/useAuthContext";
 import { Link } from "react-router-dom";
 
-function UserCard({ followersNumber, followingNumber }) {
+function UserCard() {
   const { user } = useAuth();
   return (
     <div className={styles.container}>
@@ -18,11 +17,11 @@ function UserCard({ followersNumber, followingNumber }) {
 
       <div className={styles.followContainer}>
         <div>
-          <p>{formatNumber(followingNumber)}</p>
+          <p>{formatNumber(user.followingCount)}</p>
           <p>Following</p>
         </div>
         <div>
-          <p>{formatNumber(followersNumber)}</p>
+          <p>{formatNumber(user.followerCount)}</p>
           <p>Followers</p>
         </div>
       </div>
@@ -33,10 +32,5 @@ function UserCard({ followersNumber, followingNumber }) {
     </div>
   );
 }
-
-UserCard.propTypes = {
-  followersNumber: PropTypes.number,
-  followingNumber: PropTypes.number,
-};
 
 export default UserCard;

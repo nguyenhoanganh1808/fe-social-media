@@ -5,6 +5,33 @@ import { AuthService } from "./auth.service";
 const baseUrl = API_ENDPOINT + "/groups";
 
 export const GroupService = {
+  async getGroups(userId) {
+    const url = `${baseUrl}/getGroups/${userId}`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when leave group");
+        return { error: errorText };
+      }
+      const data = await response.json();
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (e) {
+      toast.error(e || "Failed when leave group");
+      return { error: e };
+    }
+  },
   async leaveGroup(groupId) {
     const url = `${baseUrl}/${groupId}/leave`;
     const token = localStorage.getItem("jwt-token");

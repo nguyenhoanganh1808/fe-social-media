@@ -97,14 +97,14 @@ export default function SignupForm() {
           id="roleId"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          {Object.entries(roleData).map(([key, value]) => (
-            <option key={key} value={value}>
-              {key}
+          {Object.entries(roleData).map(([key, data]) => (
+            <option key={key} value={data.key}>
+              {data.value}
             </option>
           ))}
         </select>
 
-        <LoadingButton type="submit" isLoading={loading}>
+        <LoadingButton disabled={loading} type="submit" isLoading={loading}>
           SIGN UP
         </LoadingButton>
         <p>

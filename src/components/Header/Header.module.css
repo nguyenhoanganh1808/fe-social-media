@@ -2,7 +2,6 @@
   display: flex;
   padding: 12px var(--default-padding);
   align-items: center;
-  width: 100vw;
 
   background-color: var(--secondary-color);
   background-color: white;
