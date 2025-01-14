@@ -6,13 +6,19 @@ import { formatNumber } from "../../lib/utils";
 import { Link } from "react-router-dom";
 import { FirstMessageModal } from "../Message/FIrstMessageModal";
 import useToggle from "../../hooks/useToggle";
+import { useState } from "react";
 
 export function UserPopOver({ children, user }) {
   const { user: loginUser } = useAuth();
   const { close, isOpen, open } = useToggle();
+  const [isFollow, setIsFollow] = useState(false);
 
   const onFollow = async () => {
-    await FollowService.follow(user.userId);
+    setIsFollow(!isFollow);
+    const result = await FollowService.follow(user.userId);
+    if (result.error) {
+      setIsFollow(isFollow);
+    }
   };
   return (
     <>
@@ -33,13 +39,23 @@ export function UserPopOver({ children, user }) {
               </Link>
               {loginUser.userId !== user.userId && (
                 <div className="space-x-1">
-                  <button
-                    type="button"
-                    onClick={onFollow}
-                    className="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Follow
-                  </button>
+                  {isFollow ? (
+                    <button
+                      type="button"
+                      onClick={onFollow}
+                      className="rounded-lg bg-gray-50 px-3 py-1.5 text-xs font-medium text-black hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Request sent
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={onFollow}
+                      className="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Follow
+                    </button>
+                  )}
 
                   <button
                     onClick={open}

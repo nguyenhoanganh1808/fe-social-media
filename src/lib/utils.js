@@ -180,6 +180,16 @@ export function getFileIcon(type) {
   }
 }
 
+export function getCookie(name) {
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? match[2] : null;
+}
+
+export async function setCookie(name, value, expiry) {
+  const date = new Date(expiry);
+  document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/; Secure`;
+}
+
 export async function cropImage(file, width, height) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

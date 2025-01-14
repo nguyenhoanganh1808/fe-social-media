@@ -30,7 +30,7 @@ export const FollowService = {
           error: errorText,
         };
       }
-
+      toast.success("Response follow success!");
       return {
         success: true,
       };

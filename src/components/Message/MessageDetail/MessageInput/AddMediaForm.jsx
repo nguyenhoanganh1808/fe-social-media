@@ -80,7 +80,6 @@ export default function AddMediaForm({
           >
             <LoadingButton
               disabled={loading}
-              isLoading={loading}
               onClick={(e) => e.stopPropagation()}
               type="submit"
             >

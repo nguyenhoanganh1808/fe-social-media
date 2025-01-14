@@ -1,29 +1,40 @@
-import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { NotificationService } from "../../services/notification.service";
 import BlueDot from "../common/BlueDot";
-import CancelButton from "../common/CancelButton";
 import LoadingButton from "../common/Spinner/LoadingButton";
-import RequestFollowNotification from "./RequestFollowNotification";
+import CancelButton from "../common/CancelButton";
 
-export default function NotificationItem({ notificationData, onClose }) {
+import { formatDistanceToNow } from "date-fns";
+import { FollowService } from "../../services/follow.service";
+import { useState } from "react";
+import { NotificationService } from "../../services/notification.service";
+
+export default function RequestFollowNotification({ notificationData }) {
   const formatTime = formatDistanceToNow(notificationData.createdAt);
+  const [loading, setLoading] = useState(false);
 
-  const handleReadNotification = async () => {
-    onClose();
-    await NotificationService.markNotificationAsRead(notificationData.id);
+  const handleAccept = async () => {
+    setLoading(true);
+    await Promise.all([
+      FollowService.respondFollow(notificationData.id, "ACCEPTED"),
+      NotificationService.markNotificationAsRead(notificationData.id),
+    ]);
+
+    setLoading(false);
+  };
+
+  const handleRefuse = async () => {
+    setLoading(true);
+    await Promise.all([
+      FollowService.respondFollow(notificationData.id, "REJECTED"),
+      NotificationService.markNotificationAsRead(notificationData.id),
+    ]);
+    setLoading(false);
   };
 
   const sender =
     notificationData.sender.student || notificationData.sender.lectuer;
-
-  if (notificationData.type === "FOLLOW_REQUEST") {
-    return <RequestFollowNotification notificationData={notificationData} />;
-  }
   return (
-    <Link
-      onClick={handleReadNotification}
+    <div
       to={notificationData.actionUrl}
       className="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
     >
@@ -41,38 +52,44 @@ export default function NotificationItem({ notificationData, onClose }) {
             fill="currentColor"
             viewBox="0 0 20 18"
           >
-            <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
+            <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z" />
           </svg>
         </div>
       </div>
       <div className="w-full ps-3">
         <div className="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
           {" "}
-          {notificationData.message}. What do you say to{" "}
-          <span className="font-semibold text-gray-900 dark:text-white">
-            {sender.profile.nickName}
-          </span>
+          {notificationData.message}
         </div>
         <div className="text-xs text-blue-600 dark:text-blue-500 mb-2">
           {formatTime} ago
         </div>
-        {notificationData.type === "FOLLOW_REQUEST" && (
-          <>
-            <CancelButton>Refuse</CancelButton>
-            <LoadingButton type="submit">Accept</LoadingButton>
-          </>
-        )}
+        {notificationData.type === "FOLLOW_REQUEST" &&
+          !notificationData.isRead && (
+            <div className="h-full w-full">
+              <CancelButton onClick={handleRefuse} disabled={loading}>
+                Refuse
+              </CancelButton>
+              <LoadingButton
+                onClick={handleAccept}
+                disabled={loading}
+                type="button"
+              >
+                Accept
+              </LoadingButton>
+            </div>
+          )}
       </div>
       {!notificationData.isRead && (
         <div className="self-center">
           <BlueDot />
         </div>
       )}
-    </Link>
+    </div>
   );
 }
 
-NotificationItem.propTypes = {
+RequestFollowNotification.propTypes = {
   notificationData: PropTypes.shape({
     id: PropTypes.number.isRequired,
     isRead: PropTypes.bool.isRequired,
@@ -86,5 +103,4 @@ NotificationItem.propTypes = {
     }).isRequired,
     message: PropTypes.string.isRequired,
   }).isRequired,
-  onClose: PropTypes.func.isRequired,
 };
