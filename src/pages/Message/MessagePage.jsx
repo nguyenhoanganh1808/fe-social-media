@@ -13,7 +13,12 @@ export default function MessagePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!id && conversations && conversations.length > 0) {
+    if (
+      !id &&
+      typeof id === "number" &&
+      conversations &&
+      conversations.length > 0
+    ) {
       navigate(`/message/${conversations[0].id}`);
     }
   }, [id, conversations, navigate]);

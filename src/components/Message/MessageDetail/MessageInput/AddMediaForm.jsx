@@ -6,6 +6,7 @@ import { useFormContext } from "react-hook-form";
 import { useAuth } from "../../../../hooks/useAuthContext";
 import { MessageService } from "../../../../services/message.service";
 import FileList from "./FileList";
+import { useState } from "react";
 
 export default function AddMediaForm({
   isOpenModal,
@@ -15,12 +16,12 @@ export default function AddMediaForm({
   setMessageData,
   receiverId,
 }) {
-  const { register, handleSubmit } = useFormContext();
+  const { register, handleSubmit, setValue } = useFormContext();
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
   const onSubmit = async (data) => {
-    console.log(data);
-
+    setLoading(true);
     const pendingMessage = {
       id: `pending-${Date.now()}`,
       content: data.caption,
@@ -35,7 +36,10 @@ export default function AddMediaForm({
     setMessageData((prevMessages) =>
       prevMessages.filter((msg) => msg.id !== pendingMessage.id)
     );
+    setValue("caption", "");
+
     closeModal();
+    setLoading(false);
   };
 
   return (
@@ -67,8 +71,19 @@ export default function AddMediaForm({
             placeholder="Add a caption"
             required
           />
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <LoadingButton onClick={(e) => e.stopPropagation()} type="submit">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault(); // Prevent the default form submission behavior
+              e.stopPropagation(); // Stop event propagation
+              handleSubmit(onSubmit)(e); // Call your submit handler with the event
+            }}
+          >
+            <LoadingButton
+              disabled={loading}
+              isLoading={loading}
+              onClick={(e) => e.stopPropagation()}
+              type="submit"
+            >
               SEND
             </LoadingButton>
           </form>

@@ -32,12 +32,16 @@ export default function MessageInput({ receiverId, setMessageData }) {
     <>
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={(e) => {
+            e.preventDefault(); // Prevent the default form submission behavior
+            e.stopPropagation(); // Stop event propagation
+            handleSubmit(onSubmit)(e); // Call your submit handler with the event
+          }}
           className={styles.container}
         >
           <div
             className={styles.inputContainer}
-            onSubmit={handleSubmit(onSubmit)}
+            // onSubmit={handleSubmit(onSubmit)}
           >
             <div
               className={styles.smileyContainer}

@@ -170,7 +170,7 @@ export const MessageService = {
         };
       }
 
-      return { success: true };
+      return { success: true, data: await response.json() };
     } catch (e) {
       toast.error(e || "An error occurred while sending message");
       return {

@@ -10,40 +10,45 @@ import PropTypes from "prop-types";
 export default function MessageDetail({ conversations }) {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
   const {
-    isOpen: isInfoOpenMobile,
-    toggle: toggleInfoMobile,
-    close: closeInfoMobile,
+    isOpen: isMobileInfoOpen,
+    toggle: toggleMobileInfo,
+    close: closeMobileInfo,
   } = useToggle();
 
   const { id } = useParams();
-
   if (!id) return;
 
-  const conversation = conversations?.find(
-    (conversation) => conversation.id == id
+  const currentConversation = conversations?.find(
+    (conv) => conv.id === parseInt(id)
   );
-  const otherUser = conversation
-    ? conversation.otherUser
+  console.log("currentConver: ", currentConversation);
+  const user = currentConversation
+    ? currentConversation.otherUser.student ||
+      currentConversation.otherUser.lecturer
     : { avatarUrl: "", nickname: "" };
 
   return (
     <>
-      {isInfoOpenMobile && (
-        <Info userInfo={otherUser} closeInfoMobile={closeInfoMobile} />
+      {isMobileInfoOpen && (
+        <Info userInfo={user.profile} closeInfoMobile={closeMobileInfo} />
       )}
       <div
         className={`${styles.wrapper} ${
-          isInfoOpenMobile ? "hidden" : "visible"
+          isMobileInfoOpen ? "hidden" : "visible"
         }`}
       >
         <div className={styles.headerContainer}>
           <div>
             <div className={styles.avatarContainer}>
-              <img className={styles.avatar} src={otherUser.avatarUrl} alt="" />
-              {<span className={styles.dot}></span>}
+              <img
+                className={styles.avatar}
+                src={user.profile.avatarUrl}
+                alt=""
+              />
+              <span className={styles.dot}></span>
             </div>
             <div className="truncate">
-              <p className={`${styles.name} `}>{otherUser.nickname}</p>
+              <p className={styles.name}>{user.profile.nickName}</p>
               Active now
             </div>
           </div>
@@ -51,14 +56,14 @@ export default function MessageDetail({ conversations }) {
             <PhoneIcon />
             <VideoIcon />
             <InfoIcon className="md:block hidden" onClick={toggleInfo} />
-            <InfoIcon className="md:hidden block" onClick={toggleInfoMobile} />
+            <InfoIcon className="md:hidden block" onClick={toggleMobileInfo} />
           </div>
         </div>
 
-        <Chats otherUser={otherUser} />
+        <Chats otherUser={user} />
       </div>
       {isInfoOpen && (
-        <Info closeInfoMobile={closeInfoMobile} userInfo={otherUser} />
+        <Info userInfo={user.profile} closeInfoMobile={closeMobileInfo} />
       )}
     </>
   );

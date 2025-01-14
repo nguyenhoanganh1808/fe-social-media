@@ -81,6 +81,7 @@ export default function useFormMessage(setMessageData, receiverId) {
       content: data.message,
       createdAt: new Date(),
       senderId: { id: user.userId },
+      mediaFiles: data.mediaFiles || [],
       state: "pending",
     };
     setMessageData((prevMessages) => [pendingMessage, ...prevMessages]);

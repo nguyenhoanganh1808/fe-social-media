@@ -87,7 +87,6 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                   className={`${styles.contentInput} border-transparent focus:border-transparent focus:ring-0`}
                   placeholder={`Edit your post, ${user.nickName}`}
                   name="content"
-                  id="content"
                   cols={30}
                   rows={addImageFormVisible ? 2 : 5}
                 ></textarea>
@@ -164,7 +163,6 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                   <input
                     {...register("file")}
                     type="file"
-                    id="file"
                     multiple
                     style={{ display: "none" }}
                   />

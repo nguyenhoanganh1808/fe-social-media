@@ -11,11 +11,13 @@ import { useAuth } from "../../../../../hooks/useAuthContext";
 import { formatRelativeTime } from "../../../../../lib/utils";
 
 export default function ChatItem({ conversation, activeTab }) {
-  const otherUser = conversation.otherUser;
+  const otherUser =
+    conversation.otherUser.student || conversation.otherUser.lecturer;
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
   const createdAt = formatRelativeTime(conversation.lastMessage.createdAt);
+
   const handleApprove = async (value) => {
     setLoading(true);
     const result = await MessageService.approveConversation(
@@ -27,12 +29,13 @@ export default function ChatItem({ conversation, activeTab }) {
     }
     setLoading(false);
   };
-
+  console.log("conver: ", conversation);
+  console.log("author: ", otherUser);
   const author =
     conversation.lastMessage.senderId.id === user.userId
       ? "You"
-      : conversation.lastMessage.senderId.nickname;
-
+      : conversation.lastMessage.senderId.student.profile.nickName ||
+        conversation.lastMessage.senderId.lecturer.profile.nickName;
   return (
     <NavLink
       className={({ isActive }) =>
@@ -41,14 +44,20 @@ export default function ChatItem({ conversation, activeTab }) {
       to={`/message/${conversation.id}`}
     >
       <div className={styles.avatarContainer}>
-        <img className={styles.avatar} src={otherUser.avatarUrl} alt="" />
+        <img
+          className={styles.avatar}
+          src={otherUser.profile.avatarUrl}
+          alt=""
+        />
         {<span className={styles.dot}></span>}
       </div>
       <div className="md:block hidden">
-        <span className="font-semibold text-black">{otherUser.nickname}</span>
+        <span className="font-semibold text-black">
+          {otherUser.profile.nickName}
+        </span>
         <p className={styles.chat}>
           <strong>{author}: </strong> {conversation.lastMessage.content} -{" "}
-          {createdAt}
+          <span>{createdAt}</span>
         </p>
       </div>
       {activeTab === "Request" && (
@@ -89,6 +98,8 @@ ChatItem.propTypes = {
       id: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,
       nickname: PropTypes.string.isRequired,
+      student: PropTypes.object,
+      lecturer: PropTypes.object,
     }),
 
     lastMessage: PropTypes.shape({
@@ -99,6 +110,8 @@ ChatItem.propTypes = {
         avatarUrl: PropTypes.string,
         isOnline: PropTypes.bool,
         nickname: PropTypes.string.isRequired,
+        student: PropTypes.object,
+        lecturer: PropTypes.object,
       }),
     }),
   }),

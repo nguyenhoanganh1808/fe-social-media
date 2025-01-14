@@ -26,7 +26,7 @@ export default function Chats({ otherUser }) {
             .reverse()}
         </ul>
         <MessageInput
-          receiverId={otherUser.id}
+          receiverId={otherUser.userId}
           setMessageData={setMessageData}
         />
       </div>
@@ -37,8 +37,9 @@ export default function Chats({ otherUser }) {
 Chats.propTypes = {
   otherUser: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    userId: PropTypes.string.isRequired,
+
     otherUser: PropTypes.shape({
-      id: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,
       nickname: PropTypes.string.isRequired,
       otherUser: PropTypes.object,

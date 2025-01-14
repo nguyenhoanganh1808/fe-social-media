@@ -1,9 +1,7 @@
 import styles from "./Comment.module.css";
 import PropTypes from "prop-types";
 import { formatDistanceToNowStrict } from "date-fns";
-import HeartButton from "../../../../Button/HeartButton/HeartButton";
 import { MessageCircle } from "lucide-react";
-import InteractionButton from "../../../../Button/InteractionButton/InteractionButton";
 import useToggle from "../../../../../hooks/useToggle";
 import CommentInput from "../CommentInput/CommentInput";
 import CommentService from "../../../../../services/comment.service";
@@ -64,26 +62,28 @@ export default function Comment({
     setLoading(false);
   }
 
+  const author = user.student || user.lecturer;
+
   return (
     <div className={styles.comment}>
       <div className={styles.commentHeader}>
         <img
-          src={user.avatarUrl}
+          src={author.profile.avatarUrl}
           alt={`${name}'s avatar`}
           className={styles.avatar}
         />
         <div>
-          <strong>{user.nickname}</strong>
+          <strong>{author.profile.nickName}</strong>
           <span className={styles.timestamp}>{formatCreatedAt}</span>
           <p className={styles.content}>{textContent}</p>
         </div>
       </div>
       <div className={styles.interactionContainer}>
-        <InteractionButton
+        {/* <InteractionButton
           icon={<HeartButton />}
           count={1000}
           onClick={() => {}}
-        />
+        /> */}
         <div onClick={open}>
           <MessageCircle size={23} />
           <p>Reply</p>
@@ -129,6 +129,8 @@ Comment.propTypes = {
   user: PropTypes.shape({
     nickname: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string.isRequired,
+    lecturer: PropTypes.object,
+    student: PropTypes.object,
   }),
   setComments: PropTypes.func.isRequired,
   replyCount: PropTypes.number,

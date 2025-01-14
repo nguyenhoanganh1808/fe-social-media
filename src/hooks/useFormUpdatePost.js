@@ -16,7 +16,8 @@ export default function useFormUpdatePost(
   const methods = useForm({
     defaultValues: {
       content: postData?.textContent || "",
-      file: null,
+      file: [],
+      mediaFiles: [],
       privacy: postData.isPrivate ? 2 : 1,
     },
   });
@@ -97,6 +98,10 @@ export default function useFormUpdatePost(
     ) {
       convertToFiles(postData.mediaFiles).then((files) => {
         setValue("file", files);
+      });
+    } else {
+      convertToFiles(postData.mediaFiles).then((files) => {
+        setValue("mediaFiles", files);
       });
     }
   }, [postData, setValue]);

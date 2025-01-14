@@ -15,7 +15,7 @@ export default function FileList({ files }) {
           <li className="flex text-base gap-3" key={index}>
             <img className="h-12 w-12" src={fileIconSrc} alt={type} />
             <div className="max-w-sm">
-              <p className="overflow-hidden">{file.name}</p>
+              <p className="overflow-hidden">{file.name || file.fileName}</p>
               <p className="text-gray-400 text-sm">{formatSize(file.size)}</p>
             </div>
           </li>

@@ -71,6 +71,7 @@
   position: absolute;
   right: 0px;
   top: 50px;
+  z-index: 100;
   background-color: white;
   border-radius: 12px;
   box-shadow: var(--primary-box-shadow);

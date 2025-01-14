@@ -31,7 +31,7 @@ export default function Info({ userInfo, closeInfoMobile }) {
       </div>
       <div className={styles.userContainer}>
         <Avatar src={userInfo.avatarUrl} alt="" size={70} />
-        <p>{userInfo.nickname}</p>
+        <p>{userInfo.nickName}</p>
         <p>Active now</p>
       </div>
 
@@ -62,7 +62,7 @@ Info.propTypes = {
   userInfo: PropTypes.shape({
     avatarUrl: PropTypes.string,
     isOnline: PropTypes.bool,
-    nickname: PropTypes.string,
+    nickName: PropTypes.string,
   }),
   closeInfoMobile: PropTypes.func.isRequired,
 };

@@ -6,7 +6,7 @@ export default function Input({ errors, label, type, id, register, rules }) {
     <div className="space-y-2">
       <label
         htmlFor={id}
-        className={`"block mb-2 text-sm font-medium " ${
+        className={`"block mb-2 text-base font-medium " ${
           errors
             ? "text-red-700 dark:text-red-500"
             : "focus:text-green-700 focus:dark:text-green-500"

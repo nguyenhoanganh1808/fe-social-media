@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { useAuth } from "../../../../../hooks/useAuthContext";
 import { formatToTime } from "../../../../../lib/utils";
+import ImagesGallery from "./ImagesGallery";
+import FileView from "./FileView";
 
 export default function MessageItem({ messageData }) {
   const { user } = useAuth();
@@ -8,6 +10,7 @@ export default function MessageItem({ messageData }) {
   const sender = messageData.senderId;
 
   const isAuthor = sender.id === user.userId;
+  const mediaType = messageData.mediaFiles[0]?.type;
 
   if (isAuthor) {
     return (
@@ -22,6 +25,11 @@ export default function MessageItem({ messageData }) {
             <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-blue-200 rounded-s-xl rounded-se-xl dark:bg-gray-700">
               <p className="text-sm font-normal text-gray-900 dark:text-white">
                 {messageData.content}
+                {mediaType === "IMAGE" || mediaType === "VIDEO" ? (
+                  <ImagesGallery medias={messageData.mediaFiles} />
+                ) : (
+                  <FileView files={messageData.mediaFiles} />
+                )}
               </p>
             </div>
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -66,6 +74,12 @@ MessageItem.propTypes = {
   messageData: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     state: PropTypes.string,
+    mediaFiles: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+      })
+    ),
     senderId: PropTypes.shape({
       id: PropTypes.string.isRequired,
       nickname: PropTypes.string.isRequired,

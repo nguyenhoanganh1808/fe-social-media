@@ -12,7 +12,6 @@ import UpdatePostModal from "../../CreatePost/CreatePostModal/UpdatePostModal";
 import useDialog from "../../../../hooks/useDialog";
 import { useState } from "react";
 import { PostService } from "../../../../services/post.service";
-import { CustomCarousel } from "../../CreatePost/CreatePostModal/CustomSlider/Carousel";
 import FileView from "./FileView";
 import { useAuth } from "../../../../hooks/useAuthContext";
 import Private from "./Private";
@@ -20,6 +19,7 @@ import Public from "./Public";
 import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
 import { UserPopOver } from "../../../common/UserPopOver";
 import { roleData } from "../../../Login/FormSignup/RolesData";
+import { CarouselComponent } from "./Carousel";
 
 const actionsButton = [
   {
@@ -137,7 +137,7 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
             {post &&
             post.mediaFiles.length > 0 &&
             post.mediaFiles[0].type !== "DOCUMENT" ? (
-              <CustomCarousel medias={post.mediaFiles} />
+              <CarouselComponent medias={post.mediaFiles} />
             ) : (
               post.mediaFiles.map((file) => (
                 <FileView key={file.url} file={file} />

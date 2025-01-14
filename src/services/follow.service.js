@@ -5,6 +5,42 @@ import { AuthService } from "./auth.service";
 const baseUrl = API_ENDPOINT + "/follows";
 
 export const FollowService = {
+  async respondFollow(requestId, responseStatus) {
+    const token = localStorage.getItem("jwt-token");
+    const url =
+      `${baseUrl}/respond-follow?` +
+      new URLSearchParams({
+        requestId: requestId,
+        responseStatus: responseStatus,
+      });
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to response follow");
+        return {
+          error: errorText,
+        };
+      }
+
+      return {
+        success: true,
+      };
+    } catch (e) {
+      toast.error(e || "Failed to response follow");
+      return {
+        error: e || "Failed to response follow",
+      };
+    }
+  },
   async getFollowing() {
     const token = localStorage.getItem("jwt-token");
     const url = `${baseUrl}/get-following`;

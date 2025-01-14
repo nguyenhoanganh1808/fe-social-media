@@ -76,19 +76,7 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     console.log("newContent: ", newContent);
     if (result.success) {
       setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                textContent: newContent.content,
-                mediaFiles: newContent.mediaFiles
-                  ? newContent.mediaFiles
-                  : newContent.file
-                  ? newContent.file
-                  : [],
-              }
-            : post
-        )
+        prevPosts.map((post) => (post.id === postId ? result.data : post))
       );
     }
     setLoading(false);

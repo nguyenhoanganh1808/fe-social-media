@@ -129,11 +129,15 @@ export function extractFileFromUrlType(file) {
 }
 
 export function extractFileType(file) {
-  if (!file || typeof file.name !== "string") {
+  if (!file) {
     throw new Error("Invalid file object");
   }
-
-  const extension = file.name.split(".").pop().toLowerCase();
+  let extension;
+  if (file.name) {
+    extension = file.name.split(".").pop().toLowerCase();
+  } else {
+    extension = file.fileName.split(".").pop().toLowerCase();
+  }
 
   switch (extension) {
     case "pdf":

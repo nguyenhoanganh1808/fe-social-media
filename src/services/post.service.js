@@ -223,7 +223,7 @@ export const PostService = {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to AuthService.fetchWithAuth posts");
+        throw new Error("Failed to fetch posts");
       }
 
       const data = await response.json();
@@ -252,7 +252,7 @@ export const PostService = {
       if (!response.ok) {
         const errorText = await response.text();
         toast.error(errorText);
-        throw new Error("Failed to AuthService.fetchWithAuth posts");
+        throw new Error("Failed to fetch posts");
       }
 
       const data = await response.json();
@@ -279,9 +279,9 @@ export const PostService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed to AuthService.fetchWithAuth posts");
+        toast.error(errorText || "Failed to fetch posts");
         return {
-          error: errorText || "Failed to AuthService.fetchWithAuth posts",
+          error: errorText || "Failed to fetch posts",
         };
       }
 
@@ -290,9 +290,9 @@ export const PostService = {
       const posts = data.map((post) => createPost(post));
       return posts;
     } catch (e) {
-      toast.error(e || "Failed to AuthService.fetchWithAuth posts");
+      toast.error(e || "Failed to fetch posts");
       return {
-        error: e || "Failed to AuthService.fetchWithAuth posts",
+        error: e || "Failed to fetch posts",
       };
     }
   },
@@ -311,7 +311,7 @@ export const PostService = {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to AuthService.fetchWithAuth posts");
+        throw new Error("Failed to fetch posts");
       }
 
       const data = await response.json();
@@ -389,7 +389,7 @@ export const PostService = {
           error: errorText,
         };
       }
-      return { success: true };
+      return { success: true, data: await response.json() };
     } catch (e) {
       toast.error(e || "An error occurred while updating the post");
       return {

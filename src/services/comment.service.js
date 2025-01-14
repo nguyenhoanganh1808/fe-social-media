@@ -20,7 +20,7 @@ const CommentService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(errorText || "Failed to AuthService.fetchWithAuth reply");
+        toast.error(errorText || "Failed to fetch reply");
         return {
           error: errorText,
         };
@@ -33,9 +33,9 @@ const CommentService = {
         data: data._embedded.commentResponseList,
       };
     } catch (e) {
-      toast.error(e || "Failed to AuthService.fetchWithAuth reply");
+      toast.error(e || "Failed to fetch reply");
       return {
-        error: e || "Failed to AuthService.fetchWithAuth reply",
+        error: e || "Failed to fetch reply",
       };
     }
   },
@@ -126,9 +126,7 @@ const CommentService = {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(
-          errorText || "Failed to AuthService.fetchWithAuth comments"
-        );
+        toast.error(errorText || "Failed to fetch comments");
         return {
           error: errorText,
         };
@@ -137,9 +135,9 @@ const CommentService = {
       const data = await response.json();
       return { success: true, data: data };
     } catch (e) {
-      toast.error(e || "Failed to AuthService.fetchWithAuth comments");
+      toast.error(e || "Failed to fetch comments");
       return {
-        errro: e || "Failed to AuthService.fetchWithAuth comments",
+        errro: e || "Failed to fetch comments",
       };
     }
   },

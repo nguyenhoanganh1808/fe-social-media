@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { NotificationService } from "../../services/notification.service";
 import BlueDot from "../common/BlueDot";
+import CancelButton from "../common/CancelButton";
+import LoadingButton from "../common/Spinner/LoadingButton";
 
 export default function NotificationItem({ notificationData, onClose }) {
   const formatTime = formatDistanceToNow(notificationData.createdAt);
@@ -11,6 +13,9 @@ export default function NotificationItem({ notificationData, onClose }) {
     onClose();
     await NotificationService.markNotificationAsRead(notificationData.id);
   };
+
+  const sender =
+    notificationData.sender.student || notificationData.sender.lectuer;
 
   return (
     <Link
@@ -21,7 +26,7 @@ export default function NotificationItem({ notificationData, onClose }) {
       <div className="flex-shrink-0 relative">
         <img
           className="rounded-full w-11 h-11"
-          src={notificationData.sender.avatarUrl}
+          src={sender.profile.avatarUrl}
           alt="Leslie image"
         />
         <div className="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-green-400 border border-white rounded-full dark:border-gray-800">
@@ -41,12 +46,18 @@ export default function NotificationItem({ notificationData, onClose }) {
           {" "}
           {notificationData.message}. What do you say to{" "}
           <span className="font-semibold text-gray-900 dark:text-white">
-            {notificationData.sender.nickname}
+            {sender.profile.nickName}
           </span>
         </div>
-        <div className="text-xs text-blue-600 dark:text-blue-500">
+        <div className="text-xs text-blue-600 dark:text-blue-500 mb-2">
           {formatTime} ago
         </div>
+        {notificationData.type === "FOLLOW_REQUEST" && (
+          <>
+            <CancelButton>Refuse</CancelButton>
+            <LoadingButton type="submit">Accept</LoadingButton>
+          </>
+        )}
       </div>
       {!notificationData.isRead && (
         <div className="self-center">
@@ -63,9 +74,11 @@ NotificationItem.propTypes = {
     isRead: PropTypes.bool.isRequired,
     actionUrl: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     sender: PropTypes.shape({
-      nickname: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,
+      student: PropTypes.object,
+      lectuer: PropTypes.object,
     }).isRequired,
     message: PropTypes.string.isRequired,
   }).isRequired,
