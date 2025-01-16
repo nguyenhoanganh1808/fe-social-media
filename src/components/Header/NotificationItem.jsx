@@ -15,8 +15,14 @@ export default function NotificationItem({ notificationData, onClose }) {
     await NotificationService.markNotificationAsRead(notificationData.id);
   };
 
-  const sender =
-    notificationData.sender.student || notificationData.sender.lectuer;
+  const sender = notificationData.sender.student ||
+    notificationData.sender.lectuer || {
+      profile: {
+        avatarUrl:
+          "https://w7.pngwing.com/pngs/306/70/png-transparent-computer-icons-management-admin-silhouette-black-and-white-neck-thumbnail.png",
+        nickName: "admin",
+      },
+    };
 
   if (notificationData.type === "FOLLOW_REQUEST") {
     return <RequestFollowNotification notificationData={notificationData} />;
@@ -80,7 +86,6 @@ NotificationItem.propTypes = {
     createdAt: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     sender: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
       student: PropTypes.object,
       lectuer: PropTypes.object,
     }).isRequired,

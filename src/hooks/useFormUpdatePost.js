@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "./useAuthContext";
 import { useForm } from "react-hook-form";
-import useToggle from "./useToggle";
+
 import { toast } from "react-toastify";
 import { convertToFiles } from "../lib/utils";
+import { topics } from "../lib/constants";
 
 export default function useFormUpdatePost(
   postData,
   handlePostUpdated,
   closeDialog
 ) {
-  const [gif, setGif] = useState(postData?.gifUrl || null);
   const { user } = useAuth();
 
   const methods = useForm({
@@ -19,34 +19,18 @@ export default function useFormUpdatePost(
       file: [],
       mediaFiles: [],
       privacy: postData.isPrivate ? 2 : 1,
+      topics: postData.topics.map(
+        (postTopic) => topics.find((topic) => topic.name === postTopic).id
+      ),
     },
   });
 
   const { register, handleSubmit, setValue, getValues, watch } = methods;
   const [loading, setLoading] = useState(false);
-  const {
-    isOpen: addImageFormVisible,
-    close: closeAddImageForm,
-    toggle: toggleAddImageForm,
-  } = useToggle(
-    postData.mediaFiles.length > 0 &&
-      postData.mediaFiles[0].type !== "DOCUMENT" &&
-      postData.mediaFiles[0].type !== "OTHER"
-      ? true
-      : false
-  );
-
-  const { isOpen: addLinkFormVisible, open: openAddLinkForm } = useToggle();
-  const {
-    isOpen: addGifPickerVisible,
-    open: openGifPreview,
-    toggle: toggleGifPicker,
-    close: closeGifPicker,
-  } = useToggle();
-  const { isOpen: emojiPickerVisible, toggle: toggleEmojiPicker } = useToggle();
 
   const files = watch("file");
   const images = watch("mediaFiles");
+  const postTopics = watch("topics");
   const postContent = watch("content");
   const fileArray = files instanceof FileList ? Array.from(files) : [];
   const imagesArray = images instanceof FileList ? Array.from(images) : [];
@@ -56,82 +40,93 @@ export default function useFormUpdatePost(
   };
 
   const handleRemoveFile = (index) => {
-    console.log("index: ", index);
-    console.log("fileArray: ", fileArray);
-    console.log("files: ", files);
-    const updatedFiles = files.filter((_, i) => i !== index);
-
+    const updatedFiles = fileArray.filter((_, i) => i !== index);
+    const updatedFileList = new DataTransfer();
+    updatedFiles.forEach((file) => updatedFileList.items.add(file));
     setValue("file", updatedFiles);
   };
 
-  const handleGifSelect = (gif) => {
-    if (gif) {
-      setGif(gif.preview.url);
-      openGifPreview();
-      closeGifPicker();
+  const handleSelectTopic = (topicId) => {
+    const currentTopics = watch("topics") || [];
+
+    if (!Array.isArray(currentTopics)) {
+      setValue("topics", []);
+      return;
+    }
+
+    if (currentTopics.includes(topicId)) {
+      const updatedTopics = currentTopics.filter((id) => id !== topicId);
+      setValue("topics", updatedTopics);
+    } else {
+      // Add the topic if it's not already selected.
+      const updatedTopics = [...currentTopics, topicId];
+      if (updatedTopics.length > 3) {
+        toast.error("You can select up to 3 topics");
+        return;
+      }
+      setValue("topics", updatedTopics);
     }
   };
 
+  useEffect(() => {
+    register("topics", {
+      value: postData.topics.map(
+        (postTopic) => topics.find((topic) => topic.name === postTopic).id
+      ),
+    });
+  }, [register, postData.topics]);
+
   const onSubmit = async (data) => {
-    if (!data.content && !data.file && !gif) {
+    console.log("cac?");
+    console.log(data);
+    if (!data.content && !data.file) {
       toast.error(
         "Please add content, a file, or a GIF before updating the post."
       );
       return;
     }
-    setLoading(true);
+    // setLoading(true);
 
-    const result = await handlePostUpdated(postData.id, data);
-    console.log("res: ", result);
-    if (result.success) {
-      closeDialog();
-      setLoading(false);
-    }
+    // const result = await handlePostUpdated(postData.id, data);
+    // console.log("res: ", result);
+    // if (result.success) {
+    //   closeDialog();
+    //   setLoading(false);
+    // }
   };
-  useEffect(() => {
-    setValue("content", postData?.textContent || "");
 
-    if (
-      postData.mediaFiles.length > 0 &&
-      (postData.mediaFiles[0].type === "DOCUMENT" ||
-        postData.mediaFiles[0].type === "OTHER")
-    ) {
-      convertToFiles(postData.mediaFiles).then((files) => {
+  useEffect(() => {
+    const loadMediaFiles = async () => {
+      const files = await convertToFiles(postData.mediaFiles);
+      if (
+        postData.mediaFiles[0]?.type === "DOCUMENT" ||
+        postData.mediaFiles[0]?.type === "OTHER"
+      ) {
         setValue("file", files);
-      });
-    } else {
-      convertToFiles(postData.mediaFiles).then((files) => {
+      } else {
         setValue("mediaFiles", files);
-      });
+      }
+    };
+
+    if (postData.mediaFiles?.length > 0) {
+      loadMediaFiles();
     }
-  }, [postData, setValue]);
+  }, [postData.mediaFiles, setValue]);
 
   return {
     methods,
     loading,
     onSubmit,
-    addImageFormVisible,
-    closeAddImageForm,
-    toggleAddImageForm,
-
-    openGifPreview,
-    openAddLinkForm,
-    gif,
-    handleGifSelect,
     handleEmojiClick,
-    addLinkFormVisible,
     images,
-    addGifPickerVisible,
-    toggleGifPicker,
-    emojiPickerVisible,
-    toggleEmojiPicker,
     user,
     register,
     handleSubmit,
-    closeGifPicker,
     handleRemoveFile,
-    fileArray,
+    postTopics,
+    handleSelectTopic,
     imagesArray,
+    fileArray,
     files,
     postContent,
   };

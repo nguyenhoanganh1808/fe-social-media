@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Avatar from "../../Avatar/Avatar";
 import Post from "../PostsList/Post/Post";
 import Comments from "./Comments/Comments";
 import styles from "./PostDetail.module.css";
 import { useEffect, useState } from "react";
 import { PostService } from "../../../services/post.service";
-import Spinner from "../../common/Spinner/Spinner";
+import SpinningContainer from "../../common/SpinningContainer";
 import useToggle from "../../../hooks/useToggle";
 import CommentInput from "./Comments/CommentInput/CommentInput";
 import { useAuth } from "../../../hooks/useAuthContext";
@@ -16,6 +16,24 @@ export default function PostDetail() {
   const { isOpen, open, close } = useToggle();
   const { id } = useParams();
   const [comments, setComments] = useState([]);
+  const navigate = useNavigate();
+
+  const handlePostUpdated = async (postId, newContent) => {
+    const result = await PostService.updatePost(postId, newContent);
+    console.log("newContent: ", newContent);
+    if (result.success) {
+      setPostDetail(result.data);
+    }
+
+    return result;
+  };
+
+  const handlePostDeleted = async (postId) => {
+    const result = await PostService.deletePost(postId);
+    if (result.success) {
+      navigate("/posts");
+    }
+  };
 
   useEffect(() => {
     async function fetchPost() {
@@ -26,16 +44,16 @@ export default function PostDetail() {
   }, [id]);
 
   if (!postDetail) {
-    return (
-      <div className="w-full flex justify-center">
-        <Spinner size={30} />
-      </div>
-    );
+    return <SpinningContainer />;
   }
 
   return (
     <div className={styles.container}>
-      <Post post={postDetail} />
+      <Post
+        post={postDetail}
+        handlePostUpdated={handlePostUpdated}
+        handlePostDeleted={handlePostDeleted}
+      />
       <hr />
       <div className={styles.commentContainer}>
         <Avatar src={user.avatarUrl} size={40} />

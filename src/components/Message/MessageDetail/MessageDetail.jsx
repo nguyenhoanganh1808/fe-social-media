@@ -77,7 +77,6 @@ MessageDetail.propTypes = {
         id: PropTypes.string.isRequired,
         avatarUrl: PropTypes.string.isRequired,
         nickname: PropTypes.string.isRequired,
-        otherUser: PropTypes.object,
       }).isRequired,
     })
   ).isRequired,

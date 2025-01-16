@@ -1,5 +1,5 @@
 import styles from "./CreatePostModal.module.css";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Smile, FilesIcon, Link } from "lucide-react";
 import AddImageOrVideoInput from "./AddImageOrVideo/AddImageOrVideoInput";
@@ -17,44 +17,62 @@ import useFormUpdatePost from "../../../../hooks/useFormUpdatePost";
 import FilePreview from "./FilePreview/FilePreview";
 import SelectPrivacy from "./SelectPrivacy";
 import LoadingButton from "../../../common/Spinner/LoadingButton";
+import useToggle from "../../../../hooks/useToggle";
+import { useAuth } from "../../../../hooks/useAuthContext";
+
+import { Dropdown } from "flowbite-react";
+import { topics } from "../../../../lib/constants";
 
 const UpdatePostModal = forwardRef(function UpdatePostModal(
   { closeDialog, postData, handlePostUpdated },
   ref
 ) {
   const {
-    addGifPickerVisible,
-    addImageFormVisible,
-    addLinkFormVisible,
-    closeAddImageForm,
     closeGifPreview,
-    emojiPickerVisible,
-    gif,
     gifPreviewVisible,
     handleEmojiClick,
-    handleGifSelect,
-    handleSubmit,
     loading,
     methods,
     onSubmit,
-    register,
-    openAddImageForm,
-    user,
-    toggleEmojiPicker,
-
-    openAddLinkForm,
-
-    openGifPreview,
-
     images,
-
     files,
-
+    postTopics,
+    handleSelectTopic,
     handleRemoveFile,
-    closeGifPicker,
   } = useFormUpdatePost(postData, handlePostUpdated, closeDialog);
+  const fileArray = files instanceof FileList ? Array.from(files) : [];
+  const { register, handleSubmit } = methods;
+  const [gif, setGif] = useState(postData?.gifUrl || null);
+  const { user } = useAuth();
 
-  console.log("images: ", images);
+  const {
+    isOpen: addImageFormVisible,
+    close: closeAddImageForm,
+    open: openAddImageForm,
+  } = useToggle(
+    postData.mediaFiles.length > 0 &&
+      postData.mediaFiles[0].type !== "DOCUMENT" &&
+      postData.mediaFiles[0].type !== "OTHER"
+      ? true
+      : false
+  );
+
+  const { isOpen: addLinkFormVisible, open: openAddLinkForm } = useToggle();
+  const {
+    isOpen: addGifPickerVisible,
+    open: openGifPreview,
+    close: closeGifPicker,
+  } = useToggle();
+  const { isOpen: emojiPickerVisible, toggle: toggleEmojiPicker } = useToggle();
+
+  const handleGifSelect = (gif) => {
+    if (gif) {
+      setGif(gif.preview.url);
+      openGifPreview();
+      closeGifPicker();
+    }
+  };
+  console.log("fileArray: ", fileArray);
 
   return (
     <dialog className={styles.wrapper} ref={ref} aria-label="Edit Post">
@@ -81,6 +99,41 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                     <p className={styles.name}>{user.nickName}</p>
                     <SelectPrivacy />
                   </div>
+                  <div className="ml-auto">
+                    <Dropdown label="Add Topics" dismissOnClick={false}>
+                      {topics.map((topic) => (
+                        <Dropdown.Item
+                          key={topic.id}
+                          className="flex justify-between"
+                          onClick={() => handleSelectTopic(topic.id)}
+                        >
+                          {topic.name}
+                          {postTopics.includes(topic.id) && (
+                            <span
+                              id="success-icon"
+                              className="inline-flex items-center"
+                            >
+                              <svg
+                                className="w-3.5 h-3.5 text-blue-700 dark:text-blue-500"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 16 12"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M1 5.917 5.724 10.5 15 1.5"
+                                />
+                              </svg>
+                            </span>
+                          )}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown>
+                  </div>
                 </div>
                 <textarea
                   {...register("content")}
@@ -104,7 +157,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                   )}
                 </div>
 
-                <FilePreview files={files} onRemove={handleRemoveFile} />
+                {<FilePreview files={files} onRemove={handleRemoveFile} />}
 
                 {gifPreviewVisible && (
                   <GifPreview gifUrl={gif} onClose={closeGifPreview} />
@@ -136,7 +189,8 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                           : ""
                       }`}
                       onClick={() => {
-                        if (files && files.length <= 0) {
+                        console.log("files: ", files);
+                        if (files.length <= 0) {
                           openAddImageForm();
                         }
                       }}
@@ -145,6 +199,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                     />
                   </div>
                   <label
+                    htmlFor="file"
                     className={
                       images && images.length > 0 ? "cursor-not-allowed" : ""
                     }
@@ -153,7 +208,6 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                         e.preventDefault();
                       }
                     }}
-                    htmlFor="file"
                   >
                     <FilesIcon
                       color={images && images.length > 0 ? "gray" : "blue"}
@@ -163,8 +217,10 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                   <input
                     {...register("file")}
                     type="file"
+                    id="file"
                     multiple
-                    style={{ display: "none" }}
+                    className="absolute opacity-0 w-0 h-0"
+                    // style={{ display: "none" }}
                   />
 
                   <div>

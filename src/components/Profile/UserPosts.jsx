@@ -9,8 +9,8 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuthContext";
 
 export default function UserPosts() {
-  const { posts, loading } = useFetchPost(PostService.getUserPosts);
   const { id } = useParams();
+  const { posts, loading } = useFetchPost(PostService.getUserPostsByUserId, id);
   const { user } = useAuth();
   const { userInfo } = useOutletContext();
 

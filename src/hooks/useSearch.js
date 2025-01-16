@@ -9,6 +9,7 @@ export default function useSearch(apiCall, defaultResult) {
     const timeoutId = setTimeout(async () => {
       setIsShowResult(true);
       const result = await apiCall(searchValue);
+      console.log("result: ", result);
       if (result.success) {
         setSearchResults(result.data);
       } else {

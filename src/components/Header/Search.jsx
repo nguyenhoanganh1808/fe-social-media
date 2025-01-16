@@ -33,8 +33,20 @@ export default function Search() {
             <SearchItem
               onClick={() => setIsShowResult(false)}
               key={result.id}
-              imgUrl={result.avatarUrl}
-              title={result.nickname}
+              imgUrl={
+                result.student
+                  ? result.student.profile.avatarUrl
+                  : result.lecturer
+                  ? result.lecturer.profile.avatarUrl
+                  : ""
+              }
+              title={
+                result.student
+                  ? result.student.profile.nickName
+                  : result.lecturer
+                  ? result.lecturer.profile.nickName
+                  : "admin"
+              }
               to={`/profile/${result.id}`}
             />
           ))}

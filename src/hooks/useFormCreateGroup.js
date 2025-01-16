@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { SearchService } from "../services/search.service";
+import { createUserProfile } from "../lib/utils";
 
-export default function useFormCreateGroup(apiCall) {
+export default function useFormCreateGroup(apiCall, onCloseModal) {
   const {
     register,
     handleSubmit,
@@ -29,7 +30,8 @@ export default function useFormCreateGroup(apiCall) {
     const fetchData = async () => {
       const result = await SearchService.searchUser(searchValue);
       if (result.success && result.data) {
-        setFilterUsers(result.data);
+        console.log("result: ", result);
+        setFilterUsers(result.data.map((user) => createUserProfile(user)));
       }
     };
 
@@ -41,6 +43,9 @@ export default function useFormCreateGroup(apiCall) {
   const onSubmit = async (data) => {
     setLoading(true);
     const result = await apiCall(data);
+    if (result.success) {
+      onCloseModal();
+    }
     setLoading(false);
     return result;
   };

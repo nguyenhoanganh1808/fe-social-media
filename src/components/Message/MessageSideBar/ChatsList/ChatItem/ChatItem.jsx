@@ -51,11 +51,11 @@ export default function ChatItem({ conversation, activeTab }) {
         />
         {<span className={styles.dot}></span>}
       </div>
-      <div className="md:block hidden">
+      <div className="md:block hidden truncate">
         <span className="font-semibold text-black">
           {otherUser.profile.nickName}
         </span>
-        <p className={styles.chat}>
+        <p className={`${styles.chat} truncate max-w-1`}>
           <strong>{author}: </strong> {conversation.lastMessage.content} -{" "}
           <span>{createdAt}</span>
         </p>

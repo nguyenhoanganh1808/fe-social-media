@@ -15,7 +15,6 @@ export default function PostsList({
         {posts.map((post) => (
           <div className={styles.postContainer} key={post.id}>
             <Post
-              key={post.id}
               post={post}
               handlePostDeleted={handlePostDeleted}
               handlePostUpdated={handlePostUpdated}

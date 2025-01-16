@@ -66,3 +66,26 @@ export const years = Array.from(
   { length: 2025 - 1990 + 1 },
   (_, i) => 1990 + i
 );
+
+export const topics = [
+  {
+    id: 1,
+    name: "Software Development",
+    description: "string",
+  },
+  {
+    id: 2,
+    name: "Machine Learning",
+    description: "string",
+  },
+  {
+    id: 3,
+    name: "Information Technology",
+    description: "string",
+  },
+  {
+    id: 4,
+    name: "Q&A",
+    description: "string",
+  },
+];

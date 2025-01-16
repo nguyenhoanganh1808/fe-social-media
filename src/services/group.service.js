@@ -151,6 +151,35 @@ export const GroupService = {
     }
   },
 
+  async getGroupsByUserId(userId) {
+    const url = `${baseUrl}/getGroups/${userId}`;
+    const token = localStorage.getItem("jwt-token");
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when fetch group");
+        console.log(errorText);
+        return { error: errorText };
+      }
+      const data = await response.json();
+
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (e) {
+      toast.error(e || "Failed when fetch group");
+      return { error: e };
+    }
+  },
+
   async createGroup(groupData) {
     const url = baseUrl + "/create";
     const token = localStorage.getItem("jwt-token");
@@ -171,6 +200,7 @@ export const GroupService = {
         return { error: errorText };
       }
       const data = await response.json();
+      toast.success("Group created successfully");
       return {
         success: true,
         data: data,

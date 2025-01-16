@@ -11,6 +11,7 @@ import AvatarList from "../../components/Group/AvatarList";
 import { groupNavItem } from "../../lib/constants";
 import Spinner from "../../components/common/Spinner/Spinner";
 import Invite from "../../components/Group/Invite";
+import { createUserProfile } from "../../lib/utils";
 
 export default function Group() {
   const { id } = useParams();
@@ -20,10 +21,9 @@ export default function Group() {
     id: 0,
     members: [
       {
-        id: "",
-        username: "",
-        email: "",
-        nickname: "",
+        userId: "",
+
+        nickName: "",
         tagname: "",
         avatarUrl: "",
       },
@@ -39,7 +39,10 @@ export default function Group() {
     const getMemResult = await GroupService.getGroupMembers(id, 0, 10);
 
     if (result.success && getMemResult.success) {
-      setGroup({ ...result.data, members: getMemResult.data });
+      setGroup({
+        ...result.data,
+        members: getMemResult.data.map((user) => createUserProfile(user)),
+      });
     }
     setLoading(false);
   }, [id]);

@@ -75,12 +75,11 @@ export default function useFormMessage(setMessageData, receiverId) {
     console.log(data);
     reset();
     setMessageInput("");
-
     const pendingMessage = {
       id: `pending-${Date.now()}`,
       content: data.message,
       createdAt: new Date(),
-      senderId: { id: user.userId },
+      senderId: { userId: user.userId },
       mediaFiles: data.mediaFiles || [],
       state: "pending",
     };

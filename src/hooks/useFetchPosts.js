@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { PostService } from "../services/post.service";
 import createPost from "../models/post";
 
-export default function useFetchPost(fetchFunction, groupId = 0) {
+export default function useFetchPost(fetchFunction, id = 0) {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     setLoading(true);
     const nextPage = page + 1;
     try {
-      const postData = await fetchFunction(nextPage, pageSize, groupId);
+      const postData = await fetchFunction(nextPage, pageSize, id);
 
       setPosts((prevPosts) => [...prevPosts, ...postData]);
 
@@ -28,16 +28,16 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     } finally {
       setLoading(false);
     }
-  }, [fetchFunction, groupId, hasMore, loading, page]);
+  }, [fetchFunction, id, hasMore, loading, page]);
 
   useEffect(() => {
     async function fetch() {
-      const postData = await fetchFunction(0, pageSize, groupId);
+      const postData = await fetchFunction(0, pageSize, id);
       setPosts(postData);
       setLoading(false);
     }
     fetch();
-  }, [fetchFunction, groupId]);
+  }, [fetchFunction, id]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +57,7 @@ export default function useFetchPost(fetchFunction, groupId = 0) {
     try {
       await PostService.deletePost(postId);
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+
       toast.success("Post deleted successfully");
     } catch (e) {
       toast.error(e.message || "Failed to delete post");

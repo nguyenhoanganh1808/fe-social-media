@@ -180,6 +180,14 @@ export function getFileIcon(type) {
   }
 }
 
+export function getCurrentMonth() {
+  const currentDate = new Date();
+  const displayMonth = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+  }).format(currentDate);
+  return displayMonth;
+}
+
 export function getCookie(name) {
   const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
   return match ? match[2] : null;
@@ -228,4 +236,17 @@ export async function cropImage(file, width, height) {
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
+}
+
+export function createUserProfile(user) {
+  if (user.student) {
+    return user.student.profile;
+  } else if (user.lecturer) {
+    return user.lecturer.profile;
+  } else
+    return {
+      avatarUrl:
+        "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
+      nickName: "Anonymous",
+    };
 }

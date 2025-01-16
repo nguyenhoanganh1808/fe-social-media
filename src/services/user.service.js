@@ -55,10 +55,10 @@ export const UserService = {
       }
 
       if (!response.ok) {
-        const errorText = await response.text();
-        toast.error(errorText);
+        const error = await response.json();
+        toast.error(error.message);
         return {
-          error: errorText,
+          error: error.message,
         };
       }
       const responseData = await response.json();

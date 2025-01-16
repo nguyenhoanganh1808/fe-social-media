@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import styles from "./CreatePostModal.module.css";
 import PropTypes from "prop-types";
 import { Smile, FilesIcon, Link } from "lucide-react";
@@ -18,7 +18,8 @@ import GifPreview from "../CreatePostModal/GifPreview/GifPreview";
 import GifPicker from "gif-picker-react";
 import SelectPrivacy from "./SelectPrivacy";
 import LoadingButton from "../../../common/Spinner/LoadingButton";
-
+import { Dropdown } from "flowbite-react";
+import { topics } from "../../../../lib/constants";
 const CreatePostModal = forwardRef(function CreatePostModal(
   { closeDialog, handlePostCreated },
   ref
@@ -31,11 +32,16 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     loading,
     isButtonNotDisabled,
     handleRemoveFile,
-    setLoading,
-    resetMediaArray,
     resetFileArray,
+    resetMediaArray,
+    handleSelect,
+    selectedTopics,
   } = useFormCreatePost();
   const { register, handleSubmit, setValue, getValues, reset } = methods;
+
+  useEffect(() => {
+    register("topics", { value: [] });
+  }, [register]);
 
   const [gif, setGif] = useState(null);
   const { user } = useAuth();
@@ -69,8 +75,6 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     }
   };
 
-  console.log("imagesarray: ", images);
-
   return (
     <dialog className={styles.wrapper} ref={ref}>
       <Header
@@ -87,28 +91,64 @@ const CreatePostModal = forwardRef(function CreatePostModal(
           onSubmit={handleSubmit(async (data) => {
             const result = await onSubmit(data);
             if (result.success) {
-              // await handlePostCreated();
               handlePostCreated(result.data);
-              setLoading(false);
               reset();
-              closeDialog();
-              resetMediaArray();
               resetFileArray();
+              resetMediaArray();
+              closeDialog();
             }
-            // toggleValidation();
-            reset();
-            closeDialog();
           })}
         >
           {!addGifPickerVisible ? (
             <div className={styles.postContainer}>
               <div className={styles.contentContainer}>
                 <div className={styles.avatarContainer}>
-                  <img className={styles.avatar} src={user.avatarUrl} alt="" />
-                  <div>
-                    <p className={styles.name}>{user.nickName}</p>
-                    <SelectPrivacy />
-                  </div>
+                  <>
+                    <img
+                      className={styles.avatar}
+                      src={user.avatarUrl}
+                      alt=""
+                    />
+                    <div>
+                      <p className={styles.name}>{user.nickName}</p>
+                      <SelectPrivacy />
+                    </div>
+                    <div className="ml-auto">
+                      <Dropdown label="Add Topics" dismissOnClick={false}>
+                        {topics.map((topic) => (
+                          <Dropdown.Item
+                            key={topic.id}
+                            className="flex justify-between"
+                            onClick={() => handleSelect(topic.id)}
+                          >
+                            {topic.name}
+                            {selectedTopics.includes(topic.id) && (
+                              <span
+                                id="success-icon"
+                                className="inline-flex items-center"
+                              >
+                                <svg
+                                  className="w-3.5 h-3.5 text-blue-700 dark:text-blue-500"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 16 12"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M1 5.917 5.724 10.5 15 1.5"
+                                  />
+                                </svg>
+                              </span>
+                            )}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown>
+                    </div>
+                  </>
                 </div>
                 <textarea
                   {...register("content")}

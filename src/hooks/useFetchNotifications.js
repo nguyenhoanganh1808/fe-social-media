@@ -62,7 +62,7 @@ export default function useFetchNotifications() {
     const notificationQuery = query(
       notificationRef,
       orderBy("createdAt", "desc"),
-      limit(1)
+      limit(5)
     );
     const allNotificationQuery = query(
       notificationRef,
@@ -102,12 +102,15 @@ export default function useFetchNotifications() {
       (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           const newNotification = { id: change.doc.id, ...change.doc.data() };
+          console.log("add new: ", change);
           if (change.type === "added" && !isFirstExecution) {
             console.log("New message added:", newNotification);
             setNotifications((prevData) => [newNotification, ...prevData]);
             // toast(ToastNotification, { position: "bottom-right" });
             toast(
-              createToastContent({ user: newNotification.sender }).render(),
+              createToastContent({
+                user: newNotification.sender.student.profile,
+              }).render(),
               {
                 position: "bottom-right",
               }

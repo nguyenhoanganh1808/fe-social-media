@@ -15,7 +15,7 @@ export const AuthService = {
       },
     });
 
-    if (response.status === 403) {
+    if (response.status === 401) {
       const newAccessToken = await this.refreshAccessToken();
 
       return fetch(url, {
@@ -169,8 +169,9 @@ export const AuthService = {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        toast.error(errorText);
+        const errorText = await response.json();
+
+        toast.error(errorText.message);
         return { error: errorText };
       }
 
@@ -186,7 +187,7 @@ export const AuthService = {
         data: responseData,
       };
     } catch (e) {
-      toast.error(e);
+      toast.error(e.message);
       return {
         errror: e,
       };

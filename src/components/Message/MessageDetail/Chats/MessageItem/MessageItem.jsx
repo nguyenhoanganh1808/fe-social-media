@@ -6,10 +6,14 @@ import FileView from "./FileView";
 
 export default function MessageItem({ messageData }) {
   const { user } = useAuth();
+  console.log("mess: ", messageData);
+  const sender = messageData.senderId.student
+    ? messageData.senderId.student.profile
+    : messageData.senderId.lecturer
+    ? messageData.senderId.lecturer.profile
+    : messageData.senderId;
 
-  const sender = messageData.senderId;
-
-  const isAuthor = sender.id === user.userId;
+  const isAuthor = sender.userId === user.userId;
   const mediaType = messageData.mediaFiles[0]?.type;
 
   if (isAuthor) {
@@ -51,7 +55,7 @@ export default function MessageItem({ messageData }) {
       <div className="flex flex-col gap-1 w-full max-w-[320px]">
         <div className="flex items-center space-x-2 rtl:space-x-reverse">
           <span className="text-sm font-semibold text-gray-900 dark:text-white">
-            {sender.nickname}
+            {sender.nickName}
           </span>
           <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
             {formatToTime(messageData.createdAt)}
@@ -81,9 +85,10 @@ MessageItem.propTypes = {
       })
     ),
     senderId: PropTypes.shape({
-      id: PropTypes.string.isRequired,
       nickname: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,
+      student: PropTypes.object,
+      lecturer: PropTypes.object,
     }),
     receiverId: PropTypes.shape({
       id: PropTypes.string.isRequired,

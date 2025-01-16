@@ -147,7 +147,7 @@ export const PostService = {
         };
       }
       toast.success("Post created successfully");
-      return { success: true };
+      return { success: true, data: await response.json() };
     } catch (e) {
       toast.error(e || "An error occurred while creating the post");
       return {
@@ -167,6 +167,7 @@ export const PostService = {
       title: "",
       privacyId: parseInt(data.privacy),
       link: link,
+      topicIds: data.topics,
     });
     formData.append("postRequestString", postRequestString);
 
@@ -294,6 +295,40 @@ export const PostService = {
       return {
         error: e || "Failed to fetch posts",
       };
+    }
+  },
+
+  async getUserPostsByUserId(page, size, userId) {
+    const url =
+      baseUrl +
+      "/getPostByUserId?" +
+      new URLSearchParams({
+        userId: userId,
+        size: size,
+        page: page,
+      });
+
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts");
+      }
+
+      const data = await response.json();
+
+      const posts = data.map((post) => createPost(post));
+
+      return posts;
+    } catch (e) {
+      throw new Error(e);
     }
   },
 

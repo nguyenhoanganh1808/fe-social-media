@@ -20,6 +20,7 @@ import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
 import { UserPopOver } from "../../../common/UserPopOver";
 import { roleData } from "../../../Login/FormSignup/RolesData";
 import { CarouselComponent } from "./Carousel";
+import Badges from "../../../common/Badges";
 
 const actionsButton = [
   {
@@ -34,8 +35,12 @@ const actionsButton = [
   },
 ];
 
-function Post({ post, handlePostDeleted, handlePostUpdated }) {
-  console.log("post: ", post);
+function Post({
+  post,
+  handlePostDeleted,
+  handlePostUpdated,
+  isShowInteractive = true,
+}) {
   const { isOpen, toggle } = useToggle();
   const { closeDialog, dialogRef, showDialog } = useDialog();
   const {
@@ -145,28 +150,45 @@ function Post({ post, handlePostDeleted, handlePostUpdated }) {
             )}
           </ul>
         </Link>
-        <div className={styles.interactionContainer}>
-          <InteractionBar post={post} onClickShare={showShare} />
-          <InteractionButton
-            onClick={toggleSaved}
-            count={null}
-            icon={<Bookmark color="null" fill={isSaved ? "#84CBF3" : "gray"} />}
-          />
-        </div>
+        {post.sharedPost && (
+          <Post post={post.sharedPost} isShowInteractive={false} />
+        )}
+        {post.topics && post.topics.length > 0 && (
+          <div className={styles.topicContainer}>
+            {post.topics.map((topic) => (
+              <Badges key={topic} text={topic} />
+            ))}
+          </div>
+        )}
+        {isShowInteractive && (
+          <div className={styles.interactionContainer}>
+            <InteractionBar post={post} onClickShare={showShare} />
+            <InteractionButton
+              onClick={toggleSaved}
+              count={null}
+              icon={
+                <Bookmark color="null" fill={isSaved ? "#84CBF3" : "gray"} />
+              }
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 Post.propTypes = {
+  isShowInteractive: PropTypes.bool,
   post: PropTypes.shape({
     id: PropTypes.number,
     textContent: PropTypes.string,
+    topics: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string,
+    sharedPost: PropTypes.object,
     user: PropTypes.shape({
       id: PropTypes.string.isRequired,
       username: PropTypes.string,
-      avatarUrl: PropTypes.string.isRequired,
+
       role: PropTypes.string.isRequired,
       lecturer: PropTypes.object,
       student: PropTypes.object,

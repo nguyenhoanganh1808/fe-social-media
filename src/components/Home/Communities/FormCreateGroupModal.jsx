@@ -18,7 +18,7 @@ export default function FormCreateGroupModal({ openModal, onCloseModal }) {
     setSearchValue,
     loading,
     validationRules,
-  } = useFormCreateGroup(GroupService.createGroup);
+  } = useFormCreateGroup(GroupService.createGroup, onCloseModal);
 
   return (
     <Modal show={openModal} size="md" onClose={onCloseModal} popup>
@@ -91,9 +91,8 @@ export default function FormCreateGroupModal({ openModal, onCloseModal }) {
                       <input
                         id={`member-${user.id}`}
                         {...register("members")}
-                        {...register("members")}
                         type="checkbox"
-                        value={user.id}
+                        value={user.userId}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
@@ -109,7 +108,7 @@ export default function FormCreateGroupModal({ openModal, onCloseModal }) {
                             src={user.avatarUrl}
                             alt="Jese image"
                           />
-                          {user.nickname}
+                          {user.nickName}
                         </a>
                       </label>
                     </div>

@@ -18,5 +18,7 @@ export default function createPost(jsonData) {
     reactionCount: jsonData.reactionCount,
     commentCount: jsonData.commentCount,
     isPrivate: jsonData.privacy.id === 2,
+    sharedPost: jsonData.sharedPost,
+    topics: jsonData.topics,
   };
 }

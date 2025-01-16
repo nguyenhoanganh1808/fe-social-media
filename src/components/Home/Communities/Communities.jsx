@@ -3,26 +3,27 @@ import LucideCircleButton from "../../Button/LucideCircleButton/LucideCircleButt
 import styles from "./Communities.module.css";
 import useToggle from "../../../hooks/useToggle";
 import FormCreateGroupModal from "./FormCreateGroupModal";
+import { useEffect, useState } from "react";
+import { GroupService } from "../../../services/group.service";
+import { useAuth } from "../../../hooks/useAuthContext";
+import { Link } from "react-router-dom";
+// import useFethcInfinityData from '../../../hooks/useFetchInfinityData'
 
 export default function Communities() {
   const { close, isOpen, open } = useToggle();
-  const datas = [
-    {
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCy70vlO2WmaZP4m9EhyjwqW7EaE7OQeOz5w&s",
-      name: "UX Designer communitiy",
-      friends: 32,
-    },
-    {
-      img: "https://cdn.iconscout.com/icon/free/png-256/free-react-logo-icon-download-in-svg-png-gif-file-formats--company-brand-world-logos-vol-4-pack-icons-282599.png?f=webp&w=256",
-      name: "Front end developers",
-      friends: 25,
-    },
-    {
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ZY7pSp8vUlxBODPl3S4YYzsx0Ht-sB7EkQ&s",
-      name: "Back end developers",
-      friends: 28,
-    },
-  ];
+  const { user } = useAuth();
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    async function fetch() {
+      const result = await GroupService.getGroupsByUserId(user.userId);
+      if (result.success) {
+        setGroups(result.data);
+      }
+    }
+    fetch();
+  }, [user.userId]);
+
   return (
     <div className={styles.wrapper}>
       <FormCreateGroupModal onCloseModal={close} openModal={isOpen} />
@@ -33,20 +34,24 @@ export default function Communities() {
         </LucideCircleButton>
       </div>
       <ul className={styles.communitiesList}>
-        {datas.map((community) => (
-          <div className={styles.container} key={community.name}>
+        {groups.map((community) => (
+          <Link
+            to={`groups/${community.id}`}
+            className={`${styles.container} hover:bg-gray-200 p-2 rounded-md`}
+            key={community.id}
+          >
             <img
               className={styles.communityImage}
-              src={community.img}
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVwsinqKdhRO24tRJc6xjoZ_4YOaRLR_0Olg&s"
               alt={community.name}
             />
             <div>
               <p className={styles.communityName}>{community.name}</p>
-              <p className={styles.friendsIn}>
+              {/* <p className={styles.friendsIn}>
                 {community.friends} your friends are in
-              </p>
+              </p> */}
             </div>
-          </div>
+          </Link>
         ))}
       </ul>
     </div>

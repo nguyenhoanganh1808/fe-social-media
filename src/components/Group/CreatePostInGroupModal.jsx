@@ -11,7 +11,6 @@ import Header from "../Home/CreatePost/Header/Header";
 import useFormCreatePost from "../../hooks/useFormCreatePost";
 import { FormProvider } from "react-hook-form";
 import FilePreview from "../Home/CreatePost/CreatePostModal/FilePreview/FilePreview";
-import Spinner from "../common/Spinner/Spinner";
 
 import GifPreview from "../Home/CreatePost/CreatePostModal/GifPreview/GifPreview";
 import GifPicker from "gif-picker-react";
@@ -20,6 +19,7 @@ import AddImageOrVideoInput from "../Home/CreatePost/CreatePostModal/AddImageOrV
 import AddLinks from "../Home/CreatePost/CreatePostModal/AddLinks/AddLinks";
 import { PostService } from "../../services/post.service";
 import { useParams } from "react-router-dom";
+import LoadingButton from "../common/Spinner/LoadingButton";
 
 const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
   { closeDialog, handlePostCreated },
@@ -27,14 +27,14 @@ const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
 ) {
   const {
     methods,
-
     fileArray,
-    imagesArray,
-    postContent,
     loading,
     handleRemoveFile,
     setLoading,
-  } = useFormCreatePost();
+    isButtonNotDisabled,
+    resetFileArray,
+    resetMediaArray,
+  } = useFormCreatePost(closeDialog);
   const { register, handleSubmit, setValue, getValues, reset } = methods;
   const { id } = useParams();
 
@@ -72,11 +72,20 @@ const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
 
   const onSubmit = async (data) => {
     setLoading(true);
+
     const result = await PostService.createGroupPost(id, data);
+
     if (result.error) {
-      setLoading(false);
       return;
+    } else {
+      closeDialog();
+      resetMediaArray();
+      resetFileArray();
+      setValue("content", "");
+      setValue("topics", []);
     }
+    setLoading(false);
+
     return result;
   };
 
@@ -94,9 +103,10 @@ const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
         <form
           className={styles.formContainer}
           onSubmit={handleSubmit(async (data) => {
+            console.log(data);
             const result = await onSubmit(data);
             if (result.success) {
-              await handlePostCreated();
+              handlePostCreated(result.data);
             }
             setLoading(false);
             reset();
@@ -189,20 +199,13 @@ const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
                   </div>
                 </div>
               </div>
-              <button
+              <LoadingButton
                 type="submit"
-                disabled={loading}
-                className={`${
-                  postContent !== "" ||
-                  fileArray.length > 0 ||
-                  imagesArray.length > 0
-                    ? styles.submitBtn
-                    : styles.btnDeactive
-                } rounded-md`}
-                // onClick={handlePostSubmit}
+                disabled={!isButtonNotDisabled || loading}
+                isLoading={loading}
               >
-                {loading ? <Spinner borderWidth={3} size={30} /> : "Post"}
-              </button>
+                Post
+              </LoadingButton>
             </div>
           ) : (
             <div className={styles.gifPickerContainer}>

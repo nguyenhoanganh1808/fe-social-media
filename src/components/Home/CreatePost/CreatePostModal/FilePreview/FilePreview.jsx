@@ -9,13 +9,16 @@ import {
 
 const FilePreview = ({ files, onRemove }) => {
   if (!files || files.length === 0) {
-    return null;
+    return <p>No files to preview.</p>;
   }
+
+  const filesArray = files instanceof FileList ? Array.from(files) : files;
 
   return (
     <div className={styles.filePreview}>
       <ul className="overflow-y-auto max-h-[200px]">
-        {files.map((file, index) => {
+        {filesArray.map((file, index) => {
+          console.log("g: ", files);
           const type = extractFileType(file);
           const fileIconSrc = getFileIcon(type);
           return (

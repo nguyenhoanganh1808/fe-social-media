@@ -2,6 +2,7 @@ import { useState } from "react";
 import Calendar from "./Calendar";
 import { semestersData, years } from "../../../lib/constants";
 import { Select } from "flowbite-react";
+import { getCurrentMonth } from "../../../lib/utils";
 
 export default function Schedule() {
   const [semester, setSemester] = useState(semestersData[0].id);
@@ -11,7 +12,9 @@ export default function Schedule() {
     <div className="lg:flex lg:h-full lg:flex-col p-3 justify-center w-full">
       <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
         <h1 className="text-base font-semibold leading-6 text-gray-900">
-          <time dateTime="2022-01">January 2022</time>
+          <time dateTime="2022-01">
+            {getCurrentMonth(today)} {year}
+          </time>
         </h1>
         <div className="flex items-center">
           <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">

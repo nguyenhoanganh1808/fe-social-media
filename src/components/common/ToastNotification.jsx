@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export const createToastContent = ({
   user = {
-    nickname: "Someone",
+    nickName: "Someone",
     avatarUrl:
       "https://firebasestorage.googleapis.com/v0/b/uit-social-network-f592d.appspot.com/o/female-default-avatar.png?alt=media&token=248e1df8-df98-44ba-803b-56e620f1c762",
   },
@@ -21,7 +21,7 @@ export const createToastContent = ({
             <img
               className="w-12 h-12 rounded-full"
               src={user.avatarUrl}
-              alt={`${user.nickname}'s avatar`}
+              alt={`${user.nickName}'s avatar`}
             />
             <span className="absolute bottom-0 right-0 inline-flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full">
               <svg
@@ -54,7 +54,7 @@ export const createToastContent = ({
 
 createToastContent.propTypes = {
   user: PropTypes.shape({
-    nickname: PropTypes.string.isRequired,
+    nickName: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string.isRequired,
   }),
   type: PropTypes.string.isRequired,

@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { PostService } from "../services/post.service";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-const useFormCreatePost = () => {
+const useFormCreatePost = (closeDialog = () => {}) => {
   const methods = useForm();
   const { watch, setValue } = methods;
   const [loading, setLoading] = useState(false);
+  const [selectedTopics, setSelectedTopics] = useState([]);
 
   const files = watch("file");
   const images = watch("mediaFiles");
@@ -35,7 +37,27 @@ const useFormCreatePost = () => {
     setValue("file", emptyList);
   };
 
+  const handleSelect = (topicId) => {
+    setSelectedTopics((prevTopics) => {
+      if (!prevTopics) prevTopics = [];
+      if (prevTopics.includes(topicId)) {
+        const updatedTopics = prevTopics.filter((id) => id !== topicId);
+        setValue("topics", updatedTopics);
+        return updatedTopics;
+      } else {
+        const updatedTopics = [...prevTopics, topicId];
+        if (updatedTopics.length > 3) {
+          toast.error("You can select up to 3 topics");
+          return prevTopics;
+        }
+        setValue("topics", updatedTopics);
+        return updatedTopics;
+      }
+    });
+  };
+
   const onSubmit = async (data) => {
+    console.log(data);
     setLoading(true);
 
     const result = await PostService.createPost(data);
@@ -43,7 +65,14 @@ const useFormCreatePost = () => {
     if (result.error) {
       setLoading(false);
       return;
+    } else {
+      closeDialog();
+      resetMediaArray();
+      resetFileArray();
+      setValue("content", "");
+      setValue("topics", []);
     }
+    setLoading(false);
 
     return result;
   };
@@ -52,6 +81,7 @@ const useFormCreatePost = () => {
     loading,
     methods,
     isButtonNotDisabled,
+    selectedTopics,
     onSubmit,
     fileArray,
     imagesArray,
@@ -61,6 +91,7 @@ const useFormCreatePost = () => {
     postContent,
     setLoading,
     images,
+    handleSelect,
   };
 };
 
