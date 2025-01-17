@@ -21,6 +21,7 @@ import { UserPopOver } from "../../../common/UserPopOver";
 import { roleData } from "../../../Login/FormSignup/RolesData";
 import { CarouselComponent } from "./Carousel";
 import Badges from "../../../common/Badges";
+import ReportButton from "./ReportButton";
 
 const actionsButton = [
   {
@@ -107,31 +108,36 @@ function Post({
                 toggle();
               }}
             >
-              {isAuthor && (
-                <div className={styles.ellipsis}>
-                  <Ellipsis />
-                </div>
-              )}
+              <div className={styles.ellipsis}>
+                <Ellipsis />
+              </div>
+
               {isOpen && (
                 <div className={styles.actionsContainer}>
                   <ul>
-                    {actionsButton.map((action) => (
-                      <li className={styles.buttons} key={action.title}>
-                        <button
-                          style={{ color: action.color }}
-                          onClick={() => {
-                            if (action.title === "Edit") {
-                              showDialog();
-                            } else {
-                              handlePostDeleted(post.id);
-                            }
-                          }}
-                        >
-                          <action.icon />
-                          {action.title}
-                        </button>
+                    {isAuthor &&
+                      actionsButton.map((action) => (
+                        <li className={styles.buttons} key={action.title}>
+                          <button
+                            style={{ color: action.color }}
+                            onClick={() => {
+                              if (action.title === "Edit") {
+                                showDialog();
+                              } else {
+                                handlePostDeleted(post.id);
+                              }
+                            }}
+                          >
+                            <action.icon />
+                            {action.title}
+                          </button>
+                        </li>
+                      ))}
+                    {!isAuthor && (
+                      <li className={`${styles.buttons} rounded-md`}>
+                        <ReportButton postId={post.id} />
                       </li>
-                    ))}
+                    )}
                   </ul>
                 </div>
               )}
