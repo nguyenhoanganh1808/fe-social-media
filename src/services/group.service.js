@@ -79,11 +79,44 @@ export const GroupService = {
         if (!response.ok) {
           const errorText = await response.text();
           toast.error(`${errorText || "Unknown error"}`);
-          return { error: errorText, userId };
+          continue;
         }
         toast.success("Invite success!");
       } catch (e) {
         toast.error(`Failed to invite user ${userId}: ${e.message}`);
+        return { error: e, userId };
+      }
+    }
+
+    return {
+      success: true,
+      message: "All users processed",
+    };
+  },
+
+  async addMembers(groupId, userIds) {
+    const url = `${baseUrl}/${groupId}/addMember`;
+    const token = localStorage.getItem("jwt-token");
+
+    for (const userId of userIds) {
+      try {
+        const params = new URLSearchParams({ userId: userId });
+        const response = await AuthService.fetchWithAuth(`${url}?${params}`, {
+          mode: "cors",
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          toast.error(`${errorText || "Unknown error"}`);
+          continue;
+        }
+        toast.success("Add member success!");
+      } catch (e) {
+        toast.error(`Failed to add user ${userId}: ${e.message}`);
         return { error: e, userId };
       }
     }

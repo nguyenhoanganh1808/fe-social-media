@@ -109,7 +109,7 @@ UserPopOver.propTypes = {
   user: PropTypes.shape({
     userId: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string.isRequired,
-    nickname: PropTypes.string.isRequired,
+    nickName: PropTypes.string.isRequired,
     tagName: PropTypes.string.isRequired,
     followerCount: PropTypes.number.isRequired,
     followingCount: PropTypes.number.isRequired,

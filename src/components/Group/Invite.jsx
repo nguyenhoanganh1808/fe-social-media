@@ -4,19 +4,49 @@ import { ModalInvite } from "./ModalInvite";
 import useToggle from "../../hooks/useToggle";
 import { GroupService } from "../../services/group.service";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
 export default function Invite() {
   const { close, isOpen, open } = useToggle();
   const { isOpen: isDropdownOpen, toggle } = useToggle();
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const methods = useForm({
+    defaultValues: {
+      selectedUsers: [],
+    },
+  });
+
+  const { handleSubmit, setValue } = methods;
 
   const handleLeave = async () => {
     await GroupService.leaveGroup(id);
   };
 
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const userIds = data.selectedUsers.map((user) => user.userId);
+    const result = await GroupService.inviteFriends(id, userIds);
+    if (result.success) {
+      close();
+    }
+    setValue("selectedUsers", []);
+    setLoading(false);
+  };
+
   return (
     <>
-      <ModalInvite closeModal={close} openModal={isOpen} />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalInvite
+            title="Invite friends to this group"
+            closeModal={close}
+            openModal={isOpen}
+            loading={loading}
+          />
+        </form>
+      </FormProvider>
       <LoadingButton
         type="button"
         onClick={open}

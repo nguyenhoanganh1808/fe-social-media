@@ -76,6 +76,7 @@ const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
     const result = await PostService.createGroupPost(id, data);
 
     if (result.error) {
+      setLoading(false);
       return;
     } else {
       closeDialog();
@@ -83,6 +84,7 @@ const CreatePostInGroupModal = forwardRef(function CreatePostInGroupModal(
       resetFileArray();
       setValue("content", "");
       setValue("topics", []);
+      handlePostCreated(result.data);
     }
     setLoading(false);
 
