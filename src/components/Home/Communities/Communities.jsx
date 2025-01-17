@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { GroupService } from "../../../services/group.service";
 import { useAuth } from "../../../hooks/useAuthContext";
 import { Link } from "react-router-dom";
+import GroupInvitesRequest from "./GroupInvitesRequest";
 // import useFethcInfinityData from '../../../hooks/useFetchInfinityData'
 
 export default function Communities() {
@@ -26,9 +27,11 @@ export default function Communities() {
 
   return (
     <div className={styles.wrapper}>
+      <GroupInvitesRequest />
       <FormCreateGroupModal onCloseModal={close} openModal={isOpen} />
       <div className="flex justify-between items-center h-full">
         <h1 className={styles.header}>Communities</h1>
+
         <LucideCircleButton onClick={open} size={25}>
           <Plus />
         </LucideCircleButton>

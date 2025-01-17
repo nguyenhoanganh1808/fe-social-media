@@ -94,6 +94,35 @@ export const GroupService = {
     };
   },
 
+  async getGroupInvitations() {
+    const url = `${baseUrl}/group/invitations`;
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(`${errorText || "Unknown error"}`);
+        return { error: errorText || "Unknown error" };
+      }
+
+      return {
+        success: true,
+        data: await response.json(),
+      };
+    } catch (e) {
+      toast.error(e.message || "Unknown error");
+      return { error: e.message || "Unknown error" };
+    }
+  },
+
   async addMembers(groupId, userIds) {
     const url = `${baseUrl}/${groupId}/addMember`;
     const token = localStorage.getItem("jwt-token");
@@ -125,6 +154,36 @@ export const GroupService = {
       success: true,
       message: "All users processed",
     };
+  },
+
+  async respondInvitation(data) {
+    const { invitationId, status } = data;
+    const url =
+      `${baseUrl}/invitation/${invitationId}/respond?` +
+      new URLSearchParams({ status: status });
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when respond to invite");
+        return { error: errorText };
+      }
+
+      return {
+        success: true,
+      };
+    } catch (e) {
+      toast.error(e || "Failed when respond to invite");
+      return { error: e };
+    }
   },
 
   async getGroupMembers(groupId, page, size) {

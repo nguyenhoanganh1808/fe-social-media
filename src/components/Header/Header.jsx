@@ -23,6 +23,7 @@ export default function Header() {
         <div>
           <hr className={styles.hr} />
           <NotificationsList />
+
           <FlyOutMenu />
         </div>
       </div>
