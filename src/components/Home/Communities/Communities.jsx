@@ -39,7 +39,7 @@ export default function Communities() {
       <ul className={styles.communitiesList}>
         {groups.map((community) => (
           <Link
-            to={`groups/${community.id}`}
+            to={`groups/${community.id}/`}
             className={`${styles.container} hover:bg-gray-200 p-2 rounded-md`}
             key={community.id}
           >

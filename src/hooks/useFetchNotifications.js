@@ -110,6 +110,7 @@ export default function useFetchNotifications() {
             toast(
               createToastContent({
                 user: newNotification.sender.student.profile,
+                content: newNotification.message,
               }).render(),
               {
                 position: "bottom-right",

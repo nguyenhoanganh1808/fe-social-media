@@ -5,6 +5,7 @@ import Suggest from "../../components/Home/Suggest/Suggest";
 import UserCard from "../../components/Home/UserCard/UserCard";
 import styles from "./HomePage.module.css";
 import { useEffect } from "react";
+import Categories from "../../components/Home/common/Categories";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function HomePage() {
       <div className={styles.suggestContainer}>
         <Suggest />
         <ActiveFriendList />
+        <Categories />
       </div>
     </main>
   );

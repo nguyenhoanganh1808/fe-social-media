@@ -50,7 +50,7 @@ export default function Invite() {
       <LoadingButton
         type="button"
         onClick={open}
-        className="flex items-center gap-2 mr-3"
+        className="flex items-center gap-2 mr-3 h-fit my-auto"
       >
         <Plus size={20} />
         Invite

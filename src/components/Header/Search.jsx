@@ -1,4 +1,5 @@
 import useSearch from "../../hooks/useSearch";
+import { createUserProfile } from "../../lib/utils";
 import { SearchService } from "../../services/search.service";
 import SearchItem from "./SearchItem";
 
@@ -24,32 +25,23 @@ export default function Search() {
             <SearchItem
               onClick={() => setIsShowResult(false)}
               key={result.id}
-              imgUrl=""
+              imgUrl="https://cdn.pixabay.com/photo/2016/11/14/17/39/group-1824145_640.png"
               title={result.name}
               to={`/groups/${result.id}/`}
             />
           ))}
-          {searchResults.users.map((result) => (
-            <SearchItem
-              onClick={() => setIsShowResult(false)}
-              key={result.id}
-              imgUrl={
-                result.student
-                  ? result.student.profile.avatarUrl
-                  : result.lecturer
-                  ? result.lecturer.profile.avatarUrl
-                  : ""
-              }
-              title={
-                result.student
-                  ? result.student.profile.nickName
-                  : result.lecturer
-                  ? result.lecturer.profile.nickName
-                  : "admin"
-              }
-              to={`/profile/${result.id}`}
-            />
-          ))}
+          {searchResults.users.map((result) => {
+            const user = createUserProfile(result);
+            return (
+              <SearchItem
+                onClick={() => setIsShowResult(false)}
+                key={result.id}
+                imgUrl={user.avatarUrl}
+                title={user.nickName}
+                to={`/profile/${result.id}`}
+              />
+            );
+          })}
         </ul>
       )}
     </div>

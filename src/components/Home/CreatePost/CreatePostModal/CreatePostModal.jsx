@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useCallback, useEffect, useState } from "react";
 import styles from "./CreatePostModal.module.css";
 import PropTypes from "prop-types";
 import { Smile, FilesIcon, Link } from "lucide-react";
@@ -19,7 +19,9 @@ import GifPicker from "gif-picker-react";
 import SelectPrivacy from "./SelectPrivacy";
 import LoadingButton from "../../../common/Spinner/LoadingButton";
 import { Dropdown } from "flowbite-react";
-import { topics } from "../../../../lib/constants";
+import { TopicService } from "../../../../services/topic.service";
+import useFetch from "../../../../hooks/useFetch";
+
 const CreatePostModal = forwardRef(function CreatePostModal(
   { closeDialog, handlePostCreated },
   ref
@@ -38,6 +40,9 @@ const CreatePostModal = forwardRef(function CreatePostModal(
     selectedTopics,
   } = useFormCreatePost();
   const { register, handleSubmit, setValue, getValues, reset } = methods;
+  const { data: topics } = useFetch(
+    useCallback(() => TopicService.getTopics(), [])
+  );
 
   useEffect(() => {
     register("topics", { value: [] });
@@ -115,37 +120,38 @@ const CreatePostModal = forwardRef(function CreatePostModal(
                     </div>
                     <div className="ml-auto">
                       <Dropdown label="Add Topics" dismissOnClick={false}>
-                        {topics.map((topic) => (
-                          <Dropdown.Item
-                            key={topic.id}
-                            className="flex justify-between"
-                            onClick={() => handleSelect(topic.id)}
-                          >
-                            {topic.name}
-                            {selectedTopics.includes(topic.id) && (
-                              <span
-                                id="success-icon"
-                                className="inline-flex items-center"
-                              >
-                                <svg
-                                  className="w-3.5 h-3.5 text-blue-700 dark:text-blue-500"
-                                  aria-hidden="true"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 16 12"
+                        {topics &&
+                          topics.map((topic) => (
+                            <Dropdown.Item
+                              key={topic.id}
+                              className="flex justify-between"
+                              onClick={() => handleSelect(topic.id)}
+                            >
+                              {topic.name}
+                              {selectedTopics.includes(topic.id) && (
+                                <span
+                                  id="success-icon"
+                                  className="inline-flex items-center"
                                 >
-                                  <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M1 5.917 5.724 10.5 15 1.5"
-                                  />
-                                </svg>
-                              </span>
-                            )}
-                          </Dropdown.Item>
-                        ))}
+                                  <svg
+                                    className="w-3.5 h-3.5 text-blue-700 dark:text-blue-500"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 16 12"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M1 5.917 5.724 10.5 15 1.5"
+                                    />
+                                  </svg>
+                                </span>
+                              )}
+                            </Dropdown.Item>
+                          ))}
                       </Dropdown>
                     </div>
                   </>

@@ -12,7 +12,13 @@ export default function EduPage() {
 
   if (!isAuthen) {
     return (
-      <div className={"flex w-screen h-[500px] items-center justify-center "}>
+      <div
+        className={"flex w-screen  items-center justify-center "}
+        style={{
+          height: `calc(100vh - 80px)`,
+          background: "linear-gradient(#84cbf3, #ffffff)",
+        }}
+      >
         <IdentityConfirmModal
           openModal={isOpen}
           onCloseModal={close}

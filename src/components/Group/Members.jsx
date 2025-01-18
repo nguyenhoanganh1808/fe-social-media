@@ -9,6 +9,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 import { ModalInvite } from "./ModalInvite";
 import { GroupService } from "../../services/group.service";
+import { UserPopOver } from "../common/UserPopOver";
 
 export default function Members() {
   const { members } = useOutletContext();
@@ -76,11 +77,11 @@ export default function Members() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                {/* <UserPopOver user={member}>
+                <UserPopOver user={member}>
                   <span className="text-sm font-medium text-gray-900 truncate dark:text-white hover:underline hover:cursor-pointer">
                     {member.nickName}
                   </span>
-                </UserPopOver> */}
+                </UserPopOver>
                 <p className="text-sm text-gray-500 truncate dark:text-gray-400">
                   @{member.tagName}
                 </p>

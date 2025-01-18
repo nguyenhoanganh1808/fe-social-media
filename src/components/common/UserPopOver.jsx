@@ -9,6 +9,7 @@ import useToggle from "../../hooks/useToggle";
 import { useState } from "react";
 
 export function UserPopOver({ children, user }) {
+  console.log("user: ", user);
   const { user: loginUser } = useAuth();
   const { close, isOpen, open } = useToggle();
   const [isFollow, setIsFollow] = useState(false);
@@ -34,7 +35,7 @@ export function UserPopOver({ children, user }) {
                 <img
                   className="h-10 w-10 rounded-full"
                   src={user.avatarUrl}
-                  alt={user.nickname}
+                  alt={user.nickName}
                 />
               </Link>
               {loginUser.userId !== user.userId && (
@@ -71,7 +72,7 @@ export function UserPopOver({ children, user }) {
               id="profile-popover"
               className="text-base font-semibold leading-none text-gray-900 dark:text-white"
             >
-              <span>{user.nickname}</span>
+              <span>{user.nickName}</span>
             </p>
             <p className="mb-3 text-sm font-normal">
               <span className="hover:underline">@j{user.tagName}</span>
@@ -81,7 +82,7 @@ export function UserPopOver({ children, user }) {
               <li className="me-2">
                 <span className="hover:underline">
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    {formatNumber(user.followingCount)}
+                    {formatNumber(user.followingCount || 0)}
                   </span>
                   <span> Following</span>
                 </span>
@@ -89,7 +90,7 @@ export function UserPopOver({ children, user }) {
               <li>
                 <span className="hover:underline">
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    {formatNumber(user.followerCount)}
+                    {formatNumber(user.followerCount || 0)}
                   </span>
                   <span> Followers</span>
                 </span>

@@ -27,6 +27,8 @@ import SignInForm from "./components/Login/FormSignIn/SignInForm";
 import OTPForm from "./components/Login/OTPForm/OTPForm";
 import FormCreateStudentProfile from "./components/Login/FormCreateProfile/FormCreateStudentProfile";
 import FormCreateLectureProfile from "./components/Login/FormCreateProfile/FormCreateLectureProfile";
+import SearchPage from "./pages/Search/SearchPage";
+import CategoriesPost from "./components/Home/CategoriesPost";
 
 const routes = createBrowserRouter([
   {
@@ -74,6 +76,10 @@ const routes = createBrowserRouter([
             element: <HomePosts />,
           },
           {
+            path: "posts/filter/:filterId",
+            element: <CategoriesPost />,
+          },
+          {
             path: "posts/:id",
             element: <PostDetail />,
           },
@@ -86,6 +92,10 @@ const routes = createBrowserRouter([
       {
         path: "/message/:id",
         element: <MessagePage />,
+      },
+      {
+        path: "/search/:query",
+        element: <SearchPage />,
       },
       {
         path: "/groups/:id",

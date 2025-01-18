@@ -19,6 +19,11 @@ export default function GroupInvitesRequest() {
     fetch();
   }, []);
 
+  const deleteInvitation = (invitationId) => {
+    const newInvitations = invitations.filter((i) => i.id !== invitationId);
+    setInvitations(newInvitations);
+  };
+
   if (loading) {
     return null;
   }
@@ -38,6 +43,7 @@ export default function GroupInvitesRequest() {
       <ModalViewInvitations
         invitations={invitations}
         isOpen={isOpen}
+        deleteInvitation={deleteInvitation}
         close={close}
       />
     </>

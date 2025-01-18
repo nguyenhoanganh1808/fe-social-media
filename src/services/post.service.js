@@ -237,6 +237,36 @@ export const PostService = {
     }
   },
 
+  async getFeedByFilterId(page, size, topicId) {
+    const url =
+      baseUrl +
+      "/getPostsByTopic?" +
+      new URLSearchParams({ size: size, page: page, topicId: topicId });
+
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts");
+      }
+
+      const data = await response.json();
+
+      const posts = data.map((post) => createPost(post));
+
+      return posts;
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
   async getSavedPost(page, size) {
     const url = baseUrl + "/getSavedPosts" + `?size=${size}&page=${page}`;
 

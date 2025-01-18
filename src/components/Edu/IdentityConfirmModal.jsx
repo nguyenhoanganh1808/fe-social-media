@@ -61,7 +61,7 @@ export default function IdentityConfirmModal({ setIsAuthen }) {
   };
   return (
     <form
-      className="flex-1 max-w-xl"
+      className="flex-1 max-w-md shadow-lg p-12 rounded-md"
       onSubmit={handleSubmit(onSubmit)}
       action=""
     >

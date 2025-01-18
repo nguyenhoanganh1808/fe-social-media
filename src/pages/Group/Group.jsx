@@ -16,40 +16,48 @@ import { createUserProfile } from "../../lib/utils";
 export default function Group() {
   const { id } = useParams();
   const [group, setGroup] = useState({
-    name: "",
+    name: "Loading...",
     description: "",
     id: 0,
-    members: [
-      {
-        userId: "",
-
-        nickName: "",
-        tagname: "",
-        avatarUrl: "",
-      },
-    ],
+    members: [],
   });
 
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   const fetchGroupDetail = useCallback(async () => {
-    setLoading(true);
-    const result = await GroupService.getGroupDetail(id);
-    const getMemResult = await GroupService.getGroupMembers(id, 0, 10);
-
-    if (result.success && getMemResult.success) {
-      setGroup({
-        ...result.data,
-        members: getMemResult.data.map((user) => createUserProfile(user)),
-      });
+    if (sessionStorage.getItem(`group_${id}`)) {
+      setGroup(JSON.parse(sessionStorage.getItem(`group_${id}`)));
+      return;
     }
-    setLoading(false);
+
+    setLoading(true);
+    try {
+      const result = await GroupService.getGroupDetail(id);
+      const getMemResult = await GroupService.getGroupMembers(id, 0, 10);
+
+      if (result.success && getMemResult.success) {
+        const groupData = {
+          ...result.data,
+          members: getMemResult.data.map((user) => createUserProfile(user)),
+        };
+        setGroup(groupData);
+        sessionStorage.setItem(`group_${id}`, JSON.stringify(groupData));
+      } else {
+        throw new Error("Failed to fetch group data.");
+      }
+    } catch (error) {
+      console.error("Error fetching group details:", error.message);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
-    fetchGroupDetail();
-  }, [fetchGroupDetail]);
+    if (id) {
+      fetchGroupDetail();
+    }
+  }, [id, fetchGroupDetail]);
 
   if (loading) {
     return (
@@ -63,9 +71,9 @@ export default function Group() {
     <div className="w-full flex flex-col">
       <div className="bg-white mx-auto w-full lg:px-52 px-3 shadow-sm">
         <div className="block w-full h-[400px] bg-black"></div>
-        <div className="mt-3 flex lg:flex-row flex-col justify-between">
-          <div>
-            <h3 className="font-semibold text-3xl">{group.name}</h3>
+        <div className="lg:flex lg:flex-row flex-col justify-between">
+          <div className="lg:w-2/3">
+            <h3 className="font-semibold text-2xl lg:text-3xl">{group.name}</h3>
             <Link
               to={`groups/${id}/members`}
               className="text-gray-500 hover:underline"
@@ -74,11 +82,11 @@ export default function Group() {
             </Link>
             <AvatarList members={group.members} />
           </div>
-
-          <div className="mt-auto">
+          <div className="mt-4 lg:mt-0 lg:w-1/3 flex justify-end">
             <Invite />
           </div>
         </div>
+
         <hr className="h-px mt-4 bg-gray-400 border-0 dark:bg-gray-700" />
         <ul className="space-x-6 py-5">
           {groupNavItem.map((item) => (
@@ -87,8 +95,8 @@ export default function Group() {
               className={({ isActive }) =>
                 (isActive && item.to !== "") ||
                 `/groups/${id}/${item.to}` === location.pathname
-                  ? "text-blue-500 underline-offset-1"
-                  : "text-gray-500"
+                  ? "text-blue-500 underline underline-offset-4 font-semibold"
+                  : "text-gray-500 hover:text-blue-400"
               }
               key={item.title}
             >

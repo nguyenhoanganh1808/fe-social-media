@@ -6,7 +6,8 @@ export const createToastContent = ({
     avatarUrl:
       "https://firebasestorage.googleapis.com/v0/b/uit-social-network-f592d.appspot.com/o/female-default-avatar.png?alt=media&token=248e1df8-df98-44ba-803b-56e620f1c762",
   },
-  type = "post",
+
+  content,
 }) => {
   return {
     render: () => (
@@ -38,13 +39,7 @@ export const createToastContent = ({
             </span>
           </div>
           <div className="ms-3 text-sm font-normal">
-            <div className="text-sm font-semibold text-gray-900 dark:text-white">
-              {user.nickname}
-            </div>
-            <div className="text-sm font-normal">commented on your {type}</div>
-            <span className="text-xs font-medium text-blue-600 dark:text-blue-500">
-              a few seconds ago
-            </span>
+            <div className="text-sm font-normal">{content}</div>
           </div>
         </div>
       </div>
@@ -57,5 +52,6 @@ createToastContent.propTypes = {
     nickName: PropTypes.string.isRequired,
     avatarUrl: PropTypes.string.isRequired,
   }),
-  type: PropTypes.string.isRequired,
+
+  content: PropTypes.string.isRequired,
 };
