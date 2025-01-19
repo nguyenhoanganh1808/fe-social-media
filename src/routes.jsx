@@ -29,6 +29,9 @@ import FormCreateStudentProfile from "./components/Login/FormCreateProfile/FormC
 import FormCreateLectureProfile from "./components/Login/FormCreateProfile/FormCreateLectureProfile";
 import SearchPage from "./pages/Search/SearchPage";
 import CategoriesPost from "./components/Home/CategoriesPost";
+import MessageDetail from "./components/Message/MessageDetail/MessageDetail";
+import MessageGroupChat from "./components/Message/GroupChatDetail/MessageGroupChat";
+import Chats from "./components/Message/MessageDetail/Chats/Chats";
 
 const routes = createBrowserRouter([
   {
@@ -88,11 +91,18 @@ const routes = createBrowserRouter([
       {
         path: "/message",
         element: <MessagePage />,
+        children: [
+          {
+            path: ":id",
+            element: <MessageDetail />,
+          },
+          {
+            path: "group-chat/:id",
+            element: <MessageGroupChat />,
+          },
+        ],
       },
-      {
-        path: "/message/:id",
-        element: <MessagePage />,
-      },
+
       {
         path: "/search/:query",
         element: <SearchPage />,

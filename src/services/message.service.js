@@ -179,6 +179,45 @@ export const MessageService = {
     }
   },
 
+  async sendMessageToGroup(groupId, data) {
+    const url = `${baseUrl}/group/send`;
+    const token = localStorage.getItem("jwt-token");
+
+    const { message } = data;
+    const formData = new FormData();
+    const sendGroupMessageString = JSON.stringify({
+      chatGroupId: groupId,
+      messageContent: message,
+    });
+    formData.append("sendGroupMessageString ", sendGroupMessageString);
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
+      }
+
+      return { success: true, data: await response.json() };
+    } catch (e) {
+      toast.error(e || "An error occurred while sending message");
+      return {
+        error: e || "An error occurred while sending message",
+      };
+    }
+  },
+
   async sendMessageWithMediaFileToUser(userId, data) {
     const url = `${baseUrl}/oneToOne/send`;
     const token = localStorage.getItem("jwt-token");

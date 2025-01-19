@@ -11,7 +11,12 @@ import useFormMessage from "../../../../hooks/useFormMessage";
 import FileInput from "./FileInput";
 import { FormProvider } from "react-hook-form";
 
-export default function MessageInput({ receiverId, setMessageData }) {
+export default function MessageInput({
+  receiverId,
+  setMessageData,
+  apiCall,
+  ref,
+}) {
   const {
     methods,
     handleEmojiClick,
@@ -27,7 +32,7 @@ export default function MessageInput({ receiverId, setMessageData }) {
     startRecording,
     stopRecording,
     time,
-  } = useFormMessage(setMessageData, receiverId);
+  } = useFormMessage(setMessageData, receiverId, apiCall, ref);
   return (
     <>
       <FormProvider {...methods}>
@@ -140,4 +145,6 @@ export default function MessageInput({ receiverId, setMessageData }) {
 MessageInput.propTypes = {
   receiverId: PropTypes.string.isRequired,
   setMessageData: PropTypes.func.isRequired,
+  apiCall: PropTypes.func.isRequired,
+  ref: PropTypes.any,
 };

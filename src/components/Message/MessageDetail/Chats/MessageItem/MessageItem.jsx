@@ -64,6 +64,11 @@ export default function MessageItem({ messageData }) {
         <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
           <p className="text-sm font-normal text-gray-900 dark:text-white">
             {messageData.content}
+            {mediaType === "IMAGE" || mediaType === "VIDEO" ? (
+              <ImagesGallery medias={messageData.mediaFiles} />
+            ) : (
+              <FileView files={messageData.mediaFiles} />
+            )}
           </p>
         </div>
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">

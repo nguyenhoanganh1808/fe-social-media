@@ -1,13 +1,13 @@
-import Info from "./Info/Info";
-import styles from "./MessageDetail.module.css";
+import Info from "../MessageDetail/Info/Info";
+import styles from "../MessageDetail/MessageDetail.module.css";
 import { PhoneIcon, VideoIcon, InfoIcon } from "lucide-react";
 import useToggle from "../../../hooks/useToggle";
 
 import { useOutletContext, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import Chats from "./Chats/Chats";
+import GroupChat from "./GroupChats";
 
-export default function MessageDetail() {
+export default function MessageGroupChat() {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
   const {
     isOpen: isMobileInfoOpen,
@@ -60,7 +60,7 @@ export default function MessageDetail() {
           </div>
         </div>
         {/* <Outlet context={{ otherUser: user }} /> */}
-        <Chats otherUser={user} />
+        <GroupChat otherUser={user} />
       </div>
       {isInfoOpen && (
         <Info userInfo={user.profile} closeInfoMobile={closeMobileInfo} />
@@ -69,7 +69,7 @@ export default function MessageDetail() {
   );
 }
 
-MessageDetail.propTypes = {
+MessageGroupChat.propTypes = {
   conversations: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

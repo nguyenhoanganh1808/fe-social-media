@@ -9,11 +9,12 @@ export default function ChatGroupList() {
     ChatGroupService.getChatGroup
   );
   const { user } = useAuth();
-
+  console.log("data: ", data);
   return (
     <div>
       <ul ref={container}>
         {data.map((conversation) => {
+          console.log("conver: ", conversation);
           const author =
             conversation.lastMessage?.senderId.id === user.userId
               ? "You"
@@ -24,19 +25,23 @@ export default function ChatGroupList() {
 
           return (
             <NavLink
-              key={data.id}
+              key={conversation.id}
               className={({ isActive }) =>
                 `${styles.container} ${isActive ? "bg-blue-100" : ""}`
               }
-              to={`/message/${conversation.id}`}
+              to={`/message/group-chat/${conversation.id}`}
             >
               <div className={styles.avatarContainer}>
-                <img className={styles.avatar} src={data.avatarUrl} alt="" />
+                <img
+                  className={styles.avatar}
+                  src={conversation.avatarUrl}
+                  alt=""
+                />
                 {<span className={styles.dot}></span>}
               </div>
               <div className="md:block hidden">
                 <span className="font-semibold text-black">
-                  {data.groupName}
+                  {conversation.groupName}
                 </span>
                 <p className={styles.chat}>
                   <strong>{author}: </strong>{" "}

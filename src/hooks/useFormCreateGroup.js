@@ -59,5 +59,6 @@ export default function useFormCreateGroup(apiCall, onCloseModal) {
     filterUsers,
     validationRules,
     loading,
+    setLoading,
   };
 }

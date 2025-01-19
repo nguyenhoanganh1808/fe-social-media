@@ -5,9 +5,9 @@ export default function ImagesGallery({ medias }) {
     window.open(url, "_blank");
   };
 
-  return medias.map((file) => {
+  return medias.map((file, index) => {
     return (
-      <div key={file.name} className="group flex flex-row relative my-2.5">
+      <div key={index} className="group flex flex-row relative my-2.5">
         <div className="absolute w-full h-full bg-gray-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-wrap items-center justify-center">
           <button
             onClick={() => handleDownload(file.url)}

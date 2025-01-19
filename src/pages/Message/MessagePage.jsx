@@ -1,9 +1,8 @@
 import MessageSideBar from "../../components/Message/MessageSideBar/MessageSideBar";
-import MessageDetail from "../../components/Message/MessageDetail/MessageDetail";
 import styles from "./MessagePage.module.css";
 import useFetchConversations from "../../hooks/useFetchConversations";
 import SpinningContainer from "../../components/common/SpinningContainer";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function MessagePage() {
@@ -35,7 +34,8 @@ export default function MessagePage() {
         pendingConversations={pendingConversations}
         isLoadingPending={isLoadingPending}
       />
-      <MessageDetail conversations={conversations} />
+      <Outlet context={{ conversations }} />
+      {/* <MessageDetail conversations={conversations} /> */}
     </div>
   );
 }

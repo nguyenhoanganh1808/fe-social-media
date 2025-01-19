@@ -32,7 +32,9 @@ export default function useFetchMessages() {
       }
       setLoading(false);
       requestAnimationFrame(() => {
-        chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+        if (chatListRef.current) {
+          chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+        }
       });
     }
     fetch();
@@ -87,7 +89,18 @@ export default function useFetchMessages() {
           if (change.type === "added") {
             const newMessage = { id: change.doc.id, ...change.doc.data() };
             console.log("New message added:", newMessage);
-            setMessageData((prevData) => [newMessage, ...prevData]);
+            setMessageData((prevData) => {
+              const updatedData = [newMessage, ...prevData];
+
+              requestAnimationFrame(() => {
+                if (chatListRef.current) {
+                  chatListRef.current.scrollTop =
+                    chatListRef.current.scrollHeight;
+                }
+              });
+
+              return updatedData;
+            });
           }
         });
       },

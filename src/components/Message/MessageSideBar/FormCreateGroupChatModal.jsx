@@ -20,22 +20,16 @@ export default function FormCreateGroupChatModal({
     searchValue,
     setSearchValue,
     loading,
-    validationRules,
-  } = useFormCreateGroup(ChatGroupService.CreateChatGroup);
 
-  const handleFormSubmit = async (data) => {
-    const response = await onSubmit(data);
-    if (response.success) {
-      onCloseModal();
-    }
-  };
+    validationRules,
+  } = useFormCreateGroup(ChatGroupService.CreateChatGroup, onCloseModal);
 
   return (
     <Modal show={isOpenModal} size="md" onClose={onCloseModal} popup>
       <Modal.Header>Create new group chat</Modal.Header>
       <Modal.Body>
         <form
-          onSubmit={handleSubmit(handleFormSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-4"
           noValidate
         >
@@ -87,18 +81,18 @@ export default function FormCreateGroupChatModal({
                 className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton"
               >
-                {filterUsers.map((user) => (
-                  <li key={user.id}>
+                {filterUsers.map((user, index) => (
+                  <li key={`${user.userId}-${index}`}>
                     <div className="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                       <input
-                        id={`member-${user.id}`}
+                        id={`member-${user.userId}`}
                         {...register("memberIds")}
                         type="checkbox"
-                        value={user.id}
+                        value={user.userId}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
-                        htmlFor={`member-${user.id}`}
+                        htmlFor={`member-${user.userId}`}
                         className="w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         <a
@@ -110,7 +104,7 @@ export default function FormCreateGroupChatModal({
                             src={user.avatarUrl}
                             alt="Jese image"
                           />
-                          {user.nickname}
+                          {user.nickName}
                         </a>
                       </label>
                     </div>
