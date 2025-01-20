@@ -15,10 +15,11 @@ export default function ChatGroupList() {
       <ul ref={container}>
         {data.map((conversation) => {
           console.log("conver: ", conversation);
-          const author =
-            conversation.lastMessage?.senderId.id === user.userId
-              ? "You"
-              : conversation.lastMessage?.senderId.nickname;
+          // const author =
+          //   conversation.lastMessage?.senderId.id === user.userId
+          //     ? "You"
+          //     : conversation.lastMessage?.senderId.nickname;
+          const author = "You";
           const createdAt = formatRelativeTime(
             conversation.lastMessage?.createdAt
           );

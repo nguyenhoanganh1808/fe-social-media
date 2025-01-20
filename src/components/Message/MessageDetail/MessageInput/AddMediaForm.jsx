@@ -7,6 +7,7 @@ import { useAuth } from "../../../../hooks/useAuthContext";
 import { MessageService } from "../../../../services/message.service";
 import FileList from "./FileList";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function AddMediaForm({
   isOpenModal,
@@ -19,19 +20,24 @@ export default function AddMediaForm({
   const { register, handleSubmit, setValue } = useFormContext();
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-
+  const { id, chatType } = useParams();
+  console.log("chatType: ", chatType);
   const onSubmit = async (data) => {
     setLoading(true);
     const pendingMessage = {
       id: `pending-${Date.now()}`,
       content: data.caption,
       createdAt: new Date(),
-      senderId: { id: user.userId, nickname: user.nickName },
+      senderId: { id: user.userId, nickName: user.nickName },
       state: "pending",
       mediaFiles: mediaFiles,
     };
-    setMessageData((prevMessages) => [pendingMessage, ...prevMessages]);
-    await MessageService.sendMessageWithMediaFileToUser(receiverId, data);
+    if (chatType && chatType === "group-chat") {
+      await MessageService.sendMessageWithMediaFileToGroup(id, data);
+    } else {
+      await MessageService.sendMessageWithMediaFileToUser(receiverId, data);
+    }
+    // setMessageData((prevMessages) => [pendingMessage, ...prevMessages]);
 
     setMessageData((prevMessages) =>
       prevMessages.filter((msg) => msg.id !== pendingMessage.id)

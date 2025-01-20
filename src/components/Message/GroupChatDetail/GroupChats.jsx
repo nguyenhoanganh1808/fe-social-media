@@ -1,5 +1,4 @@
 import styles from "../MessageDetail/Chats/Chats.module.css";
-import PropTypes from "prop-types";
 import MessageInput from "../MessageDetail/MessageInput/MessageInput";
 import MessageItem from "../MessageDetail/Chats/MessageItem/MessageItem";
 import SpinningContainer from "../../common/SpinningContainer";
@@ -7,10 +6,14 @@ import useFetchMessages from "../../../hooks/useFetchMessages";
 import { useParams } from "react-router-dom";
 import { MessageService } from "../../../services/message.service";
 
-export default function GroupChat({ otherUser }) {
-  const { loading, isFetchingMore, chatListRef, messageData, setMessageData } =
-    useFetchMessages();
+export default function GroupChat() {
   const { id } = useParams();
+
+  const { loading, isFetchingMore, chatListRef, messageData, setMessageData } =
+    useFetchMessages({
+      collectionPath: "chat_groups",
+      conversationId: id,
+    });
 
   return (
     <>
@@ -38,16 +41,3 @@ export default function GroupChat({ otherUser }) {
     </>
   );
 }
-
-GroupChat.propTypes = {
-  otherUser: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    userId: PropTypes.string.isRequired,
-
-    otherUser: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      nickname: PropTypes.string.isRequired,
-      otherUser: PropTypes.object,
-    }),
-  }),
-};

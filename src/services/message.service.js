@@ -5,10 +5,17 @@ import { AuthService } from "./auth.service";
 const baseUrl = API_ENDPOINT + "/messages";
 
 export const MessageService = {
-  async getMessage(conversationId, page, size) {
-    const url =
-      `${baseUrl}/conversation/${conversationId}?` +
-      new URLSearchParams({ page: page, size: size });
+  async getMessage(collectionPath, conversationId, page, size) {
+    let url;
+    if (collectionPath === "conversations") {
+      url =
+        `${baseUrl}/conversation/${conversationId}?` +
+        new URLSearchParams({ page: page, size: size });
+    } else {
+      url =
+        `${baseUrl}/group/${conversationId}?` +
+        new URLSearchParams({ page: page, size: size });
+    }
     const token = localStorage.getItem("jwt-token");
 
     try {
@@ -229,6 +236,57 @@ export const MessageService = {
       content: caption,
     });
     formData.append("sendMessageString ", sendMessageString);
+
+    if (document.length > 0) {
+      for (let i = 0; i < document.length; i++) {
+        formData.append("mediaFiles", document[i]);
+      }
+    }
+
+    if (photoOrVideo.length > 0) {
+      photoOrVideo.forEach((file) => {
+        formData.append("mediaFiles", file);
+      });
+    }
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText);
+        return {
+          error: errorText,
+        };
+      }
+
+      return { success: true };
+    } catch (e) {
+      toast.error(e || "An error occurred while sending message");
+      return {
+        error: e || "An error occurred while sending message",
+      };
+    }
+  },
+
+  async sendMessageWithMediaFileToGroup(groupId, data) {
+    const url = `${baseUrl}/group/send`;
+    const token = localStorage.getItem("jwt-token");
+
+    const { caption, document, photoOrVideo } = data;
+    const formData = new FormData();
+    const sendGroupMessageString = JSON.stringify({
+      chatGroupId: groupId,
+      messageContent: caption,
+    });
+    formData.append("sendGroupMessageString  ", sendGroupMessageString);
 
     if (document.length > 0) {
       for (let i = 0; i < document.length; i++) {

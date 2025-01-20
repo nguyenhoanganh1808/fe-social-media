@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import { MessageService } from "../services/message.service";
 import { db } from "../config/firebase-config";
 import {
@@ -11,21 +10,27 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-export default function useFetchMessages() {
+export default function useFetchMessages({
+  conversationId,
+  collectionPath,
+  pageSize = 10,
+}) {
   const [messageData, setMessageData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const chatListRef = useRef(null);
-  const pageSize = 10;
-
-  const { id } = useParams();
 
   useEffect(() => {
     async function fetch() {
       setLoading(true);
-      const result = await MessageService.getMessage(id, 0, 10);
+      const result = await MessageService.getMessage(
+        collectionPath,
+        conversationId,
+        0,
+        pageSize
+      );
       if (result.success) {
         setMessageData(result.data);
         setHasMore(result.data.length === pageSize);
@@ -38,7 +43,7 @@ export default function useFetchMessages() {
       });
     }
     fetch();
-  }, [id]);
+  }, [conversationId, pageSize, collectionPath]);
 
   const fetchMoreMessages = useCallback(async () => {
     if (!hasMore || isFetchingMore || !chatListRef.current) return;
@@ -51,7 +56,8 @@ export default function useFetchMessages() {
 
     try {
       const result = await MessageService.getMessage(
-        id,
+        collectionPath,
+        conversationId,
         currentPage + 1,
         pageSize
       );
@@ -71,10 +77,17 @@ export default function useFetchMessages() {
     } finally {
       setIsFetchingMore(false);
     }
-  }, [hasMore, id, isFetchingMore, currentPage, pageSize]);
+  }, [
+    hasMore,
+    isFetchingMore,
+    collectionPath,
+    conversationId,
+    currentPage,
+    pageSize,
+  ]);
 
   useEffect(() => {
-    const conversationRef = doc(db, "conversations", id);
+    const conversationRef = doc(db, collectionPath, conversationId);
     const messagesRef = collection(conversationRef, "messages");
     const messagesQuery = query(
       messagesRef,
@@ -110,7 +123,7 @@ export default function useFetchMessages() {
     );
 
     return () => unsubscribe();
-  }, [id]);
+  }, [conversationId, collectionPath]);
 
   useEffect(() => {
     const handleScroll = () => {

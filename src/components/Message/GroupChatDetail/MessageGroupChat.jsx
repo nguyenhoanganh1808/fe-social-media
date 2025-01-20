@@ -22,10 +22,7 @@ export default function MessageGroupChat() {
     (conv) => conv.id === parseInt(id)
   );
   console.log("currentConver: ", currentConversation);
-  const user = currentConversation
-    ? currentConversation.otherUser.student ||
-      currentConversation.otherUser.lecturer
-    : { avatarUrl: "", nickname: "" };
+  const user = { avatarUrl: "", nickName: "" };
 
   return (
     <>
@@ -40,15 +37,11 @@ export default function MessageGroupChat() {
         <div className={styles.headerContainer}>
           <div>
             <div className={styles.avatarContainer}>
-              <img
-                className={styles.avatar}
-                src={user.profile.avatarUrl}
-                alt=""
-              />
+              <img className={styles.avatar} src={user.avatarUrl} alt="" />
               <span className={styles.dot}></span>
             </div>
             <div className="truncate">
-              <p className={styles.name}>{user.profile.nickName}</p>
+              <p className={styles.name}>{user.nickName}</p>
               Active now
             </div>
           </div>
@@ -63,7 +56,10 @@ export default function MessageGroupChat() {
         <GroupChat otherUser={user} />
       </div>
       {isInfoOpen && (
-        <Info userInfo={user.profile} closeInfoMobile={closeMobileInfo} />
+        <Info
+          userInfo={{ avatarUrl: "", nickName: "", isOnline: false }}
+          closeInfoMobile={closeMobileInfo}
+        />
       )}
     </>
   );
