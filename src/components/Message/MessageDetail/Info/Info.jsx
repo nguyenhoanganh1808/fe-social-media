@@ -2,13 +2,7 @@ import Avatar from "../../../Avatar/Avatar";
 import styles from "./Info.module.css";
 import PropTypes from "prop-types";
 import LucideCIrcleButton from "../../../Button/LucideCircleButton/LucideCircleButton";
-import {
-  Bell,
-  ChevronLeft,
-  CircleUserRound,
-  Ellipsis,
-  Search,
-} from "lucide-react";
+import { Bell, ChevronLeft, CircleUserRound, Search } from "lucide-react";
 import ListGroupItem from "./ListGroupItem/ListGroupItem";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

@@ -3,31 +3,40 @@ import styles from "../MessageDetail/MessageDetail.module.css";
 import { PhoneIcon, VideoIcon, InfoIcon } from "lucide-react";
 import useToggle from "../../../hooks/useToggle";
 
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import GroupChat from "./GroupChats";
+import { useCallback } from "react";
+import useFetch from "../../../hooks/useFetch";
+import { ChatGroupService } from "../../../services/chat-group.service";
 
 export default function MessageGroupChat() {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
+  const { id } = useParams();
+  const { data: groupChatDetail, loading } = useFetch(
+    useCallback(() => ChatGroupService.getGroupChatById(id), [id])
+  );
   const {
     isOpen: isMobileInfoOpen,
     toggle: toggleMobileInfo,
     close: closeMobileInfo,
   } = useToggle();
-  const { conversations } = useOutletContext();
-  const { id } = useParams();
-  if (!id) return;
 
-  const currentConversation = conversations?.find(
-    (conv) => conv.id === parseInt(id)
-  );
-  console.log("currentConver: ", currentConversation);
-  const user = { avatarUrl: "", nickName: "" };
+  console.log("groupChatDetail: ", groupChatDetail);
+
+  if (loading) return null;
 
   return (
     <>
       {isMobileInfoOpen && (
-        <Info userInfo={user.profile} closeInfoMobile={closeMobileInfo} />
+        <Info
+          userInfo={{
+            avatarUrl: groupChatDetail?.avatarUrl,
+            nickName: groupChatDetail?.groupName,
+            isOnline: false,
+          }}
+          closeInfoMobile={closeMobileInfo}
+        />
       )}
       <div
         className={`${styles.wrapper} ${
@@ -37,11 +46,15 @@ export default function MessageGroupChat() {
         <div className={styles.headerContainer}>
           <div>
             <div className={styles.avatarContainer}>
-              <img className={styles.avatar} src={user.avatarUrl} alt="" />
+              <img
+                className={styles.avatar}
+                src={groupChatDetail?.avatarUrl}
+                alt=""
+              />
               <span className={styles.dot}></span>
             </div>
             <div className="truncate">
-              <p className={styles.name}>{user.nickName}</p>
+              <p className={styles.name}>{groupChatDetail?.groupName}</p>
               Active now
             </div>
           </div>
@@ -53,11 +66,15 @@ export default function MessageGroupChat() {
           </div>
         </div>
         {/* <Outlet context={{ otherUser: user }} /> */}
-        <GroupChat otherUser={user} />
+        <GroupChat groupChatDetail={groupChatDetail} />
       </div>
       {isInfoOpen && (
         <Info
-          userInfo={{ avatarUrl: "", nickName: "", isOnline: false }}
+          userInfo={{
+            avatarUrl: groupChatDetail?.avatarUrl,
+            nickName: groupChatDetail?.groupName,
+            isOnline: false,
+          }}
           closeInfoMobile={closeMobileInfo}
         />
       )}

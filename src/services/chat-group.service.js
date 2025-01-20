@@ -148,6 +148,40 @@ export const ChatGroupService = {
     }
   },
 
+  async getGroupChatById(chatGroupId) {
+    const token = localStorage.getItem("jwt-token");
+    const url = `${baseUrl}/getChatGroupById/${chatGroupId}`;
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to get group.");
+        return {
+          error: errorText,
+        };
+      }
+
+      return {
+        success: true,
+        data: await response.json(),
+      };
+    } catch (e) {
+      console.error("Failed to get group.", e);
+      toast.error("An error occurred while get group.");
+      return {
+        error: e,
+      };
+    }
+  },
+
   async CreateChatGroup(data) {
     const token = localStorage.getItem("jwt-token");
     const url = `${baseUrl}/createChatGroup`;

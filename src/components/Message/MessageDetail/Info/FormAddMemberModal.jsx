@@ -1,9 +1,7 @@
 import { Modal } from "flowbite-react";
 
-import useFormCreateGroup from "../../../../hooks/useFormCreateGroup";
 import PropTypes from "prop-types";
 import { ChatGroupService } from "../../../../services/chat-group.service";
-import Input from "../../../common/Input";
 import LoadingButton from "../../../common/Spinner/LoadingButton";
 import { SearchService } from "../../../../services/search.service";
 import { createUserProfile } from "../../../../lib/utils";
@@ -197,4 +195,5 @@ export default function FormAddMemberModal({
 FormAddMemberModal.propTypes = {
   isOpenModal: PropTypes.bool.isRequired,
   onCloseModal: PropTypes.func.isRequired,
+  setMembers: PropTypes.func.isRequired,
 };

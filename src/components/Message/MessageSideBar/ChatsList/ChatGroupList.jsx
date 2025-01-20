@@ -1,28 +1,26 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useRouteLoaderData } from "react-router-dom";
 import useFethcInfinityData from "../../../../hooks/useFetchInfinityData";
 import { ChatGroupService } from "../../../../services/chat-group.service";
 import styles from "./ChatItem/ChatItem.module.css";
 import { useAuth } from "../../../../hooks/useAuthContext";
-import { formatRelativeTime } from "../../../../lib/utils";
+import { createUserProfile, formatRelativeTime } from "../../../../lib/utils";
 export default function ChatGroupList() {
   const { data, container } = useFethcInfinityData(
     ChatGroupService.getChatGroup
   );
+
   const { user } = useAuth();
-  console.log("data: ", data);
+
   return (
     <div>
       <ul ref={container}>
         {data.map((conversation) => {
           console.log("conver: ", conversation);
-          // const author =
-          //   conversation.lastMessage?.senderId.id === user.userId
-          //     ? "You"
-          //     : conversation.lastMessage?.senderId.nickname;
-          const author = "You";
-          const createdAt = formatRelativeTime(
-            conversation.lastMessage?.createdAt
-          );
+          let displayAuthor = "";
+          if (conversation.lastMessageSender) {
+            const author = createUserProfile(conversation.lastMessageSender);
+            displayAuthor = author.id === user.userId ? "You" : author.nickName;
+          }
 
           return (
             <NavLink
@@ -45,8 +43,8 @@ export default function ChatGroupList() {
                   {conversation.groupName}
                 </span>
                 <p className={styles.chat}>
-                  <strong>{author}: </strong>{" "}
-                  {conversation.lastMessage?.content} - {createdAt}
+                  <strong>{displayAuthor}: </strong>{" "}
+                  {conversation.lastMessage ? conversation.lastMessage : ""}
                 </p>
               </div>
             </NavLink>
