@@ -1,9 +1,9 @@
-import { NavLink, useRouteLoaderData } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import useFethcInfinityData from "../../../../hooks/useFetchInfinityData";
 import { ChatGroupService } from "../../../../services/chat-group.service";
 import styles from "./ChatItem/ChatItem.module.css";
 import { useAuth } from "../../../../hooks/useAuthContext";
-import { createUserProfile, formatRelativeTime } from "../../../../lib/utils";
+import { createUserProfile } from "../../../../lib/utils";
 export default function ChatGroupList() {
   const { data, container } = useFethcInfinityData(
     ChatGroupService.getChatGroup

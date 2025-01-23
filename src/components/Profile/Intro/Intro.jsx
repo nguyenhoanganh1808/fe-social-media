@@ -67,24 +67,26 @@ export default function Intro({ userInfo }) {
           Edit Bio
         </EditButton>
       )}
-      <div className={styles.detailContainer}>
-        <GraduationCap size={20} />
-        {user.informationDetail.major && (
+      {user.informationDetail.major && (
+        <div className={styles.detailContainer}>
+          <GraduationCap size={20} />
+
           <p> Study {userInfo.informationDetail.major} at UIT</p>
-        )}
-      </div>
-      <div className={styles.detailContainer}>
-        <MapPin size={20} />
-        {user.informationDetail.homeTown !== "" && (
+        </div>
+      )}
+      {user.informationDetail.homeTown && (
+        <div className={styles.detailContainer}>
+          <MapPin size={20} />
+
           <p>{userInfo.informationDetail.homeTown}</p>
-        )}
-      </div>
-      <div className={styles.detailContainer}>
-        <House size={20} />
-        {user.informationDetail.currentCity !== "" && (
+        </div>
+      )}
+      {user.informationDetail.currentCity && (
+        <div className={styles.detailContainer}>
+          <House size={20} />
           <p>Live at {userInfo.informationDetail.currentCity}</p>
-        )}
-      </div>
+        </div>
+      )}
       {id === user.userId && (
         <Link to={`/profile/${user.id}/about/work-and-education`}>
           <EditButton>Edit Details</EditButton>

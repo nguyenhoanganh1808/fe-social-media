@@ -38,6 +38,39 @@ export const EduService = {
       };
     }
   },
+
+  async fetchStudentProfile() {
+    const token = getCookie("eduAuthToken");
+    const url =
+      `${baseUrl}/fetchStudentProfile?` +
+      new URLSearchParams({
+        token: token,
+      });
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to fetch student profile");
+        return {
+          error: errorText,
+        };
+      }
+
+      return {
+        success: true,
+        data: await response.json(),
+      };
+    } catch (e) {
+      toast.error(e || "Failed to fetch student profile");
+      return {
+        error: e || "Failed to fetch student profile",
+      };
+    }
+  },
   async fetchNotification() {
     const token = getCookie("eduAuthToken");
     const url =
