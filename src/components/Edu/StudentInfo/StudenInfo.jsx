@@ -6,23 +6,12 @@ export default function StudentInfo() {
   const { data: studentData, loading } = useFetch(
     EduService.fetchStudentProfile
   );
-  if (loading) {
+  if (loading || !studentData) {
     return <SpinningContainer />;
-  }
-
-  if (!studentData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10">
-        <p className="text-red-500 text-lg font-semibold">
-          Unable to load student data. Please try again later.
-        </p>
-      </div>
-    );
   }
 
   const {
     student: {
-      id,
       sid,
       course,
       profile: {

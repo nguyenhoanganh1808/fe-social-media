@@ -6,12 +6,15 @@ import { getCookie } from "../lib/utils";
 const baseUrl = API_ENDPOINT + "/educations";
 
 export const EduService = {
-  async fetchExamSchedule() {
+  async fetchExamSchedule(examType, semester, year) {
     const token = getCookie("eduAuthToken");
     const url =
       `${baseUrl}/fetchExamSchedule?` +
       new URLSearchParams({
         token: token,
+        examType: examType,
+        hocky: semester,
+        namhoc: year,
       });
     try {
       const response = await AuthService.fetchWithAuth(url, {
@@ -71,6 +74,7 @@ export const EduService = {
       };
     }
   },
+
   async fetchNotification() {
     const token = getCookie("eduAuthToken");
     const url =
