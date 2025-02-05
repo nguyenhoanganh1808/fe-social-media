@@ -3,7 +3,7 @@ import LoadingButton from "../../common/Spinner/LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import ResendCode from "./ResendCode";
 import { AuthService } from "../../../services/auth.service";
-import { roleData } from "../FormSignup/RolesData";
+import { roleData } from "../FormSignUp/roles-data";
 import { useState } from "react";
 
 export default function OTPForm() {

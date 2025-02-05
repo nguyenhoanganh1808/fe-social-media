@@ -18,7 +18,7 @@ import Private from "./Private";
 import Public from "./Public";
 import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
 import { UserPopOver } from "../../../common/UserPopOver";
-import { roleData } from "../../../Login/FormSignup/RolesData";
+import { roleData } from "../../../Login/FormSignUp/roles-data";
 import { CarouselComponent } from "./Carousel";
 import Badges from "../../../common/Badges";
 import ReportButton from "./ReportButton";

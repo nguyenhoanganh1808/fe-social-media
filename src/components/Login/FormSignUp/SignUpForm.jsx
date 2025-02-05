@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import Input from "../Input/Input";
-import styles from "../FormSignin/SignInForm.module.css";
-import useSignUpForm from "../../../hooks/useSignupForm";
+import styles from "../FormSignIn/SignInForm.module.css";
+import useSignUpForm from "../../../hooks/useSignUpForm";
 import LoadingButton from "../../common/Spinner/LoadingButton";
-import { roleData } from "./RolesData";
+import { roleData } from "./roles-data";
 
-export default function SignupForm() {
+export default function SignUpForm() {
   const { register, errors, handleSubmit, onSubmit, validationRules, loading } =
     useSignUpForm();
   return (

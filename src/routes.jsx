@@ -6,7 +6,7 @@ import MessagePage from "./pages/Message/MessagePage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import PostDetail from "./components/Home/PostDetail/PostDetail";
 import AuthPage from "./pages/Auth/AuthPage";
-import SignupForm from "./components/Login/FormSignup/SIgnupForm";
+import SignupForm from "./components/Login/FormSignUp/SignUpForm";
 import EduPage from "./pages/Edu/EduPage";
 import Schedule from "./components/Edu/Schedule/Schedule";
 import Calendar from "./components/Edu/Calendar/Calendar";

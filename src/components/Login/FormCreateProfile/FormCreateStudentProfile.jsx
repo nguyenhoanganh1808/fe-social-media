@@ -3,7 +3,7 @@ import styles from "./FormCreateProfile.module.css";
 import useFormCreateStudentProfile from "../../../hooks/useFormCreateProfile";
 import { majors } from "../../../lib/constants";
 import LoadingButton from "../../common/Spinner/LoadingButton";
-import { roleData } from "../FormSignup/RolesData";
+import { roleData } from "../FormSignUp/roles-data";
 
 export default function FormCreateStudentProfile() {
   const { register, handleSubmit, errors, onSubmit, validationRules, loading } =
