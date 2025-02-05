@@ -4,13 +4,13 @@ import SpinningContainer from "../../common/SpinningContainer";
 export default function ExamSchedule({ examSchedules, loading }) {
   if (loading || !examSchedules) return <SpinningContainer />;
   return (
-    <div className=" bg-gray-100 w-full py-3">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+    <div className="bg-gray-100 w-full py-3">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-6xl mx-auto">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
           Exam Schedule
         </h2>
         <div className="overflow-x-auto">
-          <table className="table-auto w-full border border-gray-200">
+          <table className="table-auto w-full border border-gray-200 text-sm sm:text-base">
             <thead className="bg-gray-200 text-gray-700">
               <tr>
                 <th className="px-4 py-2 text-left">#</th>

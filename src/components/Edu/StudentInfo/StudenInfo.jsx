@@ -30,7 +30,7 @@ export default function StudentInfo() {
 
   return (
     <div className="h-full w-full flex items-center justify-center bg-gray-100 py-10">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full mx-6 h-full">
         <div className="flex items-center space-x-6">
           <img
             src={avatarUrl}

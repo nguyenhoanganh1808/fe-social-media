@@ -1,4 +1,4 @@
-import { Modal, Label, Textarea } from "flowbite-react";
+import { Modal, Textarea } from "flowbite-react";
 import PropTypes from "prop-types";
 import LoadingButton from "../../../common/Spinner/LoadingButton";
 import CancelButton from "../../../common/CancelButton";
@@ -35,9 +35,9 @@ export function ReportModalForm({ isOpenModal, onCloseModal, postId }) {
           <Modal.Header>Report this post</Modal.Header>
           <Modal.Body>
             <div className="w-full">
-              <div className="mb-2 block">
+              {/* <div className="mb-2 block">
                 <Label htmlFor="comment" value="Your message" />
-              </div>
+              </div> */}
               <input
                 {...register("postId")}
                 name="postId"
@@ -50,7 +50,7 @@ export function ReportModalForm({ isOpenModal, onCloseModal, postId }) {
                 id="reason"
                 name="reason"
                 className="w-full"
-                placeholder="Leave a comment..."
+                placeholder="Reason..."
                 required
                 rows={4}
               />

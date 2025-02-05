@@ -76,6 +76,41 @@ export const FollowService = {
     }
   },
 
+  async getFollowRequests() {
+    const token = localStorage.getItem("jwt-token");
+    const url = `${baseUrl}/get-follow-requests`;
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to fetch follow");
+        return {
+          error: errorText,
+        };
+      }
+
+      const data = await response.json();
+
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (e) {
+      toast.error(e || "Failed to fetch follow requests");
+      return {
+        error: e || "Failed to fetch follow requests",
+      };
+    }
+  },
+
   async getFollowers() {
     const token = localStorage.getItem("jwt-token");
     const url = `${baseUrl}/get-followers`;

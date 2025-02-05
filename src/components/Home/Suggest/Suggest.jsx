@@ -1,40 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Suggest.module.css";
 import SuggestRequestCard from "./SuggestRequestCard/SuggestRequestCard";
+import { FollowService } from "../../../services/follow.service";
+import useFetch from "../../../hooks/useFetch";
+import SpinningContainer from "../../common/SpinningContainer";
+import { createUserProfile } from "../../../lib/utils";
 
 export default function Suggest() {
-  const [users, setUsers] = useState([]);
+  const { data: users, loading } = useFetch(FollowService.getFollowRequests);
   const [activeTab, setActiveTab] = useState("suggests");
 
-  useEffect(() => {
-    function fetch() {
-      // const result = await UserSer
-    }
-  }, []);
+  if (loading || !users) return <SpinningContainer />;
 
-  const datas = [
-    {
-      id: 0,
-      name: "Hai Son Bac",
-      link: "@michel",
-      avatarUrl:
-        "https://cdn.tuoitre.vn/zoom/700_700/2019/5/8/avatar-publicitystill-h2019-1557284559744252594756-crop-15572850428231644565436.jpg",
-    },
-    {
-      id: 1,
-      name: "Bach Nhan",
-      link: "@michel",
-      avatarUrl:
-        "https://cdn.tuoitre.vn/zoom/700_700/2019/5/8/avatar-publicitystill-h2019-1557284559744252594756-crop-15572850428231644565436.jpg",
-    },
-    {
-      id: 2,
-      name: "Michel",
-      link: "@michel",
-      avatarUrl:
-        "https://cdn.tuoitre.vn/zoom/700_700/2019/5/8/avatar-publicitystill-h2019-1557284559744252594756-crop-15572850428231644565436.jpg",
-    },
-  ];
+  if (users && users.length === 0) {
+    return null;
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -58,10 +38,11 @@ export default function Suggest() {
       </div>
 
       <ul className={styles.container}>
-        {datas.map((data) => (
+        {users.map((user) => (
           <SuggestRequestCard
-            key={data.id}
-            person={data}
+            key={user.id}
+            followerId={user.id}
+            person={createUserProfile(user.follower)}
             activeTab={activeTab}
           />
         ))}

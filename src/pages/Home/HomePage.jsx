@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import ActiveFriendList from "../../components/Home/ActiveFriendList/ActiveFriendList";
+// import ActiveFriendList from "../../components/Home/ActiveFriendList/ActiveFriendList";
 import Communities from "../../components/Home/Communities/Communities";
 import Suggest from "../../components/Home/Suggest/Suggest";
 import UserCard from "../../components/Home/UserCard/UserCard";
@@ -29,7 +29,7 @@ export default function HomePage() {
       </div>
       <div className={styles.suggestContainer}>
         <Suggest />
-        <ActiveFriendList />
+        {/* <ActiveFriendList /> */}
         <Categories />
       </div>
     </main>

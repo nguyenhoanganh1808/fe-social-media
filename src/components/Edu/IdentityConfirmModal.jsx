@@ -67,7 +67,10 @@ export default function IdentityConfirmModal({ setIsAuthen }) {
     >
       <div className="space-y-6">
         <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-          Please signin to continue
+          Please signin to continue <br />
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            using account provided by school
+          </span>
         </h3>
         <div>
           <Input
