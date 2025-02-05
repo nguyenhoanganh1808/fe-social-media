@@ -31,7 +31,6 @@ import SearchPage from "./pages/Search/SearchPage";
 import CategoriesPost from "./components/Home/CategoriesPost";
 import MessageDetail from "./components/Message/MessageDetail/MessageDetail";
 import MessageGroupChat from "./components/Message/GroupChatDetail/MessageGroupChat";
-import Chats from "./components/Message/MessageDetail/Chats/Chats";
 
 const routes = createBrowserRouter([
   {

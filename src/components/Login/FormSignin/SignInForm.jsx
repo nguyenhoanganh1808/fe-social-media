@@ -1,7 +1,7 @@
 import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./SignInForm.module.css";
-import useSignInForm from "../../../hooks/useSigninForm";
+import useSignInForm from "../../../hooks/useSignInForm";
 import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner/Spinner";
 

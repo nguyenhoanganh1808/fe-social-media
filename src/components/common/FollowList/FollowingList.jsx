@@ -7,6 +7,7 @@ import FollowingUser from "./FollowingUser";
 
 export default function FollowingList({ isOpen, closeModal }) {
   const { data: users, loading } = useFetch(FollowService.getFollowing);
+
   return (
     <Modal size="xl" show={isOpen} onClose={closeModal}>
       <Modal.Header>Following</Modal.Header>
