@@ -189,7 +189,7 @@ export default function FormInformationDetail() {
         {errors.homeTown && <ErrorText text={errors.homeTown.message} />}
       </div>
 
-      <LoadingButton type="submit" isLoading={loading}>
+      <LoadingButton disabled={loading} type="submit" isLoading={loading}>
         Update
       </LoadingButton>
     </form>

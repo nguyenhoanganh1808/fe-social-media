@@ -94,7 +94,7 @@ export default function FormContact() {
         {errors.address && <ErrorText text={errors.address.message} />}
       </div>
 
-      <LoadingButton type="submit" isLoading={loading}>
+      <LoadingButton disabled={loading} type="submit" isLoading={loading}>
         Update
       </LoadingButton>
     </form>

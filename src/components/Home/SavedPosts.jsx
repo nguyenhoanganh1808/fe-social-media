@@ -8,13 +8,13 @@ export default function SavedPosts() {
   );
 
   return (
-    <>
+    <div className="w-full max-w-4xl">
       <PostsList
         posts={posts}
         loading={loading}
         handlePostDeleted={handlePostDeleted}
         handlePostUpdated={handlePostUpdated}
       />
-    </>
+    </div>
   );
 }

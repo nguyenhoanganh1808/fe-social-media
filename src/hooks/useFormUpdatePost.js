@@ -77,8 +77,6 @@ export default function useFormUpdatePost(
   }, [register, postData.topics]);
 
   const onSubmit = async (data) => {
-    console.log("cac?");
-    console.log(data);
     if (!data.content && !data.file) {
       toast.error(
         "Please add content, a file, or a GIF before updating the post."
@@ -89,9 +87,9 @@ export default function useFormUpdatePost(
 
     const result = await handlePostUpdated(postData.id, data);
     console.log("res: ", result);
+    setLoading(false);
     if (result.success) {
       closeDialog();
-      setLoading(false);
     }
   };
 

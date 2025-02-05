@@ -43,7 +43,7 @@ function UserCard() {
         </div>
       </div>
 
-      <Link className={styles.button} to={`/profile/${user.id}`}>
+      <Link className={styles.button} to={`/profile/${user.userId}`}>
         My Profile
       </Link>
     </div>
