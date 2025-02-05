@@ -85,14 +85,14 @@ export default function useFormUpdatePost(
       );
       return;
     }
-    // setLoading(true);
+    setLoading(true);
 
-    // const result = await handlePostUpdated(postData.id, data);
-    // console.log("res: ", result);
-    // if (result.success) {
-    //   closeDialog();
-    //   setLoading(false);
-    // }
+    const result = await handlePostUpdated(postData.id, data);
+    console.log("res: ", result);
+    if (result.success) {
+      closeDialog();
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@
   height: 100px;
   width: 100px;
   /* transform: translate(-50%, -50%); */
-  background-image: url("images/heart.png");
+  background-image: url("/images/heart.png");
   background-position: left;
   cursor: pointer;
   position: absolute;

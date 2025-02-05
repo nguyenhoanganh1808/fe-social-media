@@ -1,9 +1,9 @@
 import Input from "../Input/Input";
-import SubmitButton from "../SubmitButton/SubmitButton";
 import styles from "./SignInForm.module.css";
 import useSignInForm from "../../../hooks/useSignInForm";
 import { Link } from "react-router-dom";
-import Spinner from "../../common/Spinner/Spinner";
+
+import LoadingButton from "../../common/Spinner/LoadingButton";
 
 export default function SignInForm() {
   const { loading, register, handleSubmit, errors, onSubmit, validationRules } =
@@ -68,9 +68,13 @@ export default function SignInForm() {
           <a href="/">Forgot your password</a>
         </div>
 
-        <SubmitButton>
-          {loading ? <Spinner size={30} borderWidth={3} /> : "SIGN IN"}
-        </SubmitButton>
+        <LoadingButton
+          disabled={loading}
+          isLoading={loading}
+          className="w-full"
+        >
+          SIGN IN
+        </LoadingButton>
         <p>
           Don&apos;t have an account? <Link to="/auth/sign-up">Sign up</Link>
         </p>
