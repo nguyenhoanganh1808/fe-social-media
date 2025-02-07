@@ -1,5 +1,8 @@
 export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 
+export const CHAT_BOT_AVATAR =
+  "https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw=";
+
 export const MEDIA_TYPE = {
   MEDIA: "media",
   GIF: "gif",

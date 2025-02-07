@@ -3,18 +3,32 @@ import { useAuth } from "../../../../../hooks/useAuthContext";
 import { formatToTime } from "../../../../../lib/utils";
 import ImagesGallery from "./ImagesGallery";
 import FileView from "./FileView";
+import { useParams } from "react-router-dom";
+import { CHAT_BOT_AVATAR } from "../../../../../lib/constants";
 
 export default function MessageItem({ messageData }) {
   const { user } = useAuth();
-  console.log("mess: ", messageData);
-  const sender = messageData.senderId.student
-    ? messageData.senderId.student.profile
-    : messageData.senderId.lecturer
-    ? messageData.senderId.lecturer.profile
-    : messageData.senderId;
+  const { id } = useParams();
 
-  const isAuthor = sender.userId === user.userId;
-  const mediaType = messageData.mediaFiles[0]?.type;
+  console.log("mess: ", messageData);
+  let sender;
+  let isAuthor;
+  if (id === "chat-bot") {
+    sender = messageData.isUser
+      ? user
+      : { avatarUrl: CHAT_BOT_AVATAR, nickName: "Chatbot" };
+    isAuthor = sender.userId === user.userId;
+  } else {
+    sender = messageData.senderId.student
+      ? messageData.senderId.student.profile
+      : messageData.senderId.lecturer
+      ? messageData.senderId.lecturer.profile
+      : messageData.senderId;
+    isAuthor = sender.userId === user.userId;
+  }
+  const mediaType = messageData.mediaFiles
+    ? messageData.mediaFiles[0]?.type
+    : "";
 
   if (isAuthor) {
     return (
@@ -32,7 +46,9 @@ export default function MessageItem({ messageData }) {
                 {mediaType === "IMAGE" || mediaType === "VIDEO" ? (
                   <ImagesGallery medias={messageData.mediaFiles} />
                 ) : (
-                  <FileView files={messageData.mediaFiles} />
+                  <FileView
+                    files={messageData.mediaFiles ? messageData.mediaFiles : []}
+                  />
                 )}
               </p>
             </div>
@@ -67,7 +83,7 @@ export default function MessageItem({ messageData }) {
             {mediaType === "IMAGE" || mediaType === "VIDEO" ? (
               <ImagesGallery medias={messageData.mediaFiles} />
             ) : (
-              <FileView files={messageData.mediaFiles} />
+              <FileView files={messageData.mediaFiles || []} />
             )}
           </p>
         </div>
@@ -101,6 +117,7 @@ MessageItem.propTypes = {
       avatarUrl: PropTypes.string.isRequired,
     }),
     content: PropTypes.string,
+    isUser: PropTypes.bool,
     createdAt: PropTypes.string,
   }),
 };

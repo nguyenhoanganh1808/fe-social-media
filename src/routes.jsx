@@ -95,6 +95,7 @@ const routes = createBrowserRouter([
             path: ":id",
             element: <MessageDetail />,
           },
+
           {
             path: ":chatType/:id",
             element: <MessageGroupChat />,

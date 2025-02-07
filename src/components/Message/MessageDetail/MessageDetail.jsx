@@ -6,6 +6,7 @@ import useToggle from "../../../hooks/useToggle";
 import { useOutletContext, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Chats from "./Chats/Chats";
+import ChatBot from "./ChatBot";
 
 export default function MessageDetail() {
   const { isOpen: isInfoOpen, toggle: toggleInfo } = useToggle();
@@ -17,6 +18,8 @@ export default function MessageDetail() {
   const { conversations } = useOutletContext();
   const { id } = useParams();
   if (!id) return;
+
+  if (id === "chat-bot") return <ChatBot />;
 
   const currentConversation = conversations?.find(
     (conv) => conv.id === parseInt(id)

@@ -24,7 +24,7 @@ export default function Chats({ otherUser }) {
           {isFetchingMore && <SpinningContainer />}
           {messageData
             ?.map((chat) => {
-              return <MessageItem key={chat.id} messageData={chat} />;
+              return <MessageItem key={chat.createdAt} messageData={chat} />;
             })
             .reverse()}
         </ul>
@@ -41,7 +41,7 @@ export default function Chats({ otherUser }) {
 
 Chats.propTypes = {
   otherUser: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     userId: PropTypes.string.isRequired,
 
     otherUser: PropTypes.shape({

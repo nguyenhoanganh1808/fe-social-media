@@ -4,7 +4,7 @@ import Avatar from "../../Avatar/Avatar";
 import LucideCircleButton from "../../Button/LucideCircleButton/LucideCircleButton";
 import styles from "./AvatarContainer.module.css";
 import PropTypes from "prop-types";
-import { cropImage, formatNumber } from "../../../lib/utils";
+import { formatNumber } from "../../../lib/utils";
 import { useAuth } from "../../../hooks/useAuthContext";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -17,7 +17,8 @@ export default function AvatarContainer({ userInfo }) {
   const handleAvatarUrl = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-    const cropImg = await cropImage(file, 50, 50);
+    // const cropImg = await cropImage(file, 200, 200);
+    const cropImg = file;
     const response = await toast.promise(
       ProfileService.updateProfileImage("AVATAR", cropImg),
       {

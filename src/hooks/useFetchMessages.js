@@ -9,6 +9,7 @@ import {
   limit,
   onSnapshot,
 } from "firebase/firestore";
+import { ChatbotService } from "../services/chatbot.service";
 
 export default function useFetchMessages({
   conversationId,
@@ -21,16 +22,23 @@ export default function useFetchMessages({
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const chatListRef = useRef(null);
+  const isFetchChatbot = conversationId === "chat-bot";
 
   useEffect(() => {
     async function fetch() {
       setLoading(true);
-      const result = await MessageService.getMessage(
-        collectionPath,
-        conversationId,
-        0,
-        pageSize
-      );
+      let result;
+      if (isFetchChatbot) {
+        result = await ChatbotService.getMessages(0, pageSize);
+      } else {
+        result = await MessageService.getMessage(
+          collectionPath,
+          conversationId,
+          0,
+          pageSize
+        );
+      }
+
       if (result.success) {
         setMessageData(result.data);
         setHasMore(result.data.length === pageSize);
@@ -43,7 +51,7 @@ export default function useFetchMessages({
       });
     }
     fetch();
-  }, [conversationId, pageSize, collectionPath]);
+  }, [conversationId, pageSize, collectionPath, isFetchChatbot]);
 
   const fetchMoreMessages = useCallback(async () => {
     if (!hasMore || isFetchingMore || !chatListRef.current) return;
@@ -55,12 +63,17 @@ export default function useFetchMessages({
     setIsFetchingMore(true);
 
     try {
-      const result = await MessageService.getMessage(
-        collectionPath,
-        conversationId,
-        currentPage + 1,
-        pageSize
-      );
+      let result;
+      if (isFetchChatbot) {
+        result = await ChatbotService.getMessages(currentPage + 1, pageSize);
+      } else {
+        result = await MessageService.getMessage(
+          collectionPath,
+          conversationId,
+          currentPage + 1,
+          pageSize
+        );
+      }
       if (result.success) {
         setMessageData((prevData) => [...prevData, ...result.data]);
         setHasMore(result.data.length === pageSize);
@@ -84,9 +97,11 @@ export default function useFetchMessages({
     conversationId,
     currentPage,
     pageSize,
+    isFetchChatbot,
   ]);
 
   useEffect(() => {
+    if (isFetchChatbot) return;
     const conversationRef = doc(db, collectionPath, conversationId);
     const messagesRef = collection(conversationRef, "messages");
     const messagesQuery = query(
@@ -123,7 +138,7 @@ export default function useFetchMessages({
     );
 
     return () => unsubscribe();
-  }, [conversationId, collectionPath]);
+  }, [conversationId, collectionPath, isFetchChatbot]);
 
   useEffect(() => {
     const handleScroll = () => {
