@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import useFetchMessages from "../../../../hooks/useFetchMessages";
 import { MessageService } from "../../../../services/message.service";
 import { useParams } from "react-router-dom";
+import MessageChabotInput from "../MessageInput/MessageChatbotInput";
 
 export default function Chats({ otherUser }) {
   const { id } = useParams();
@@ -28,12 +29,19 @@ export default function Chats({ otherUser }) {
             })
             .reverse()}
         </ul>
-        <MessageInput
-          receiverId={otherUser.userId}
-          setMessageData={setMessageData}
-          apiCall={MessageService.sendMessageToUser}
-          ref={chatListRef}
-        />
+        {id === "chat-bot" ? (
+          <MessageChabotInput
+            setMessageData={setMessageData}
+            ref={chatListRef}
+          />
+        ) : (
+          <MessageInput
+            receiverId={otherUser.userId}
+            setMessageData={setMessageData}
+            apiCall={MessageService.sendMessageToUser}
+            ref={chatListRef}
+          />
+        )}
       </div>
     </>
   );

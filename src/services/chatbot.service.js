@@ -30,6 +30,7 @@ export const ChatbotService = {
 
       return {
         success: true,
+        data: await response.json(),
       };
     } catch (e) {
       toast.error(e || "Failed to send message");
