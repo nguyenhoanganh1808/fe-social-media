@@ -85,8 +85,8 @@ function Post({
       </div>
       <div className={styles.container}>
         <Link className={styles.link} to={`/posts/${post.id}`}>
-          <div className={`${styles.authorAndTime} `}>
-            <div className="flex md:flex-row flex-col">
+          <div className={`${styles.authorAndTime}  `}>
+            <div className="flex md:flex-row flex-col md:items-center items-start ">
               <UserPopOver
                 user={{
                   ...author.profile,
@@ -99,6 +99,17 @@ function Post({
               </UserPopOver>
               <p className={`${styles.time}`}>{distanceFromNow} ago</p>
               {post.isPrivate ? <Private /> : <Public />}
+              {post.group && (
+                <div className="">
+                  <span>posted in </span>
+                  <Link
+                    to={`/groups/${post.group?.id}`}
+                    className="text-gray-500 hover:text-indigo-500 truncate mb-auto hover:underline"
+                  >
+                    {post.group.name}
+                  </Link>
+                </div>
+              )}
             </div>
 
             <div
@@ -187,6 +198,10 @@ Post.propTypes = {
   isShowInteractive: PropTypes.bool,
   post: PropTypes.shape({
     id: PropTypes.number,
+    group: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
     textContent: PropTypes.string,
     topics: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string,

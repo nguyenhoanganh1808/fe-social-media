@@ -20,5 +20,6 @@ export default function createPost(jsonData) {
     isPrivate: jsonData.privacy.id === 2,
     sharedPost: jsonData.sharedPost,
     topics: jsonData.topics,
+    group: jsonData.group,
   };
 }

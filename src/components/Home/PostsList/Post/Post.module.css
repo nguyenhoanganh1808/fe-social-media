@@ -27,7 +27,7 @@
 .authorAndTime > div {
   display: flex;
   gap: 12px;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .time {

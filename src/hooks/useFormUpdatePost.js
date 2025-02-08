@@ -19,7 +19,7 @@ export default function useFormUpdatePost(
       file: [],
       mediaFiles: [],
       privacy: postData.isPrivate ? 2 : 1,
-      topics: postData.topics.map(
+      topics: postData.topics?.map(
         (postTopic) => topics.find((topic) => topic.name === postTopic).id
       ),
     },
@@ -70,7 +70,7 @@ export default function useFormUpdatePost(
 
   useEffect(() => {
     register("topics", {
-      value: postData.topics.map(
+      value: postData.topics?.map(
         (postTopic) => topics.find((topic) => topic.name === postTopic).id
       ),
     });

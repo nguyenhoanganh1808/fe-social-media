@@ -66,7 +66,6 @@ export default function useFetchPost(fetchFunction, id = 0) {
 
   const handlePostCreated = (data) => {
     const newPost = createPost(data);
-    console.log("newPost: ", newPost);
     setPosts((prevPosts) => [newPost, ...prevPosts]);
   };
 

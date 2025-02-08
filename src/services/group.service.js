@@ -32,6 +32,36 @@ export const GroupService = {
       return { error: e };
     }
   },
+
+  async getPendingPosts(page, size, groupId) {
+    const url =
+      `${baseUrl}/${groupId}/pendingPosts?` +
+      new URLSearchParams({ page, size });
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed when fetching post");
+        return { error: errorText };
+      }
+      const data = await response.json();
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (e) {
+      toast.error(e || "Failed when fetching post");
+      return { error: e };
+    }
+  },
   async leaveGroup(groupId) {
     const url = `${baseUrl}/${groupId}/leave`;
     const token = localStorage.getItem("jwt-token");

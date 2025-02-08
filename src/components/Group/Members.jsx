@@ -38,7 +38,6 @@ export default function Members() {
     setLoading(false);
   };
 
-  console.log("members: ", members);
   if (!members) {
     return <SpinningContainer />;
   }

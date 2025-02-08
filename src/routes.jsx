@@ -31,6 +31,7 @@ import SearchPage from "./pages/Search/SearchPage";
 import CategoriesPost from "./components/Home/CategoriesPost";
 import MessageDetail from "./components/Message/MessageDetail/MessageDetail";
 import MessageGroupChat from "./components/Message/GroupChatDetail/MessageGroupChat";
+import PendingPosts from "./components/Group/PendingPosts";
 
 const routes = createBrowserRouter([
   {
@@ -118,6 +119,10 @@ const routes = createBrowserRouter([
           {
             path: "members",
             element: <Members />,
+          },
+          {
+            path: "pending-posts",
+            element: <PendingPosts />,
           },
         ],
       },

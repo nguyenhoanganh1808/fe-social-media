@@ -114,7 +114,7 @@ const UpdatePostModal = forwardRef(function UpdatePostModal(
                             onClick={() => handleSelectTopic(topic.id)}
                           >
                             {topic.name}
-                            {postTopics.includes(topic.id) && (
+                            {postTopics?.includes(topic.id) && (
                               <span
                                 id="success-icon"
                                 className="inline-flex items-center"

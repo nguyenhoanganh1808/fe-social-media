@@ -328,6 +328,40 @@ export const PostService = {
     }
   },
 
+  async reviewPost(postId, isApproved) {
+    const url =
+      `${baseUrl}/reviewPost?` + new URLSearchParams({ postId, isApproved });
+
+    const token = localStorage.getItem("jwt-token");
+
+    try {
+      const response = await AuthService.fetchWithAuth(url, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(errorText || "Failed to review posts");
+        return {
+          error: errorText || "Failed to review posts",
+        };
+      }
+
+      return {
+        success: true,
+      };
+    } catch (e) {
+      toast.error(e || "Failed to fetch posts");
+      return {
+        error: e || "Failed to fetch posts",
+      };
+    }
+  },
+
   async getUserPostsByUserId(page, size, userId) {
     const url =
       baseUrl +

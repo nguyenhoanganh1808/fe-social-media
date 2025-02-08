@@ -12,6 +12,7 @@ import { groupNavItem } from "../../lib/constants";
 import Spinner from "../../components/common/Spinner/Spinner";
 import Invite from "../../components/Group/Invite";
 import { createUserProfile } from "../../lib/utils";
+import { useAuth } from "../../hooks/useAuthContext";
 
 export default function Group() {
   const { id } = useParams();
@@ -24,7 +25,10 @@ export default function Group() {
 
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-
+  const { user } = useAuth();
+  const isUserAdmin = group.members.find(
+    (member) => member.userId === user.userId
+  );
   const fetchGroupDetail = useCallback(async () => {
     if (sessionStorage.getItem(`group_${id}`)) {
       setGroup(JSON.parse(sessionStorage.getItem(`group_${id}`)));
@@ -103,6 +107,18 @@ export default function Group() {
               {item.title}
             </NavLink>
           ))}
+          {isUserAdmin && (
+            <NavLink
+              to={`/groups/${id}/pending-posts`}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-blue-500 underline underline-offset-4 font-semibold"
+                  : "text-gray-500 hover:text-blue-400"
+              }
+            >
+              Pending Posts
+            </NavLink>
+          )}
         </ul>
       </div>
       <div className="lg:px-52 px-3 my-5">
