@@ -246,7 +246,7 @@ export function createUserProfile(user) {
   } else
     return {
       avatarUrl:
-        "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
-      nickName: "Anonymous",
+        "https://w7.pngwing.com/pngs/306/70/png-transparent-computer-icons-management-admin-silhouette-black-and-white-neck-thumbnail.png",
+      nickName: "Admin",
     };
 }

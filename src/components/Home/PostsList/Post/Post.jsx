@@ -18,10 +18,10 @@ import Private from "./Private";
 import Public from "./Public";
 import SharePostModal from "../../CreatePost/CreatePostModal/SharePostModal";
 import { UserPopOver } from "../../../common/UserPopOver";
-import { roleData } from "../../../Login/FormSignUp/roles-data";
 import { CarouselComponent } from "./Carousel";
 import Badges from "../../../common/Badges";
 import ReportButton from "./ReportButton";
+import { createUserProfile } from "../../../../lib/utils";
 
 const actionsButton = [
   {
@@ -53,10 +53,7 @@ function Post({
   const { user } = useAuth();
   const distanceFromNow = formatDistanceToNowStrict(post.createdAt);
   const isAuthor = user.userId === post.user.id;
-  const author =
-    post.user.role === roleData.Student.value
-      ? post.user.student
-      : post.user.lecturer;
+  const author = createUserProfile(post.user);
 
   const toggleSaved = async () => {
     setIsSaved((prevIsSaved) => !prevIsSaved);
@@ -81,7 +78,7 @@ function Post({
         postData={post}
       />
       <div className="mt-3">
-        <Avatar src={author.profile.avatarUrl} size={40} />
+        <Avatar src={author.avatarUrl} size={40} />
       </div>
       <div className={styles.container}>
         <Link className={styles.link} to={`/posts/${post.id}`}>
@@ -90,11 +87,11 @@ function Post({
               <UserPopOver
                 user={{
                   ...author.profile,
-                  nickname: author.profile.nickName,
+                  nickname: author.nickName,
                 }}
               >
                 <p className={`${styles.author} hover:text-indigo-500 z-10`}>
-                  {author.profile.nickName}
+                  {author.nickName}
                 </p>
               </UserPopOver>
               <p className={`${styles.time}`}>{distanceFromNow} ago</p>
