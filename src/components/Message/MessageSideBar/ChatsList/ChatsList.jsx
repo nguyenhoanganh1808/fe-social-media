@@ -19,17 +19,21 @@ export default function ChatList({ data, activeTab }) {
           }
           to={`/message/chat-bot`}
         >
-          <div className={styles.avatarContainer}>
-            <img className={styles.avatar} src={CHAT_BOT_AVATAR} alt="" />
-            {<span className={styles.dot}></span>}
-          </div>
-          <div className="md:block hidden truncate">
-            <span className="font-semibold text-black">Chatbot</span>
-            {/* <p className={`${styles.chat} truncate max-w-1`}>
+          {activeTab === "Primary" && (
+            <>
+              <div className={styles.avatarContainer}>
+                <img className={styles.avatar} src={CHAT_BOT_AVATAR} alt="" />
+                {<span className={styles.dot}></span>}
+              </div>
+              <div className="md:block hidden truncate">
+                <span className="font-semibold text-black">Chatbot</span>
+                {/* <p className={`${styles.chat} truncate max-w-1`}>
           <strong>{author}: </strong> {conversation.lastMessage.content} -{" "}
           <span>{createdAt}</span>
-        </p> */}
-          </div>
+          </p> */}
+              </div>
+            </>
+          )}
         </NavLink>
         {data.map((conversation) => {
           return (
