@@ -57,11 +57,11 @@ export function ModalInvite({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Header>{title}</Modal.Header>
           <Modal.Body>
-            <div className="space-y-6 flex gap-3">
+            <div className="space-y-6 flex gap-3 ">
               <div className="basis-2/3 ">
                 <SearchInput setValue={setSearchValue} value={searchValue} />
                 <h3 className="font-semibold mt-3">Suggest</h3>
-                <ul className="space-y-3">
+                <ul className="space-y-3 max-h-96 overflow-y-auto">
                   {searchUsersResultFormat.map((person) => (
                     <li key={person.userId}>
                       <div className="flex items-center ps-4 hover:bg-gray-200 hover:cursor-pointer rounded dark:border-gray-700 pr-3">

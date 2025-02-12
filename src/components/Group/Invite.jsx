@@ -76,7 +76,7 @@ export default function Invite() {
       {isDropdownOpen && (
         <div
           id="dropdownDotsHorizontal"
-          className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+          className="z-10 h-fit absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
         >
           <ul
             className="py-2 text-sm text-gray-700 dark:text-gray-200"
