@@ -1,4 +1,4 @@
-import { GraduationCap, House, MapPin } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import EditButton from "../EditButton/EditButton";
 import styles from "./Intro.module.css";
 import { useState } from "react";
@@ -74,10 +74,9 @@ export default function Intro({ userInfo }) {
           <p> Study {userInfo.informationDetail.major} at UIT</p>
         </div>
       )}
-      {user.informationDetail.homeTown && (
+      {/* {user.informationDetail.homeTown && (
         <div className={styles.detailContainer}>
           <MapPin size={20} />
-
           <p>{userInfo.informationDetail.homeTown}</p>
         </div>
       )}
@@ -86,7 +85,7 @@ export default function Intro({ userInfo }) {
           <House size={20} />
           <p>Live at {userInfo.informationDetail.currentCity}</p>
         </div>
-      )}
+      )} */}
       {id === user.userId && (
         <Link to={`/profile/${user.id}/about/work-and-education`}>
           <EditButton>Edit Details</EditButton>
