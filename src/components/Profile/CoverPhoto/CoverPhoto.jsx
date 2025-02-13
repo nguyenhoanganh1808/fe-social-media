@@ -40,7 +40,7 @@ export default function CoverPhoto({ userInfo }) {
         <label className={styles.changeCoverPhotoBtn} htmlFor="coverPhotoInput">
           <div>
             <Camera size={30} />
-            <p>Add Cover Photo</p>
+            <p>Edit Cover Photo</p>
           </div>
         </label>
       )}
