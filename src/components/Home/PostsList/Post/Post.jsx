@@ -86,7 +86,7 @@ function Post({
             <div className="flex md:flex-row flex-col md:items-center items-start ">
               <UserPopOver
                 user={{
-                  ...author.profile,
+                  ...author,
                   nickname: author.nickName,
                 }}
               >
