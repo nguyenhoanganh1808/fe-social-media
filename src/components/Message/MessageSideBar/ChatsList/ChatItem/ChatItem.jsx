@@ -24,9 +24,9 @@ export default function ChatItem({ conversation, activeTab }) {
       value,
       conversation.id
     );
-    if (result.success) {
-      navigate(`/message/${conversation.id}`);
-    }
+    // if (result.success) {
+    //   navigate(`/message/${conversation.id}`);
+    // }
     setLoading(false);
   };
   console.log("conver: ", conversation);
