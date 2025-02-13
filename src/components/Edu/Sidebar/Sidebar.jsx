@@ -5,7 +5,7 @@ import Item from "./Item/Item";
 export default function Sidebar() {
   return (
     <nav className={styles.container}>
-      <img className={styles.logo} src="/icons/edu/logo.png" alt="UIT Logo" />
+      <img className={styles.logo} src="/icons/edu/logo.svg" alt="UIT Logo" />
 
       <ul className={styles.list}>
         {SidebarData.map((item) => (
