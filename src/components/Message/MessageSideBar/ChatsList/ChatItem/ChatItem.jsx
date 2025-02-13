@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./ChatItem.module.css";
 import PropTypes from "prop-types";
 import LucideCircleButton from "../../../../Button/LucideCircleButton/LucideCircleButton";
@@ -14,16 +14,13 @@ export default function ChatItem({ conversation, activeTab }) {
   const otherUser =
     conversation.otherUser.student || conversation.otherUser.lecturer;
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+
   const { user } = useAuth();
   const createdAt = formatRelativeTime(conversation.lastMessage.createdAt);
 
   const handleApprove = async (value) => {
     setLoading(true);
-    const result = await MessageService.approveConversation(
-      value,
-      conversation.id
-    );
+    await MessageService.approveConversation(value, conversation.id);
     // if (result.success) {
     //   navigate(`/message/${conversation.id}`);
     // }
