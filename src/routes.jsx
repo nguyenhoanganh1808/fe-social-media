@@ -166,11 +166,11 @@ const routes = createBrowserRouter([
         children: [
           {
             path: "calendar",
-            element: <Calendar />,
+            element: <Schedule />,
           },
           {
             path: "schedule",
-            element: <Schedule />,
+            element: <Calendar />,
           },
           {
             path: "learn-result",
